@@ -1,0 +1,26 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "0.1.0",
+    "command": "dotnet",
+    "isShellCommand": true,
+    "args": [],
+    "cwd": "${workspaceRoot}",
+    "tasks": [
+        {
+            "taskName": "build",
+            "args": [ "src/ProphetSquad.Core.Updater", "test/ProphetSquad.Core.Tests" ],
+            "isBuildCommand": true,
+            "showOutput": "always",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "taskName": "test",
+            "args": [ "test/ProphetSquad.Core.Tests" ],
+            "isBuildCommand": false,
+            "showOutput": "always",
+            "isTestCommand": true,
+            "problemMatcher": "$msCompile"
+        }   
+    ]
+}
