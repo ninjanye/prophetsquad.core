@@ -4,12 +4,14 @@ using System.IO;
 
 namespace ProphetSquad.Core.Updater
 {
-    internal class AppSettings{
-
+    internal class AppSettings
+    {
         private static AppSettings _options;
 
-        public static AppSettings Configure(){
-            if(_options != null){
+        public static AppSettings Configure()
+        {
+            if(_options != null)
+            {
                 return _options;
             }
 
@@ -17,7 +19,8 @@ namespace ProphetSquad.Core.Updater
             return _options;
         }
 
-        private AppSettings(){
+        private AppSettings()
+        {
             var builder = new ConfigurationBuilder();
             builder.SetBasePath(Directory.GetCurrentDirectory());
             builder.AddJsonFile("appsettings.json");
@@ -33,12 +36,15 @@ namespace ProphetSquad.Core.Updater
         public string BetfairPassword { get; }
     }
 
-    internal class Database{
-        public static Database Configure(IConfigurationRoot config){
+    internal class Database 
+    {
+        public static Database Configure(IConfigurationRoot config)
+        {
             return new Database(config);                                    
         }
 
-        private Database(IConfigurationRoot config){
+        private Database(IConfigurationRoot config)
+        {
             var database = config.GetSection("Application").GetSection("Database");
             ConnectionString = database.GetValue<string>("ConnectionString");            
         }

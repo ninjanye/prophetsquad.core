@@ -16,11 +16,11 @@ namespace ProphetSquad.Core.Models.Betfair.Response
         {
             if (_markets == null)
             {
-                using(var marketRequest = HttpRequest.GetCatalogue(authenticator, CountryCode))
+                using(var marketRequest = BetfairRequest.GetCatalogue(authenticator, CountryCode))
                 {
                     var markets = await marketRequest.Submit<List<Market>>(httpClient);
                     var marketIds = markets.Select(m => m.Id).ToList();
-                    using(var oddsRequest = HttpRequest.GetOdds(authenticator, marketIds))
+                    using(var oddsRequest = BetfairRequest.GetOdds(authenticator, marketIds))
                     {                        
                         var odds = await oddsRequest.Submit<List<MarketBook>>(httpClient);
                         Console.WriteLine($"Retrieving odds for {CountryCode}... COMPLETE");

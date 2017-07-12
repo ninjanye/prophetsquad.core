@@ -33,7 +33,7 @@ namespace ProphetSquad.Core
                 return _cachedToken;
             }
 
-            using (var authorisationRequest = HttpRequest.Authorise(_username, _password)) 
+            using (var authorisationRequest = BetfairRequest.Authorise(_username, _password)) 
             {
                 var result = await authorisationRequest.Submit<AuthenticationResult>(_httpClient);
                 if(string.IsNullOrEmpty(result.Token))

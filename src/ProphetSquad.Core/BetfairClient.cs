@@ -25,7 +25,7 @@ namespace ProphetSquad.Core
         public async Task<IEnumerable<Market>> GetOdds()
         {
             var tasks = new List<Task<IEnumerable<Market>>>();
-            using (var countryRequest = HttpRequest.GetCountries(_authenticator))
+            using (var countryRequest = BetfairRequest.GetCountries(_authenticator))
             {
                 var countries = await countryRequest.Submit<List<Country>>(_httpClient);
                 Console.WriteLine($"Retrieving data for {countries.Count} countries...");
