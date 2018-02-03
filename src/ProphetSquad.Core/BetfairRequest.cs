@@ -30,7 +30,7 @@ namespace ProphetSquad.Core
             filter.EventTypeIds = new HashSet<string>{ "1" };
             filter.MarketTypeCodes = new HashSet<string>{ "MATCH_ODDS" };
             DateTime utcNow = DateTime.UtcNow;
-            filter.MarketStartTime = new TimeRange { From = utcNow, To = utcNow.AddHours(5)};
+            filter.MarketStartTime = new TimeRange { From = utcNow, To = utcNow.AddHours(36)};
             var marketProjection = new HashSet<string>{ "COMPETITION", "RUNNER_METADATA", "MARKET_DESCRIPTION", "MARKET_START_TIME" };
             var data = new { filter = filter, marketProjection, maxResults = 100 };
             var jsonContent = new JsonContent(data);

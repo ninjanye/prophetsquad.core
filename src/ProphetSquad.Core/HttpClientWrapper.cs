@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -25,14 +26,14 @@ namespace ProphetSquad.Core
             httpContent.Headers.Add("X-Application", AppKey);
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var request = await httpContent.ReadAsStringAsync();
-            // Console.WriteLine($"REQUEST: {request.Substring(0, Math.Min(request.Length, 100))}");
             var response = await httpClient.PostAsync(endpoint, httpContent);
             var returnedData = await response.Content.ReadAsStringAsync();
-            // if (endpoint.Contains("ook"))
-            // {
-            //    Console.WriteLine($"RESPONSE: {returnedData}");            
-            // }
-             Console.WriteLine($"STATUS: {response.StatusCode} RESPONSE: {returnedData.Substring(0, Math.Min(returnedData.Length, 200))}");                
+            if(response.StatusCode != HttpStatusCode.OK)
+            {
+                Console.WriteLine($"REQUEST: {request}");
+                Console.WriteLine($"STATUS: {response.StatusCode} RESPONSE: {returnedData}");                
+                return null;
+            }
 
             return JsonConvert.DeserializeObject<T>(returnedData);
         }
