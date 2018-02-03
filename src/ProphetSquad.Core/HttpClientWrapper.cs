@@ -28,11 +28,11 @@ namespace ProphetSquad.Core
             // Console.WriteLine($"REQUEST: {request.Substring(0, Math.Min(request.Length, 100))}");
             var response = await httpClient.PostAsync(endpoint, httpContent);
             var returnedData = await response.Content.ReadAsStringAsync();
-            if (endpoint.Contains("ook"))
-            {
-//                Console.WriteLine($"RESPONSE: {returnedData}");            
-            }
-            // Console.WriteLine($"RESPONSE: {returnedData.Substring(0, Math.Min(returnedData.Length, 200))}");                
+            // if (endpoint.Contains("ook"))
+            // {
+            //    Console.WriteLine($"RESPONSE: {returnedData}");            
+            // }
+             Console.WriteLine($"STATUS: {response.StatusCode} RESPONSE: {returnedData.Substring(0, Math.Min(returnedData.Length, 200))}");                
 
             return JsonConvert.DeserializeObject<T>(returnedData);
         }

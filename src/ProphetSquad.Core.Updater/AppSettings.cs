@@ -25,10 +25,20 @@ namespace ProphetSquad.Core.Updater
             builder.SetBasePath(Directory.GetCurrentDirectory());
             builder.AddJsonFile("appsettings.json");
             var config = builder.Build();
-
             Database = Database.Configure(config);
-            BetfairUsername = Environment.GetEnvironmentVariable("bfUser");
-            BetfairPassword = Environment.GetEnvironmentVariable("bfPassword");
+
+            string username = Environment.GetEnvironmentVariable("bfUser");
+            string password = Environment.GetEnvironmentVariable("bfPassword");
+            if(username == null){
+                Console.WriteLine("Credentials required for odds retrieval:");
+                Console.Write("Username:");
+                username = Console.ReadLine();
+                Console.Write("Password:");
+                password = Console.ReadLine();
+            }
+            Console.WriteLine($"User: {username}:{password}");
+            BetfairUsername = username;
+            BetfairPassword = password;
         }
 
         public Database Database { get; }        

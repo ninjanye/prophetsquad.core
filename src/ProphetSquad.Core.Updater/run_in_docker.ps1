@@ -1,1 +1,1 @@
-docker run -it --rm prophetsquad.core.updater
+docker run -e bfUser=nyejoh -e bfPassword=badders82 -it --rm prophetsquad.core.updater

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ProphetSquad.Core.Models.Betfair.Request;
 using ProphetSquad.Core.Models.Betfair.Response;
 
 namespace ProphetSquad.Core
@@ -15,6 +16,7 @@ namespace ProphetSquad.Core
     {
         private IHttpClient _httpClient;
         private IAuthenticator _authenticator;
+
 
         public BetfairClient(IHttpClient httpClient, IAuthenticator authenticator)
         {
@@ -34,7 +36,7 @@ namespace ProphetSquad.Core
                 {
                     Console.WriteLine($"Retrieving odds for {country.CountryCode} [{++i} of {countries.Count}]...");
                     var scopedCountry = country;
-                    tasks.Add(scopedCountry.SoccerOdds(_httpClient, _authenticator));
+                    tasks.Add(scopedCountry.SoccerOdds(_httpClient, _authenticator));                        
                 }
             }
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using ProphetSquad.Core.Models.Betfair.Request;
 using ProphetSquad.Core.Models.Betfair.Response;
 using Xunit;
 
@@ -14,30 +16,69 @@ namespace ProphetSquad.Core.Tests.CountryTests
         const string listMarketCatalogue = baseUrl + "listMarketCatalogue/";
         const string listMarketBook = baseUrl + "listMarketBook/";
         private readonly List<string> requestedUrls = new List<string>();
+        private List<RequestData> requestedFilters = new List<RequestData>();
         private readonly List<Market> markets;
         private readonly List<MarketBook> marketBook;
+        private readonly Country country;
+        private readonly IEnumerable<Market> result;
 
         public WhenRetrievingSoccerOddsSuccessfully()
         {
             markets = new List<Market>{ BuildMarket("1"), BuildMarket("2")};
             marketBook = new List<MarketBook> { BuildMarketBook("1"), BuildMarketBook("2")};
+
+            country = new Country { CountryCode = "TST" };
+            result = country.SoccerOdds(this, this).Result;
         }
 
         [Theory]
         [InlineData(listMarketCatalogue)]
         [InlineData(listMarketBook)]
-        public async void MakesExpectedRequests(string endpoint)
+        public void MakesExpectedRequests(string endpoint)
         {
-            var country = new Country { CountryCode = "TST" };
-            var result = await country.SoccerOdds(this, this);
             Assert.Contains(endpoint, requestedUrls);
         }
 
         [Fact]
-        public async void MarketHasOddsPopulated()
+        public void CountryCodeFilterSubmitted()
         {
-            var country = new Country { CountryCode = "TST" };
-            var result = await country.SoccerOdds(this, this);
+            Assert.All(requestedFilters, rf => {
+                Assert.NotNull(rf.Filter.MarketCountries);
+                Assert.Contains(country.CountryCode, rf.Filter.MarketCountries);            
+            });
+        }
+
+        [Fact]
+        public void MatchOddsRequested()
+        {
+            Assert.All(requestedFilters, rf => {
+                Assert.NotNull(rf.Filter.MarketTypeCodes);
+                Assert.Contains("MATCH_ODDS", rf.Filter.MarketTypeCodes);            
+            });
+        }
+
+        [Fact]
+        public void DateFilterApplied()
+        {
+            Assert.All(requestedFilters, rf => {
+                Assert.NotNull(rf.Filter.MarketStartTime);
+                Assert.True(rf.Filter.MarketStartTime.From < DateTime.UtcNow, "MarketStartTime is not less than now");
+
+                Console.WriteLine($"requestFilter start time: {rf.Filter.MarketStartTime.From.Ticks}-{rf.Filter.MarketStartTime.To.Ticks}");
+                //TODO: Check each request passes different date filter
+                foreach (var filter in requestedFilters)
+                {
+                    Assert.True((rf.Filter.MarketStartTime.From <= filter.Filter.MarketStartTime.From 
+                                 && rf.Filter.MarketStartTime.To <= filter.Filter.MarketStartTime.To)
+                              ||(rf.Filter.MarketStartTime.From >= filter.Filter.MarketStartTime.From 
+                                 && rf.Filter.MarketStartTime.To >= filter.Filter.MarketStartTime.To)); 
+                }
+            });
+        }        
+
+        [Fact]
+        public void MarketHasOddsPopulated()
+        {
             Assert.NotEmpty(result);
             var originalMarket = markets.First();
             var marketResult = result.First(x => x.Id == originalMarket.Id);
@@ -50,23 +91,33 @@ namespace ProphetSquad.Core.Tests.CountryTests
             Assert.Equal(expectedHomeOdds, marketResult.Teams.Last().Odds);
 
         }
+        
+        [Theory]
+        [InlineData(listMarketCatalogue, 10)]
+        public void RequestsUrlsFor(string expectedUrl, int count)
+        {
+            Assert.Equal(count, requestedUrls.Count(url => url == expectedUrl));
+        }
+
 
         Task<T> IHttpClient.Get<T>(string authToken, string endpoint)
         {
             throw new NotImplementedException();
         }
 
-        Task<T> IHttpClient.Post<T>(string endpoint, HttpContent httpContent)
+        async Task<T> IHttpClient.Post<T>(string endpoint, HttpContent httpContent)
         {
             requestedUrls.Add(endpoint);
             switch (endpoint)
             {
                 case listMarketCatalogue:
-                    return Task.FromResult(markets as T);
+                    var content = await httpContent.ReadAsStringAsync();
+                    requestedFilters.Add(JsonConvert.DeserializeObject<RequestData>(content));
+                    return await Task.FromResult(markets as T);
                 case listMarketBook:
-                    return Task.FromResult(marketBook as T);
+                    return await Task.FromResult(marketBook as T);
                 default:
-                    return Task.FromResult(new T());
+                    return await Task.FromResult(new T());
             }
         }
 
@@ -125,5 +176,18 @@ namespace ProphetSquad.Core.Tests.CountryTests
                 }
             };            
         }
+
+        private class RequestData
+        {
+            public Filter Filter { get; set; }
+        }
+
+        private class Filter
+        {
+            public string[] EventTypeIds { get; set; }
+            public List<string> MarketCountries { get; set; }
+            public string[] MarketTypeCodes { get; set; }
+            public TimeRange MarketStartTime { get; set; }
+        } 
     }
 }

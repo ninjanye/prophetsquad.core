@@ -47,12 +47,19 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
         
         [Theory]
         [InlineData(listCountries, 1)]
-        [InlineData(listMarketCatalogue, 2)]
-        [InlineData(listMarketBook, 2)]
         public void RequestsUrlsFor(string expectedUrl, int count)
         {
             Assert.Equal(count, _requestedEndpoints.Count(url => url == expectedUrl));
         }
+
+        [Theory]
+        [InlineData(listMarketBook, 2)]
+        [InlineData(listMarketCatalogue, 2)]
+        public void RequestsUrlsAtLeast(string expectedUrl, int count)
+        {
+            Assert.True(_requestedEndpoints.Count(url => url == expectedUrl) >= count);
+        }
+
 
         Task<T> IHttpClient.Get<T>(string authToken, string endpoint)
         {
@@ -68,8 +75,8 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
                 case listCountries:
                     return Task.FromResult(_countries as T);
                 case listMarketCatalogue:
-                    var marketOne = new Market{ Id = DateTime.UtcNow.Second.ToString() + "." + DateTime.UtcNow.Millisecond.ToString() };
-                    var marketTwo = new Market{ Id = DateTime.UtcNow.Second.ToString() + "." + DateTime.UtcNow.Millisecond.ToString() };
+                    var marketOne = new Market{ Id =$"{DateTime.UtcNow.Second}.{DateTime.UtcNow.Millisecond}"};
+                    var marketTwo = new Market{ Id =$"{DateTime.UtcNow.Second}.{DateTime.UtcNow.Millisecond}"};
                     var markets = new List<Market>{ marketOne, marketTwo };
                     _expected.Add(marketOne);
                     _expected.Add(marketTwo);
