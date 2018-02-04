@@ -38,6 +38,7 @@ namespace ProphetSquad.Core
                 var result = await authorisationRequest.Submit<AuthenticationResult>(_httpClient);
                 if(string.IsNullOrEmpty(result.Token))
                 {
+                    Console.WriteLine($"[ERROR] Unable to authenticate");
                     throw new AuthenticationException();
                 }
                 _cachedToken = result.Token;

@@ -43,7 +43,7 @@ namespace ProphetSquad.Core
                     Console.WriteLine($"Retrieving odds for {country.CountryCode} [{++i} of {countries.Count}]...");
                     var scopedCountry = country;
                     tasks.Add(scopedCountry.SoccerOdds(_httpClient, _authenticator));
-                    await Task.Delay(500);
+                    await Task.Delay(1000);
                 }
             }
 

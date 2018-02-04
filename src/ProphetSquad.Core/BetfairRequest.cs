@@ -23,14 +23,14 @@ namespace ProphetSquad.Core
         }
 
         private const string CatalogueEndpoint = restApiBase + "listMarketCatalogue/";
-        public static HttpRequest GetCatalogue(IAuthenticator authenticator, string countryCode)
+        public static HttpRequest GetCatalogue(IAuthenticator authenticator, string countryCode, TimeRange timeRange = null)
         {
             var filter = new Filter();
             filter.MarketCountries = new HashSet<string>{ countryCode };
             filter.EventTypeIds = new HashSet<string>{ "1" };
             filter.MarketTypeCodes = new HashSet<string>{ "MATCH_ODDS" };
             DateTime utcNow = DateTime.UtcNow;
-            filter.MarketStartTime = new TimeRange { From = utcNow, To = utcNow.AddHours(36)};
+            filter.MarketStartTime = timeRange ?? new TimeRange { From = utcNow, To = utcNow.AddHours(72)};
             var marketProjection = new HashSet<string>{ "COMPETITION", "RUNNER_METADATA", "MARKET_DESCRIPTION", "MARKET_START_TIME" };
             var data = new { filter = filter, marketProjection, maxResults = 100 };
             var jsonContent = new JsonContent(data);

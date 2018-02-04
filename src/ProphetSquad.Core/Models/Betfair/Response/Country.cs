@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ProphetSquad.Core.Models.Betfair.Request;
 
 namespace ProphetSquad.Core.Models.Betfair.Response
 {
@@ -17,9 +18,11 @@ namespace ProphetSquad.Core.Models.Betfair.Response
             {
                 _markets = new List<Market>();
 
-                for (int i = 0; i < 1; i++)
+                var startTime = DateTime.Today;
+                for (int i = 0; i < 5; i++)
                 {
-                    using(var marketRequest = BetfairRequest.GetCatalogue(authenticator, CountryCode))
+                    var timeRange = new TimeRange{From = startTime.AddDays(i), To = startTime.AddDays(i+1)};
+                    using(var marketRequest = BetfairRequest.GetCatalogue(authenticator, CountryCode, timeRange))
                     {
                         var markets = await marketRequest.Submit<List<Market>>(httpClient);
                         if(markets == null)

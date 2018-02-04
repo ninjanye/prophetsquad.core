@@ -36,7 +36,6 @@ namespace ProphetSquad.Core.Updater
                 Console.Write("Password:");
                 password = Console.ReadLine();
             }
-            Console.WriteLine($"User: {username}:{password}");
             BetfairUsername = username;
             BetfairPassword = password;
         }
