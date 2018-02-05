@@ -121,6 +121,7 @@ namespace ProphetSquad.Core.Tests
             Assert.Equal(expected, result);
         }
 
+        [Theory]
         [InlineData(1.71, "7/10")][InlineData(1.39, "2/5")][InlineData(1.82, "5/6")][InlineData(1.97, "1/1")]
         [InlineData(1.63, "8/13")][InlineData(3.95, "3/1")][InlineData(3.96, "3/1")][InlineData(1.76, "3/4")]
         public void ToFractional_NoKnownSubDivisibleBy100_FindClosestMatch(decimal value, string expected)
@@ -134,6 +135,7 @@ namespace ProphetSquad.Core.Tests
             Assert.Equal(expected, result);
         }
 
+        [Theory]
         [InlineData(4.90, "4/1")][InlineData(4.91, "4/1")][InlineData(4.92, "4/1")][InlineData(4.93, "4/1")]
         [InlineData(4.94, "4/1")][InlineData(4.95, "4/1")][InlineData(5.1, "4/1")]
         public void ToFractional_DecimalBetween3And10_Create10RoundingSteps(decimal value, string expected)

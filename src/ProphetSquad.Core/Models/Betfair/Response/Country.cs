@@ -25,7 +25,7 @@ namespace ProphetSquad.Core.Models.Betfair.Response
                     using(var marketRequest = BetfairRequest.GetCatalogue(authenticator, CountryCode, timeRange))
                     {
                         var markets = await marketRequest.Submit<List<Market>>(httpClient);
-                        if(markets == null)
+                        if(markets == null || markets.Count == 0)
                         {
                             Console.WriteLine($"[ERROR] Unable to get odds for {CountryCode}");
                             break;
@@ -37,7 +37,7 @@ namespace ProphetSquad.Core.Models.Betfair.Response
                             using(var oddsRequest = BetfairRequest.GetOdds(authenticator, marketIds))
                             {                        
                                 var odds = await oddsRequest.Submit<List<MarketBook>>(httpClient);
-                                if(odds == null || odds.Count == 0) 
+                                if(odds == null) 
                                 {
                                     Console.WriteLine($"Retrieving odds for {CountryCode}... FAILED");
                                     break;

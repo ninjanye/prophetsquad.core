@@ -62,7 +62,7 @@ namespace ProphetSquad.Core.Tests.CountryTests
         {
             Assert.All(requestedFilters, rf => {
                 Assert.NotNull(rf.Filter.MarketStartTime);
-                Assert.True(rf.Filter.MarketStartTime.From < DateTime.UtcNow, "MarketStartTime is not less than now");
+                Assert.True(rf.Filter.MarketStartTime.From >= DateTime.Today, "MarketStartTime is not less than now");
 
                 Console.WriteLine($"requestFilter start time: {rf.Filter.MarketStartTime.From.Ticks}-{rf.Filter.MarketStartTime.To.Ticks}");
                 //TODO: Check each request passes different date filter
@@ -88,12 +88,11 @@ namespace ProphetSquad.Core.Tests.CountryTests
             Assert.Equal(expectedHomeOdds, marketResult.Teams.First().Odds);
 
             var expectedAwayOdds = marketBook.First(mb => mb.MarketId == originalMarket.Id).Teams.Last().Odds;
-            Assert.Equal(expectedHomeOdds, marketResult.Teams.Last().Odds);
-
+            Assert.Equal(expectedAwayOdds, marketResult.Teams.Last().Odds);
         }
         
         [Theory]
-        [InlineData(listMarketCatalogue, 10)]
+        [InlineData(listMarketCatalogue, 5)]
         public void RequestsUrlsFor(string expectedUrl, int count)
         {
             Assert.Equal(count, requestedUrls.Count(url => url == expectedUrl));

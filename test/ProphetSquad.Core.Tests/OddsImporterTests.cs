@@ -43,17 +43,17 @@ namespace ProphetSquad.Core.Tests
         {
             foreach (var matchOdds in _oddsReturned)
             {
-                Assert.True(_oddsSaved.Contains(matchOdds));
+                Assert.Contains(matchOdds, _oddsSaved);
             }
         }
 
-        public void Save(MatchOdds odds)
+        void IOddsDatabase.Save(MatchOdds odds)
         {
             _saveToDatabaseCalled = true;
             _oddsSaved.Add(odds);
         }
 
-        public Task<IEnumerable<MatchOdds>> Retrieve()
+        Task<IEnumerable<MatchOdds>> IOddsProvider.Retrieve()
         {
             _oddsRetrieved = true;
             return Task.FromResult(_oddsReturned);

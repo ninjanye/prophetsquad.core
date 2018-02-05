@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/src/ProphetSquad.Core.Updater/bin/Debug/netcoreapp1.0/ProphetSquad.Core.Updater.dll",
+            "program": "${workspaceRoot}/src/ProphetSquad.Core.Updater/bin/Debug/netcoreapp2.0/ProphetSquad.Core.Updater.dll",
             "args": [],
             "cwd": "${workspaceRoot}/src/ProphetSquad.Core.Updater",
             "stopAtEntry": false,
