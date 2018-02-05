@@ -5,7 +5,7 @@ using Xunit;
 
 namespace ProphetSquad.Core.Tests
 {
-    public class OddsDatabaseTests : IOddsConnection
+    public class OddsDatabaseTests : IDatabaseConnection
     {
         private const string expectedSql = @"
 BEGIN TRAN;
@@ -49,7 +49,7 @@ COMMIT TRAN;";
             Assert.Same(odds, _odds);
         }
 
-        int IOddsConnection.Execute(string sql, object param)
+        int IDatabaseConnection.Execute(string sql, object param)
         {
             _sql = sql;
             _odds = param;

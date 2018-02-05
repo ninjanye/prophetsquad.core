@@ -10,9 +10,9 @@ namespace ProphetSquad.Core
 
     public class OddsDatabase : IOddsDatabase
     {
-        IOddsConnection _connection;
+        IDatabaseConnection _connection;
         
-        public OddsDatabase(IOddsConnection connection)
+        public OddsDatabase(IDatabaseConnection connection)
         {
             _connection = connection;
         }

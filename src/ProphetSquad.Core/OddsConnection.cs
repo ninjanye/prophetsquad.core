@@ -3,12 +3,12 @@ using Dapper;
 
 namespace ProphetSquad.Core
 {
-    public interface IOddsConnection
+    public interface IDatabaseConnection
     {
         int Execute(string sql, object param = null);
     }
 
-    public class OddsConnection : IOddsConnection
+    public class OddsConnection : IDatabaseConnection
     {
         private IDbConnection _connection;
 
