@@ -6,6 +6,6 @@ namespace ProphetSquad.Core
 {
     public interface IOddsProvider
     {
-        Task<IEnumerable<MatchOdds>> Retrieve();
+        Task<IEnumerable<MatchOdds>> RetrieveAsync();
     }
 }

@@ -9,7 +9,7 @@
     "tasks": [
         {
             "taskName": "build",
-            "args": [ "src/ProphetSquad.Core.Updater", "test/ProphetSquad.Core.Tests" ],
+            "args": [ "src/ProphetSquad.Core.Updater", "test/ProphetSquad.Core.Tests", "src/ProphetSquad.Matcher", "test/ProphetSquad.Matcher.Tests" ],
             "isBuildCommand": true,
             "showOutput": "always",
             "problemMatcher": "$msCompile"

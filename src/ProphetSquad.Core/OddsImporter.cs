@@ -20,4 +20,5 @@ namespace ProphetSquad.Core
             oddsCollection.SaveTo(_database);
         }
     }
+
 }

@@ -10,7 +10,8 @@ namespace ProphetSquad.Core.Data.Models
             return new MatchOdds(source);
         }
 
-        public MatchOdds(){            
+        public MatchOdds()
+        {            
         }
 
         private MatchOdds(Market source)
@@ -43,9 +44,9 @@ namespace ProphetSquad.Core.Data.Models
         public string HomeTeamOdds => OddsConverter.ToFractional(HomeTeamOddsDecimal);
         public decimal HomeTeamOddsDecimal { get; }
         public string AwayTeamId { get; }
-        public string AwayTeamName { get; set; }
+        public string AwayTeamName { get; }
         public string AwayTeamOdds => OddsConverter.ToFractional(AwayTeamOddsDecimal);
-        public decimal AwayTeamOddsDecimal { get; set; }
+        public decimal AwayTeamOddsDecimal { get; }
         public DateTime LastUpdate { get; }
         public bool Processed { get; }
 

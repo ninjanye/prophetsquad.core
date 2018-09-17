@@ -1,12 +1,15 @@
 ﻿using System;
 
-namespace ConsoleApplication
+namespace ProphetSquad.Core.Matcher
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Updating odds...");            
+
+            var matcher = new OddsMatcher(null, null);
+            matcher.Synchronise();
         }
     }
 }

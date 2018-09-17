@@ -10,15 +10,16 @@ namespace ProphetSquad.Core
     public interface IOddsCollection : IEnumerable<MatchOdds>
     {
         void SaveTo(IOddsDatabase database);
+        MatchOdds FindFor(Fixture fixture);
     }
 
-    internal class OddsCollection : IOddsCollection
+    public class OddsCollection : IOddsCollection
     {
         private readonly IEnumerable<MatchOdds> _odds;
         
         public static async Task<OddsCollection> RetrieveFrom(IOddsProvider source)
         {
-            return new OddsCollection(await source.Retrieve());
+            return new OddsCollection(await source.RetrieveAsync());
         }
 
         private OddsCollection(IEnumerable<MatchOdds> odds)
@@ -37,14 +38,13 @@ namespace ProphetSquad.Core
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }        
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public IEnumerator<MatchOdds> GetEnumerator()
+        public IEnumerator<MatchOdds> GetEnumerator() => _odds.GetEnumerator();
+
+        public MatchOdds FindFor(Fixture fixture)
         {
-            return _odds.GetEnumerator();
+            return _odds.FirstOrDefault(o => o.Date < fixture.Date.AddHours(1));
         }
     }
 }

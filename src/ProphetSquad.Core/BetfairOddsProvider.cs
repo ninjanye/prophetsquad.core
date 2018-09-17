@@ -15,7 +15,7 @@ namespace ProphetSquad.Core
             _oddsSource = oddsSource;
         }
 
-        public async Task<IEnumerable<MatchOdds>> Retrieve()
+        public async Task<IEnumerable<MatchOdds>> RetrieveAsync()
         {
             var odds = await _oddsSource.GetOdds();
             return odds.Select(MatchOdds.From);

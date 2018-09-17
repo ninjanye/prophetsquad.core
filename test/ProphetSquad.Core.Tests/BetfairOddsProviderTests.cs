@@ -21,7 +21,7 @@ namespace ProphetSquad.Core.Tests
             oddsProvider = new BetfairOddsProvider(this);
             _betfairOdds = BuildBetfairOdds();
 
-            odds = oddsProvider.Retrieve().Result;
+            odds = oddsProvider.RetrieveAsync().Result;
         }
 
         private Market[] BuildBetfairOdds()

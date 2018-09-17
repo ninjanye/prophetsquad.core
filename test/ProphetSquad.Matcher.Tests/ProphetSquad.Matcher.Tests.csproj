@@ -2,13 +2,14 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <DebugType>portable</DebugType>
-    <AssemblyName>ProphetSquad.Core.Tests</AssemblyName>
-    <PackageId>ProphetSquad.Core.Tests</PackageId>
+    <AssemblyName>ProphetSquad.Matcher.Tests</AssemblyName>
+    <PackageId>ProphetSquad.Matcher.Tests</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <RuntimeFrameworkVersion>2.0.5</RuntimeFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\ProphetSquad.Core\ProphetSquad.Core.csproj"/>
+    <ProjectReference Include="..\..\src\ProphetSquad.Core.OddsMatcher\ProphetSquad.Core.OddsMatcher.csproj"/>
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
