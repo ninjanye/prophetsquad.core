@@ -8,7 +8,7 @@ namespace ProphetSquad.Core.Matcher
         {
             Console.WriteLine("Updating odds...");            
 
-            var matcher = new OddsMatcher(null, null);
+            var matcher = new OddsMatcher(null, null, null);
             matcher.Synchronise();
         }
     }

@@ -26,8 +26,8 @@ namespace ProphetSquad.Core.Tests
 
         private Market[] BuildBetfairOdds()
         {
-            _firstOdd = new Market{ Id = "test", Competition = new Competition { Id = "CompetitionId"} };
-            var another = new Market{ Id = "another", Competition = new Competition { Id = "AnotherCompetitionId"} };
+            _firstOdd = new Market{ Id = "test", Competition = new Models.Betfair.Response.Competition { Id = "CompetitionId"} };
+            var another = new Market{ Id = "another", Competition = new Models.Betfair.Response.Competition { Id = "AnotherCompetitionId"} };
             return new[] { _firstOdd, another };
         }
 

@@ -39,7 +39,7 @@ namespace ProphetSquad.Core
                 if(string.IsNullOrEmpty(result.Token))
                 {
                     Console.WriteLine($"[ERROR] Unable to authenticate");
-                    throw new AuthenticationException();
+                    throw new AuthenticationException("Unable to authenticate");
                 }
                 _cachedToken = result.Token;
                 return _cachedToken;            

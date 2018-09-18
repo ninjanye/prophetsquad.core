@@ -10,12 +10,14 @@ using Xunit;
 
 namespace ProphetSquad.Matcher.Tests
 {
-    public class WhenOddsAreSuccessfullyMatched_UpdateFixture : IFixtureProvider, IOddsProvider
+    public class WhenOddsAreSuccessfullyMatched_UpdateFixture : IFixtureProvider, IOddsProvider, IFixturesDatabase
     {
         private readonly MatchOdds _matchOdds;
         private IEnumerable<MatchOdds> _oddsReturned = Enumerable.Empty<MatchOdds>();
         private readonly Fixture _fixture;
         private IEnumerable<Fixture> _fixturesReturned = Enumerable.Empty<Fixture>();
+        private List<Fixture> _savedFixtures = new List<Fixture>();
+        private bool _fixturesSaved;
         private readonly OddsMatcher _oddsMatcher;
 
         public WhenOddsAreSuccessfullyMatched_UpdateFixture()
@@ -38,7 +40,7 @@ namespace ProphetSquad.Matcher.Tests
             _fixture = new Fixture { Date = matchStart, Competition = new Core.Data.Models.Competition(), HomeTeam = new Core.Data.Models.Team(), AwayTeam = new Core.Data.Models.Team() };
             _fixturesReturned = new[]{ _fixture };
 
-            _oddsMatcher = new OddsMatcher(this, this);
+            _oddsMatcher = new OddsMatcher(this, this, this);
             _oddsMatcher.Synchronise();
         }
         
@@ -66,6 +68,13 @@ namespace ProphetSquad.Matcher.Tests
             Assert.Equal(_matchOdds.AwayTeamName, _fixture.AwayTeam.BookieName);
         }
 
+        [Fact]
+        public void FixtureUpdatesAreSaved()
+        {
+            Assert.True(_fixturesSaved);
+            Assert.Equal(_fixturesReturned, _savedFixtures); 
+        }
+
         IEnumerable<Fixture> IFixtureProvider.Retrieve()
         {
             return _fixturesReturned;
@@ -74,6 +83,12 @@ namespace ProphetSquad.Matcher.Tests
         Task<IEnumerable<MatchOdds>> IOddsProvider.RetrieveAsync()
         {
             return Task.FromResult(_oddsReturned);
+        }
+
+        void IFixturesDatabase.Save(Fixture fixture)
+        {
+            _fixturesSaved = true;
+            _savedFixtures.Add(fixture);
         }
     }
 }

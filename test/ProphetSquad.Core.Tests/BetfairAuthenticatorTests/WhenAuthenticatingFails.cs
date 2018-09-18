@@ -28,7 +28,7 @@ namespace ProphetSquad.Core.Tests.BetfairAuthenticatorTests
 
         Task<T> IHttpClient.Post<T>(string endpoint, HttpContent httpContent)
         {
-            return Task.Factory.StartNew(() => Newtonsoft.Json.JsonConvert.DeserializeObject<T>("{ token: \"\", error: \"An error meesage\", status: \"FAIL\" }"));
+            return Task.Factory.StartNew(() => Newtonsoft.Json.JsonConvert.DeserializeObject<T>("{ token: \"\", error: \"An error message\", status: \"FAIL\" }"));
         }
     }
 }

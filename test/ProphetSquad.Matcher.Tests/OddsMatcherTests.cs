@@ -10,7 +10,7 @@ using Xunit;
 
 namespace ProphetSquad.Matcher.Tests
 {
-    public class OddsMatcherTests : IFixtureProvider, IOddsProvider
+    public class OddsMatcherTests : IFixtureProvider, IOddsProvider, IFixturesDatabase
     {
         private bool _fixturesRetrieved;
         private bool _oddsRetrieved;
@@ -20,7 +20,7 @@ namespace ProphetSquad.Matcher.Tests
 
         public OddsMatcherTests()
         {
-            _oddsMatcher = new OddsMatcher(this, this);
+            _oddsMatcher = new OddsMatcher(this, this, this);
         }
 
         [Fact]
@@ -84,6 +84,10 @@ namespace ProphetSquad.Matcher.Tests
         {
             _oddsRetrieved = true;
             return Task.FromResult(_oddsReturned);
+        }
+
+        void IFixturesDatabase.Save(Fixture fixture)
+        {            
         }
     }
 }

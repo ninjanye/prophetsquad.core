@@ -40,21 +40,18 @@ namespace ProphetSquad.Core.Tests
             Assert.Equal(retrievedOdds, savedOdds);
         }
 
-        Task<IEnumerable<MatchOdds>> IOddsProvider.Retrieve()
+        Task<IEnumerable<MatchOdds>> IOddsProvider.RetrieveAsync()
         {
             return Task.FromResult(retrievedOdds.AsEnumerable());
         }
 
-        void IOddsDatabase.Save(MatchOdds odds)
-        {
-            savedOdds.Add(odds);
-        }
+        void IOddsDatabase.Save(MatchOdds odds) => savedOdds.Add(odds);
 
         private static Market BuildMarket(string marketId)
         {
-            var homeTeam = new Team { Metadata = new Metadata {Id = "home" }, Name = "home", Odds = 3.8m };
-            var awayTeam = new Team { Metadata = new Metadata {Id = "away" }, Name = "away", Odds = 6.4m };
-            var competition = new Competition { Id = "comp", Name = "comp" };
+            var homeTeam = new Models.Betfair.Response.Team { Metadata = new Metadata {Id = "home" }, Name = "home", Odds = 3.8m };
+            var awayTeam = new Models.Betfair.Response.Team { Metadata = new Metadata {Id = "away" }, Name = "away", Odds = 6.4m };
+            var competition = new Models.Betfair.Response.Competition { Id = "comp", Name = "comp" };
             return new Market { 
                 Id = marketId,
                 StartTime = DateTime.UtcNow,

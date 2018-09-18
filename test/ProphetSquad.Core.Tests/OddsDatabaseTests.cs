@@ -37,9 +37,9 @@ COMMIT TRAN;";
         public void SavingOdds()
         {
             var database = new OddsDatabase(this);
-            var competition = new Competition{ Id = "compId", Name = "compName" };
-            var homeTeam = new Team{SelectionId = "home", Name = "homeTeamName", Metadata = new Metadata { Id = "123456"}, Odds = 3.5m};
-            var awayTeam = new Team{SelectionId = "away", Name = "awayTeamName", Metadata = new Metadata { Id = "987654"}, Odds = 12m};
+            var competition = new Models.Betfair.Response.Competition { Id = "compId", Name = "compName" };
+            var homeTeam = new Models.Betfair.Response.Team {SelectionId = "home", Name = "homeTeamName", Metadata = new Metadata { Id = "123456"}, Odds = 3.5m};
+            var awayTeam = new Models.Betfair.Response.Team {SelectionId = "away", Name = "awayTeamName", Metadata = new Metadata { Id = "987654"}, Odds = 12m};
             var source = new Market { Id = "id", Competition = competition, StartTime = DateTime.UtcNow, Teams = new[]{homeTeam, awayTeam} };
             var odds = MatchOdds.From(source);
 

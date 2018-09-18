@@ -10,28 +10,35 @@ namespace ProphetSquad.Core.Matcher
     {
         private readonly IFixtureProvider _fixtureProvider;
         private readonly IOddsProvider _oddsProvider;
+        private readonly IFixturesDatabase _database;
 
-        public OddsMatcher(IFixtureProvider fixtureProvider, IOddsProvider oddsProvider)
+        public OddsMatcher(IFixtureProvider fixtureProvider, IOddsProvider oddsProvider, IFixturesDatabase database)
         {
             _fixtureProvider = fixtureProvider;
             _oddsProvider = oddsProvider;
+            _database = database;
         }
 
         public void Synchronise()
         {
             //Get fixtures
             var fixtures = FixtureCollection.RetrieveFrom(_fixtureProvider);
+            //Get odds
+            //Update fixtures with odds
             fixtures.UpdateOdds(_oddsProvider);
 
-            //Get odds
-
-            //Update fixtures with odds
             //Save fixtures
+            fixtures.SaveTo(_database);
 
             //var fixtures = FixtureCollection.From(noOddsFixtureSource);
             //fixtures.UpdateWith(odds)
             //fixtures.SaveTo(database)
         }
+    }
+
+    public interface IFixturesDatabase
+    {
+        void Save(Fixture fixture);
     }
 
     internal class FixtureCollection : IEnumerable<Fixture>
@@ -61,6 +68,14 @@ namespace ProphetSquad.Core.Matcher
                     fixture.HomeTeam.BookieName = matchOdds.HomeTeamName;
                     fixture.AwayTeam.BookieName = matchOdds.AwayTeamName;
                 }
+            }
+        }
+
+        internal void SaveTo(IFixturesDatabase database)
+        {
+            foreach (var fixture in this)
+            {
+                database.Save(fixture);
             }
         }
 
