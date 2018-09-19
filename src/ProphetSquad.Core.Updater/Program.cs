@@ -25,7 +25,7 @@ namespace ProphetSquad.Core.Updater
         private static IOddsDatabase BuildDatabase(AppSettings settings)
         {
             var sqlConnection = new SqlConnection(settings.Database.ConnectionString);
-            var oddsConnection = new OddsConnection(sqlConnection);
+            var oddsConnection = new DatabaseConnection(sqlConnection);
             var database = new OddsDatabase(oddsConnection);
 
             return database;

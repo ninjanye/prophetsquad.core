@@ -8,11 +8,11 @@ namespace ProphetSquad.Core
         int Execute(string sql, object param = null);
     }
 
-    public class OddsConnection : IDatabaseConnection
+    public class DatabaseConnection : IDatabaseConnection
     {
         private IDbConnection _connection;
 
-        public OddsConnection(IDbConnection connection)
+        public DatabaseConnection(IDbConnection connection)
         {
             _connection = connection;
         }

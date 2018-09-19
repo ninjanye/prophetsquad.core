@@ -10,6 +10,7 @@ using Xunit;
 
 namespace ProphetSquad.Matcher.Tests
 {
+
     public class OddsMatcherTests : IFixtureProvider, IOddsProvider, IFixturesDatabase
     {
         private bool _fixturesRetrieved;
