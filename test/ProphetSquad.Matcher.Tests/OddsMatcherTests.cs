@@ -53,9 +53,17 @@ namespace ProphetSquad.Matcher.Tests
         public void DoNotUpdateFixturesWithOddsMatched()
         {
             const string matchedOddsId = "matched";
-            var matchedFixture = new Fixture { MatchOddsId = matchedOddsId };
+            DateTime fixtureDate = DateTime.UtcNow.AddDays(1);
+            var matchedFixture = new Fixture { 
+                MatchOddsId = matchedOddsId, 
+                Date = fixtureDate, 
+                Competition = new Core.Data.Models.Competition(),
+                HomeTeam = new Core.Data.Models.Team(),
+                AwayTeam = new Core.Data.Models.Team() 
+            };
             _fixturesReturned = new[]{ matchedFixture }; 
-            var odds = MatchOdds.From(new Market{ StartTime = matchedFixture.Date});
+            var competition = new Core.Models.Betfair.Response.Competition { Id = "123456" };
+            var odds = MatchOdds.From(new Market{Id = "otherId", StartTime = matchedFixture.Date, Competition = competition});
             _oddsReturned = new[]{ odds }; 
             _oddsMatcher.Synchronise();
             Assert.Equal(matchedOddsId, matchedFixture.MatchOddsId);

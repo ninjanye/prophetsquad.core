@@ -6,7 +6,7 @@ using ProphetSquad.Core.Data.Models;
 
 namespace ProphetSquad.Core.Matcher
 {
-    internal class FixtureCollection : IEnumerable<Fixture>
+    public class FixtureCollection : IEnumerable<Fixture>
     {
         private IEnumerable<Fixture> _fixtures;
 
@@ -15,12 +15,12 @@ namespace ProphetSquad.Core.Matcher
             _fixtures = fixtures;
         }
 
-        internal static FixtureCollection RetrieveFrom(IFixtureProvider fixtureProvider)
+        public static FixtureCollection RetrieveFrom(IFixtureProvider fixtureProvider)
         {
             return new FixtureCollection(fixtureProvider.Retrieve());
         }
 
-        internal void UpdateOdds(IOddsProvider oddsProvider)
+        public void UpdateOdds(IOddsProvider oddsProvider)
         {
             var odds = OddsCollection.RetrieveFrom(oddsProvider).Result;
             foreach (var fixture in _fixtures.Where(f => f.RequiresOdds()))
@@ -36,7 +36,7 @@ namespace ProphetSquad.Core.Matcher
             }
         }
 
-        internal void SaveTo(IFixturesDatabase database)
+        public void SaveTo(IFixturesDatabase database)
         {
             foreach (var fixture in this)
             {

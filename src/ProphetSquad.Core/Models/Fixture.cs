@@ -24,7 +24,7 @@ namespace ProphetSquad.Core.Data.Models
 
         public bool RequiresOdds()
         {
-            return Date > DateTime.UtcNow;
+            return Date > DateTime.UtcNow && String.IsNullOrEmpty(MatchOddsId);
         }
     }
 
