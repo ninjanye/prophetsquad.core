@@ -10,7 +10,6 @@ using Xunit;
 
 namespace ProphetSquad.Matcher.Tests
 {
-
     public class OddsMatcherTests : IFixtureProvider, IOddsProvider, IFixturesDatabase
     {
         private bool _fixturesRetrieved;
@@ -18,6 +17,7 @@ namespace ProphetSquad.Matcher.Tests
         private IEnumerable<MatchOdds> _oddsReturned = Enumerable.Empty<MatchOdds>();
         private IEnumerable<Fixture> _fixturesReturned = Enumerable.Empty<Fixture>();
         private readonly OddsMatcher _oddsMatcher;
+        private Random _randomiser = new Random();
 
         public OddsMatcherTests()
         {
@@ -41,46 +41,149 @@ namespace ProphetSquad.Matcher.Tests
         [Fact]
         public void DoNotUpdateFixturesInThePast()
         {
-            var pastFixture = new Fixture{ Date = DateTime.UtcNow.AddDays(-1)};
-            _fixturesReturned = new[]{ pastFixture }; 
-            var odds = MatchOdds.From(new Market{ StartTime = pastFixture.Date});
+            var matchedFixture = CreateFixture();
+            matchedFixture.Date = DateTime.UtcNow.AddHours(-2);
+            _fixturesReturned = new[]{ matchedFixture };
+
+            var odds = CreateOddsFrom(matchedFixture);
             _oddsReturned = new[]{ odds }; 
+
             _oddsMatcher.Synchronise();
-             Assert.Null(pastFixture.MatchOddsId);     
+
+             Assert.Null(matchedFixture.MatchOddsId);     
         }
 
         [Fact]
         public void DoNotUpdateFixturesWithOddsMatched()
         {
             const string matchedOddsId = "matched";
-            DateTime fixtureDate = DateTime.UtcNow.AddDays(1);
-            var matchedFixture = new Fixture { 
-                MatchOddsId = matchedOddsId, 
-                Date = fixtureDate, 
-                Competition = new Core.Data.Models.Competition(),
-                HomeTeam = new Core.Data.Models.Team(),
-                AwayTeam = new Core.Data.Models.Team() 
-            };
+            var matchedFixture = CreateFixture();
+            matchedFixture.MatchOddsId = matchedOddsId;
             _fixturesReturned = new[]{ matchedFixture }; 
-            var competition = new Core.Models.Betfair.Response.Competition { Id = "123456" };
-            var odds = MatchOdds.From(new Market{Id = "otherId", StartTime = matchedFixture.Date, Competition = competition});
+            var odds = CreateOddsFrom(matchedFixture);
             _oddsReturned = new[]{ odds }; 
+
             _oddsMatcher.Synchronise();
+
             Assert.Equal(matchedOddsId, matchedFixture.MatchOddsId);
         }
 
         [Fact]
         public void DoesNotUpdateFixtureIfMatchTimeIsNotWithinAnHour()
         {
-            DateTime fixtureDate = DateTime.UtcNow.AddDays(1);
-            var fixture = new Fixture { Date = fixtureDate};
-            _fixturesReturned = new[]{ fixture };
-            var odds = MatchOdds.From(new Market{ StartTime = fixtureDate.AddHours(2)});
+            var matchedFixture = CreateFixture();
+            _fixturesReturned = new[]{ matchedFixture }; 
+            var odds = CreateOddsFrom(matchedFixture, date: matchedFixture.Date.AddHours(2));
             _oddsReturned = new[]{ odds }; 
 
             _oddsMatcher.Synchronise();
 
-            Assert.Null(fixture.MatchOddsId);
+            Assert.Null(matchedFixture.MatchOddsId);
+        }
+
+        [Fact]
+        public void DoesNotUpdateFixtureIfMatchTimeIsBefore()
+        {
+            var matchedFixture = CreateFixture();
+            _fixturesReturned = new[]{ matchedFixture }; 
+            var odds = CreateOddsFrom(matchedFixture, date: matchedFixture.Date.AddHours(-2));
+            _oddsReturned = new[]{ odds }; 
+
+            _oddsMatcher.Synchronise();
+
+            Assert.Null(matchedFixture.MatchOddsId);
+        }
+
+
+        [Fact]
+        public void DoNotUpdateFixtureIfCompetitionIdsAndNamesDiffer()
+        {
+            var matchedFixture = CreateFixture();
+            _fixturesReturned = new[]{ matchedFixture }; 
+            var odds = CreateOddsFrom(matchedFixture, competitionId: matchedFixture.CompetitionId + 1, competitionName: $"NEW {matchedFixture.Competition.Name}");
+            _oddsReturned = new[]{ odds }; 
+
+            _oddsMatcher.Synchronise();
+
+            Assert.True(string.IsNullOrEmpty(matchedFixture.MatchOddsId));
+        }
+
+        [Fact]
+        public void UpdateFixtureIfCompetitionIdsDifferButNamesMatch()
+        {
+            var matchedFixture = CreateFixture();
+            _fixturesReturned = new[]{ matchedFixture }; 
+            var odds = CreateOddsFrom(matchedFixture, competitionId: matchedFixture.CompetitionId + 1);
+            _oddsReturned = new[]{ odds }; 
+
+            _oddsMatcher.Synchronise();
+
+            Assert.Equal(odds.Id, matchedFixture.MatchOddsId);
+        }
+        
+        [Fact]
+        public void UpdateFixtureIfAwayTeamIsNotSetButOthersMatch()
+        {
+            var partialMatchedFixture = CreateFixture();
+            partialMatchedFixture.HomeTeamId = 0;
+            _fixturesReturned = new[]{ partialMatchedFixture };
+            var odds = CreateOddsFrom(partialMatchedFixture, awayTeamId: partialMatchedFixture.AwayTeamId + 1);
+            _oddsReturned = new[]{ odds }; 
+
+            _oddsMatcher.Synchronise();
+
+            Assert.Equal(odds.Id, partialMatchedFixture.MatchOddsId);
+        }
+
+        [Fact]
+        public void UpdateFixtureIdsDifferButTeamNamesMatch()
+        {
+            var matchedFixture = CreateFixture();
+            _fixturesReturned = new[]{ matchedFixture };
+            var odds = CreateOddsFrom(matchedFixture, homeTeamId: matchedFixture.HomeTeamId + 1, awayTeamId: matchedFixture.AwayTeamId + 1);
+            _oddsReturned = new[]{ odds }; 
+
+            _oddsMatcher.Synchronise();
+
+            Assert.Equal(odds.Id, matchedFixture.MatchOddsId);
+        }
+
+
+        private Fixture CreateFixture()
+        {
+            return new Fixture { 
+                Date = DateTime.UtcNow.AddDays(_randomiser.Next(1,100)), 
+                CompetitionId = _randomiser.Next(1,1000),
+                Competition = new Core.Data.Models.Competition { Name = $"CompetitionName{_randomiser.Next(1,100)}" },
+                HomeTeamId = _randomiser.Next(1,1000),
+                HomeTeam = new Core.Data.Models.Team{ BookieName = $"HomeTeam{_randomiser.Next(1,100)}" },
+                AwayTeamId = _randomiser.Next(1,1000),
+                AwayTeam = new Core.Data.Models.Team{ BookieName = $"AwayTeam{_randomiser.Next(1,100)}" } 
+            };
+        }
+
+        private MatchOdds CreateOddsFrom(
+            Fixture fixture,
+            int? competitionId = null, 
+            string competitionName = null, 
+            int? homeTeamId = null, 
+            string homeTeamName = null,
+            int? awayTeamId = null, 
+            string awayTeamName = null,
+            DateTime? date = null)
+        {
+            int resolvedCompetitionId = competitionId ?? fixture.CompetitionId;
+            string resolvedCompetitionName = competitionName ?? fixture.Competition.Name;
+            int resolvedHomeTeamId = homeTeamId ?? fixture.HomeTeamId;
+            string resolvedHomeTeamName = homeTeamName ?? fixture.HomeTeam.BookieName;
+            int resolvedAwayTeamId = awayTeamId ?? fixture.AwayTeamId;
+            string resolvedAwayTeamName = awayTeamName ?? fixture.AwayTeam.BookieName;
+            var resolvedDate = date ?? fixture.Date;
+            
+            var homeTeam = new Core.Models.Betfair.Response.Team { Name = resolvedHomeTeamName, Odds = 1.5m, SelectionId = "homeSelection", Metadata = new Metadata {Id = resolvedHomeTeamId.ToString()}};
+            var awayTeam = new Core.Models.Betfair.Response.Team { Name = resolvedAwayTeamName, Odds = 5m, SelectionId = "awaySelection", Metadata = new Metadata {Id = resolvedAwayTeamId.ToString()}};
+            var competition = new Core.Models.Betfair.Response.Competition { Id = resolvedCompetitionId.ToString(), Name = resolvedCompetitionName };
+            return MatchOdds.From(new Market{Id = $"marketId{_randomiser.Next(1,1000)}", StartTime = resolvedDate, Competition = competition, Teams = new[]{homeTeam, awayTeam}});
         }
 
         IEnumerable<Fixture> IFixtureProvider.Retrieve()

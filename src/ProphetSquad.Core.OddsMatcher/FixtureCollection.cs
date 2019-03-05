@@ -23,7 +23,7 @@ namespace ProphetSquad.Core.Matcher
         public void UpdateOdds(IOddsProvider oddsProvider)
         {
             var odds = OddsCollection.RetrieveFrom(oddsProvider).Result;
-            foreach (var fixture in _fixtures.Where(f => f.RequiresOdds()))
+            foreach (var fixture in _fixtures.Where(f => f.RequiresOdds))
             {
                 var matchOdds = odds.FindFor(fixture);
                 if (matchOdds != null)

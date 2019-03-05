@@ -22,14 +22,12 @@ namespace ProphetSquad.Core.Data.Models
         public Team HomeTeam { get; set; }
         public Team AwayTeam { get; set; }
 
-        public bool RequiresOdds()
-        {
-            return Date > DateTime.UtcNow && String.IsNullOrEmpty(MatchOddsId);
-        }
+        public bool RequiresOdds => Date > DateTime.UtcNow && String.IsNullOrEmpty(MatchOddsId);
     }
 
     public class Competition
     {
+        public string Name { get; set; }
         public long BookieId { get; set; }
     }
 

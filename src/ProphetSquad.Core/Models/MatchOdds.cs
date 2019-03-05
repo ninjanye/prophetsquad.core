@@ -10,10 +10,6 @@ namespace ProphetSquad.Core.Data.Models
             return new MatchOdds(source);
         }
 
-        public MatchOdds()
-        {            
-        }
-
         private MatchOdds(Market source)
         {
             Id = source.Id;

@@ -11,7 +11,7 @@ namespace ProphetSquad.Core.Tests
     {
         bool _saveToDatabaseCalled;
         bool _oddsRetrieved;
-        IEnumerable<MatchOdds> _oddsReturned = new[]{new MatchOdds()};
+        IEnumerable<MatchOdds> _oddsReturned;
         List<MatchOdds> _oddsSaved = new List<MatchOdds>();
 
         public OddsImporterTests()

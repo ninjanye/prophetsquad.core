@@ -31,3 +31,10 @@ corresponding odds
     [odds.AwayTeamId] == [match.AwayTeamId] AND
     [odds.MatchDateTime] == [match.DateTime]
     ```
+1. Match by competition id and team names:
+    ``` SQL
+    [odds.CompetitionName] == [match.CompetitionName] AND
+    [odds.HomeTeamId] == [match.HomeTeamName] AND
+    [odds.AwayTeamId] == [match.AwayTeamName] AND
+    [odds.MatchDateTime] == [match.DateTime]
+    ```

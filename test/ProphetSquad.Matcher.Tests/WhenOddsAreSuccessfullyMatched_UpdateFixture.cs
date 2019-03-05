@@ -22,9 +22,11 @@ namespace ProphetSquad.Matcher.Tests
 
         public WhenOddsAreSuccessfullyMatched_UpdateFixture()
         {
+            int homeTeamId = 111;
+            int awayTeamId = homeTeamId + 1;
             var competition = new Core.Models.Betfair.Response.Competition { Id = "123456789", Name = "competition" };
-            var homeTeam = new Core.Models.Betfair.Response.Team { Name = "homeTeam", Odds = 1.5m, SelectionId = "homeSelection", Metadata = new Metadata {Id = "homeTeamId"}};
-            var awayTeam = new Core.Models.Betfair.Response.Team { Name = "awayTeam", Odds = 5m, SelectionId = "awaySelection", Metadata = new Metadata {Id = "awayTeamId"}};
+            var homeTeam = new Core.Models.Betfair.Response.Team { Name = "homeTeam", Odds = 1.5m, SelectionId = "homeSelection", Metadata = new Metadata {Id = homeTeamId.ToString()}};
+            var awayTeam = new Core.Models.Betfair.Response.Team { Name = "awayTeam", Odds = 5m, SelectionId = "awaySelection", Metadata = new Metadata {Id = awayTeamId.ToString()}};
             DateTime matchStart = DateTime.UtcNow.AddDays(2);
             var market = new Market
             {
@@ -32,12 +34,20 @@ namespace ProphetSquad.Matcher.Tests
                 Competition = competition, 
                 Name = "market", 
                 StartTime = matchStart,
-                Teams = new[]{ homeTeam, awayTeam}
+                Teams = new[]{ homeTeam, awayTeam }
             };
 
             _matchOdds = MatchOdds.From(market);
             _oddsReturned = new[]{ _matchOdds }; 
-            _fixture = new Fixture { Date = matchStart, Competition = new Core.Data.Models.Competition(), HomeTeam = new Core.Data.Models.Team(), AwayTeam = new Core.Data.Models.Team() };
+            _fixture = new Fixture { 
+                Date = matchStart, 
+                CompetitionId = 123456789,
+                Competition = new Core.Data.Models.Competition(), 
+                HomeTeamId = homeTeamId,
+                HomeTeam = new Core.Data.Models.Team(), 
+                AwayTeamId = awayTeamId,
+                AwayTeam = new Core.Data.Models.Team()
+            };
             _fixturesReturned = new[]{ _fixture };
 
             _oddsMatcher = new OddsMatcher(this, this, this);

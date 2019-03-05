@@ -44,7 +44,15 @@ namespace ProphetSquad.Core
 
         public MatchOdds FindFor(Fixture fixture)
         {
-            return _odds.FirstOrDefault(o => o.Date < fixture.Date.AddHours(1));
+            Func<MatchOdds, bool> CompetitionsMatch = o => o.CompetitionId == fixture.CompetitionId.ToString() || o.CompetitionName == fixture.Competition?.Name;
+            Func<MatchOdds, bool> HomeTeamsMatch = o => o.HomeTeamId == fixture.HomeTeamId.ToString() || o.HomeTeamName == fixture.HomeTeam.BookieName;
+            Func<MatchOdds, bool> AwayTeamsMatch = o => o.AwayTeamId == fixture.AwayTeamId.ToString();
+            Func<MatchOdds, bool> DatesMatch = o => o.Date >= fixture.Date && o.Date <= fixture.Date.AddHours(1);
+
+            var odds = _odds.ToList();
+            return odds.FirstOrDefault(o => CompetitionsMatch(o) && DatesMatch(o) && HomeTeamsMatch(o) && AwayTeamsMatch(o))
+                ?? odds.FirstOrDefault(o => CompetitionsMatch(o) && DatesMatch(o) && HomeTeamsMatch(o))
+                ?? odds.FirstOrDefault(o => CompetitionsMatch(o) && DatesMatch(o) && AwayTeamsMatch(o));
         }
     }
 }
