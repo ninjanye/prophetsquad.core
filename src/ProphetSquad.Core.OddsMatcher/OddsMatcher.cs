@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProphetSquad.Core.Matcher
 {
@@ -16,10 +17,10 @@ namespace ProphetSquad.Core.Matcher
             _database = database;
         }
 
-        public void Synchronise()
+        public async Task Synchronise()
         {
             Console.WriteLine("Updating fixtures with odds...");
-            var fixtures = FixtureCollection.RetrieveFrom(_fixtureProvider);
+            var fixtures = await FixtureCollection.RetrieveFrom(_fixtureProvider);
             fixtures.UpdateOdds(_oddsProvider);
             fixtures.SaveTo(_database);
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
 
 namespace ProphetSquad.Core.Matcher
@@ -15,9 +16,11 @@ namespace ProphetSquad.Core.Matcher
             _fixtures = fixtures;
         }
 
-        public static FixtureCollection RetrieveFrom(IFixtureProvider fixtureProvider)
+        public static async Task<FixtureCollection> RetrieveFrom(IFixtureProvider fixtureProvider)
         {
-            return new FixtureCollection(fixtureProvider.Retrieve());
+            DateTime today = DateTime.Today;
+            IEnumerable<Fixture> fixtures = await fixtureProvider.Retrieve(today, today.AddDays(7));
+            return new FixtureCollection(fixtures);
         }
 
         public void UpdateOdds(IOddsProvider oddsProvider)

@@ -1,19 +1,30 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProphetSquad.Core.Matcher
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            Console.WriteLine("Updating odds...");            
+            Console.WriteLine("Updating odds...");
 
-            var matcher = new OddsMatcher(null, null, null);
-            matcher.Synchronise();
+            var settings = AppSettings.Configure();
+            var db = BuildDatabase(settings);
+
+            var httpClient = new HttpClientWrapper();
+            var authenticator = new BetfairAuthenticator(httpClient, settings.BetfairUsername, settings.BetfairPassword);
+            var betfairClient = new BetfairClient(httpClient, authenticator);
+            var oddsSource = new BetfairOddsProvider(betfairClient);
+
+            var matcher = new OddsMatcher(db, oddsSource, db);
+
+            await matcher.Synchronise();
         }
 
-        private static IFixturesDatabase BuildDatabase(AppSettings settings)
+        private static FixtureDatabase BuildDatabase(AppSettings settings)
         {
             var sqlConnection = new SqlConnection(settings.Database.ConnectionString);
             var databaseConnection = new DatabaseConnection(sqlConnection);

@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using ProphetSquad.Core;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Matcher;
@@ -45,7 +48,7 @@ COMMIT TRAN;";
         }
 
         [Fact]
-        public void SAveExecutesWithCorrectObject()
+        public void SaveExecutesWithCorrectObject()
         {
             var sut = new FixtureDatabase(this);
             var fixture = new Fixture();
@@ -59,6 +62,11 @@ COMMIT TRAN;";
             _sqlReceived = sql;
             _fixtureReceived = param;
             return 0;
+        }
+
+        async Task<IEnumerable<T>> IDatabaseConnection.Query<T>(string sql, object param)
+        {
+            return await Task.FromResult(new T[0]);
         }
     }
 }

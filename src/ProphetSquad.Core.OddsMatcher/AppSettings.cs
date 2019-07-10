@@ -26,9 +26,25 @@ namespace ProphetSquad.Core.Matcher
             builder.AddJsonFile("appsettings.json");
             var config = builder.Build();
             Database = Database.Configure(config);
+
+            string username = Environment.GetEnvironmentVariable("bfUser");
+            string password = Environment.GetEnvironmentVariable("bfPassword");
+            if (username == null)
+            {
+                Console.WriteLine("Credentials required for odds retrieval:");
+                Console.Write("Username:");
+                username = Console.ReadLine();
+                Console.Write("Password:");
+                password = Console.ReadLine();
+            }
+            BetfairUsername = username;
+            BetfairPassword = password;
+
         }
 
-        public Database Database { get; }        
+        public Database Database { get; }
+        public string BetfairUsername { get; }
+        public string BetfairPassword { get; }
     }
 
     internal class Database 

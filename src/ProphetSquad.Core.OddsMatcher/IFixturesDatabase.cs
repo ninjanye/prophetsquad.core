@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
 
 namespace ProphetSquad.Core.Matcher
@@ -8,7 +10,7 @@ namespace ProphetSquad.Core.Matcher
         void Save(Fixture fixture);
     }
 
-    public class FixtureDatabase : IFixturesDatabase
+    public class FixtureDatabase : IFixturesDatabase, IFixtureProvider
     {
         private readonly IDatabaseConnection _connection;
         private const string mergeSql = @"
@@ -35,6 +37,13 @@ COMMIT TRAN;";
         public void Save(Fixture fixture)
         {
             _connection.Execute(mergeSql, fixture);
+        }
+
+        public async Task<IEnumerable<Fixture>> Retrieve(DateTime from, DateTime to)
+        {
+            const string selectStatement = "SELECT * FROM Matches WHERE Date >= @from AND Date < @to";
+
+            return await _connection.Query<Fixture>(selectStatement, new { from, to });
         }
     }
 }

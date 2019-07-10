@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Models.Betfair.Response;
 using Xunit;
@@ -54,6 +56,11 @@ COMMIT TRAN;";
             _sql = sql;
             _odds = param;
             return 0;
+        }
+
+        Task<IEnumerable<T>> IDatabaseConnection.Query<T>(string sql, object param)
+        {
+            throw new NotImplementedException();
         }
     }
 }

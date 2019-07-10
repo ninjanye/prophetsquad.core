@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (console)",
+            "name": "Launch Updater (console)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -13,6 +13,16 @@
             "externalConsole": false
         },
         {
+            "name": "Launch OddsMatcher (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceRoot}/src/ProphetSquad.Core.OddsMatcher/bin/Debug/netcoreapp2.0/ProphetSquad.Core.OddsMatcher.dll",
+            "args": [],
+            "cwd": "${workspaceRoot}/src/ProphetSquad.Core.OddsMatcher",
+            "stopAtEntry": false,
+            "externalConsole": false
+        },        {
             "name": ".NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",

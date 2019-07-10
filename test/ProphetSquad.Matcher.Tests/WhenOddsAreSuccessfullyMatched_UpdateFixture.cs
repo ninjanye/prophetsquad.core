@@ -51,7 +51,7 @@ namespace ProphetSquad.Matcher.Tests
             _fixturesReturned = new[]{ _fixture };
 
             _oddsMatcher = new OddsMatcher(this, this, this);
-            _oddsMatcher.Synchronise();
+            _oddsMatcher.Synchronise().Wait();
         }
         
         [Fact]
@@ -85,9 +85,9 @@ namespace ProphetSquad.Matcher.Tests
             Assert.Equal(_fixturesReturned, _savedFixtures); 
         }
 
-        IEnumerable<Fixture> IFixtureProvider.Retrieve()
+        async Task<IEnumerable<Fixture>> IFixtureProvider.Retrieve(DateTime from, DateTime to)
         {
-            return _fixturesReturned;
+            return await Task.FromResult(_fixturesReturned);
         }
 
         Task<IEnumerable<MatchOdds>> IOddsProvider.RetrieveAsync()

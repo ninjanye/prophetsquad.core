@@ -13,6 +13,8 @@ namespace ProphetSquad.Matcher.Tests
     public class OddsMatcherTests : IFixtureProvider, IOddsProvider, IFixturesDatabase
     {
         private bool _fixturesRetrieved;
+        private DateTime _fixturesRetrievedFrom;
+        private DateTime _fixturesRetrievedTo;
         private bool _oddsRetrieved;
         private IEnumerable<MatchOdds> _oddsReturned = Enumerable.Empty<MatchOdds>();
         private IEnumerable<Fixture> _fixturesReturned = Enumerable.Empty<Fixture>();
@@ -25,21 +27,29 @@ namespace ProphetSquad.Matcher.Tests
         }
 
         [Fact]
-        public void RetrievesFixtures()
+        public async Task RetrievesFixtures()
         {
-            _oddsMatcher.Synchronise();
+            await _oddsMatcher.Synchronise();
             Assert.True(_fixturesRetrieved);
         }
 
         [Fact]
-        public void RetrievesOdds()
+        public async Task RetrievesFixturesForNextSevenDaysAsync()
         {
-            _oddsMatcher.Synchronise();
+            await _oddsMatcher.Synchronise();
+            Assert.Equal(DateTime.Today, _fixturesRetrievedFrom);
+            Assert.Equal(DateTime.Today.AddDays(7), _fixturesRetrievedTo);
+        }
+
+        [Fact]
+        public async Task RetrievesOddsAsync()
+        {
+            await _oddsMatcher.Synchronise();
             Assert.True(_oddsRetrieved);
         }
 
         [Fact]
-        public void DoNotUpdateFixturesInThePast()
+        public async Task DoNotUpdateFixturesInThePastAsync()
         {
             var matchedFixture = CreateFixture();
             matchedFixture.Date = DateTime.UtcNow.AddHours(-2);
@@ -48,13 +58,13 @@ namespace ProphetSquad.Matcher.Tests
             var odds = CreateOddsFrom(matchedFixture);
             _oddsReturned = new[]{ odds }; 
 
-            _oddsMatcher.Synchronise();
+            await _oddsMatcher.Synchronise();
 
              Assert.Null(matchedFixture.MatchOddsId);     
         }
 
         [Fact]
-        public void DoNotUpdateFixturesWithOddsMatched()
+        public async Task DoNotUpdateFixturesWithOddsMatchedAsync()
         {
             const string matchedOddsId = "matched";
             var matchedFixture = CreateFixture();
@@ -63,87 +73,87 @@ namespace ProphetSquad.Matcher.Tests
             var odds = CreateOddsFrom(matchedFixture);
             _oddsReturned = new[]{ odds }; 
 
-            _oddsMatcher.Synchronise();
+            await _oddsMatcher.Synchronise();
 
             Assert.Equal(matchedOddsId, matchedFixture.MatchOddsId);
         }
 
         [Fact]
-        public void DoesNotUpdateFixtureIfMatchTimeIsNotWithinAnHour()
+        public async Task DoesNotUpdateFixtureIfMatchTimeIsNotWithinAnHourAsync()
         {
             var matchedFixture = CreateFixture();
             _fixturesReturned = new[]{ matchedFixture }; 
             var odds = CreateOddsFrom(matchedFixture, date: matchedFixture.Date.AddHours(2));
             _oddsReturned = new[]{ odds }; 
 
-            _oddsMatcher.Synchronise();
+            await _oddsMatcher.Synchronise();
 
             Assert.Null(matchedFixture.MatchOddsId);
         }
 
         [Fact]
-        public void DoesNotUpdateFixtureIfMatchTimeIsBefore()
+        public async Task DoesNotUpdateFixtureIfMatchTimeIsBeforeAsync()
         {
             var matchedFixture = CreateFixture();
             _fixturesReturned = new[]{ matchedFixture }; 
             var odds = CreateOddsFrom(matchedFixture, date: matchedFixture.Date.AddHours(-2));
             _oddsReturned = new[]{ odds }; 
 
-            _oddsMatcher.Synchronise();
+            await _oddsMatcher.Synchronise();
 
             Assert.Null(matchedFixture.MatchOddsId);
         }
 
 
         [Fact]
-        public void DoNotUpdateFixtureIfCompetitionIdsAndNamesDiffer()
+        public async Task DoNotUpdateFixtureIfCompetitionIdsAndNamesDifferAsync()
         {
             var matchedFixture = CreateFixture();
             _fixturesReturned = new[]{ matchedFixture }; 
             var odds = CreateOddsFrom(matchedFixture, competitionId: matchedFixture.CompetitionId + 1, competitionName: $"NEW {matchedFixture.Competition.Name}");
             _oddsReturned = new[]{ odds }; 
 
-            _oddsMatcher.Synchronise();
+            await _oddsMatcher.Synchronise();
 
             Assert.True(string.IsNullOrEmpty(matchedFixture.MatchOddsId));
         }
 
         [Fact]
-        public void UpdateFixtureIfCompetitionIdsDifferButNamesMatch()
+        public async Task UpdateFixtureIfCompetitionIdsDifferButNamesMatchAsync()
         {
             var matchedFixture = CreateFixture();
             _fixturesReturned = new[]{ matchedFixture }; 
             var odds = CreateOddsFrom(matchedFixture, competitionId: matchedFixture.CompetitionId + 1);
             _oddsReturned = new[]{ odds }; 
 
-            _oddsMatcher.Synchronise();
+            await _oddsMatcher.Synchronise();
 
             Assert.Equal(odds.Id, matchedFixture.MatchOddsId);
         }
         
         [Fact]
-        public void UpdateFixtureIfAwayTeamIsNotSetButOthersMatch()
+        public async Task UpdateFixtureIfAwayTeamIsNotSetButOthersMatchAsync()
         {
             var partialMatchedFixture = CreateFixture();
             partialMatchedFixture.HomeTeamId = 0;
             _fixturesReturned = new[]{ partialMatchedFixture };
             var odds = CreateOddsFrom(partialMatchedFixture, awayTeamId: partialMatchedFixture.AwayTeamId + 1);
-            _oddsReturned = new[]{ odds }; 
+            _oddsReturned = new[]{ odds };
 
-            _oddsMatcher.Synchronise();
+            await _oddsMatcher.Synchronise();
 
             Assert.Equal(odds.Id, partialMatchedFixture.MatchOddsId);
         }
 
         [Fact]
-        public void UpdateFixtureIdsDifferButTeamNamesMatch()
+        public async Task UpdateFixtureIdsDifferButTeamNamesMatchAsync()
         {
             var matchedFixture = CreateFixture();
             _fixturesReturned = new[]{ matchedFixture };
             var odds = CreateOddsFrom(matchedFixture, homeTeamId: matchedFixture.HomeTeamId + 1, awayTeamId: matchedFixture.AwayTeamId + 1);
-            _oddsReturned = new[]{ odds }; 
+            _oddsReturned = new[]{ odds };
 
-            _oddsMatcher.Synchronise();
+            await _oddsMatcher.Synchronise();
 
             Assert.Equal(odds.Id, matchedFixture.MatchOddsId);
         }
@@ -186,10 +196,12 @@ namespace ProphetSquad.Matcher.Tests
             return MatchOdds.From(new Market{Id = $"marketId{_randomiser.Next(1,1000)}", StartTime = resolvedDate, Competition = competition, Teams = new[]{homeTeam, awayTeam}});
         }
 
-        IEnumerable<Fixture> IFixtureProvider.Retrieve()
+        async Task<IEnumerable<Fixture>> IFixtureProvider.Retrieve(DateTime from, DateTime to)
         {
             _fixturesRetrieved = true;
-            return _fixturesReturned;
+            _fixturesRetrievedFrom = from;
+            _fixturesRetrievedTo = to;
+            return await Task.FromResult(_fixturesReturned);
         }
 
         Task<IEnumerable<MatchOdds>> IOddsProvider.RetrieveAsync()
