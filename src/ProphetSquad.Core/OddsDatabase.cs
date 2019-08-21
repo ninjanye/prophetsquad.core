@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
 
 namespace ProphetSquad.Core
@@ -8,7 +10,7 @@ namespace ProphetSquad.Core
         void Save(MatchOdds odds);   
     }
 
-    public class OddsDatabase : IOddsDatabase
+    public class OddsDatabase : IOddsDatabase, IOddsProvider
     {
         IDatabaseConnection _connection;
         
@@ -43,6 +45,13 @@ COMMIT TRAN;";
         public void Save(MatchOdds odds)
         {
             _connection.Execute(mergesql, odds);
+        }
+
+        const string selectAll = @"SELECT * FROM MatchOdds WHERE Date > GETDATE()";
+
+        public async Task<IEnumerable<MatchOdds>> RetrieveAsync()
+        {
+            return await _connection.Query<MatchOdds>(selectAll);
         }
     }
 }

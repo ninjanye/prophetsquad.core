@@ -22,7 +22,8 @@
             "cwd": "${workspaceRoot}/src/ProphetSquad.Core.OddsMatcher",
             "stopAtEntry": false,
             "externalConsole": false
-        },        {
+        },
+        {
             "name": ".NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
@@ -57,6 +58,12 @@
             "type": "coreclr",
             "request": "attach",
             "processId": "${command.pickProcess}"
+        },
+        {
+            "name": "Attach to .NET Functions",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:azureFunctions.pickProcess}"
         }
     ]
 }

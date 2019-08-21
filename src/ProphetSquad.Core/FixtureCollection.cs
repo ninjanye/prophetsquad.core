@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
 
-namespace ProphetSquad.Core.Matcher
+namespace ProphetSquad.Core
 {
     public class FixtureCollection : IEnumerable<Fixture>
     {
@@ -16,10 +16,9 @@ namespace ProphetSquad.Core.Matcher
             _fixtures = fixtures;
         }
 
-        public static async Task<FixtureCollection> RetrieveFrom(IFixtureProvider fixtureProvider)
+        public static async Task<FixtureCollection> RetrieveFrom(IFixtureProvider fixtureProvider, DateTime start, DateTime end)
         {
-            DateTime today = DateTime.Today;
-            IEnumerable<Fixture> fixtures = await fixtureProvider.Retrieve(today, today.AddDays(7));
+            IEnumerable<Fixture> fixtures = await fixtureProvider.Retrieve(start, end);
             return new FixtureCollection(fixtures);
         }
 

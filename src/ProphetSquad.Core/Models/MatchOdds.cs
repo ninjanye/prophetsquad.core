@@ -30,21 +30,25 @@ namespace ProphetSquad.Core.Data.Models
             }
             LastUpdate = DateTime.UtcNow;
         }
+
+        public MatchOdds()
+        {
+        }
         
-        public string Id { get; }
-        public string CompetitionId { get; }
-        public string CompetitionName { get; }
-        public DateTime Date { get; }
-        public string HomeTeamId { get; }
-        public string HomeTeamName { get; }
+        public string Id { get; set; }
+        public string CompetitionId { get; set; }
+        public string CompetitionName { get; set; }
+        public DateTime Date { get; set; }
+        public string HomeTeamId { get; set; }
+        public string HomeTeamName { get; set; }
         public string HomeTeamOdds => OddsConverter.ToFractional(HomeTeamOddsDecimal);
-        public decimal HomeTeamOddsDecimal { get; }
-        public string AwayTeamId { get; }
-        public string AwayTeamName { get; }
+        public decimal HomeTeamOddsDecimal { get; set; }
+        public string AwayTeamId { get; set; }
+        public string AwayTeamName { get; set; }
         public string AwayTeamOdds => OddsConverter.ToFractional(AwayTeamOddsDecimal);
-        public decimal AwayTeamOddsDecimal { get; }
-        public DateTime LastUpdate { get; }
-        public bool Processed { get; }
+        public decimal AwayTeamOddsDecimal { get; set; }
+        public DateTime LastUpdate { get; set; }
+        public bool Processed { get; set; }
 
         public bool IsValid()
         {

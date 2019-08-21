@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ProphetSquad.Core;
 using ProphetSquad.Core.Data.Models;
-using ProphetSquad.Core.Matcher;
 using ProphetSquad.Core.Models.Betfair.Response;
 using Xunit;
 
@@ -41,12 +40,12 @@ namespace ProphetSquad.Matcher.Tests
             _oddsReturned = new[]{ _matchOdds }; 
             _fixture = new Fixture { 
                 Date = matchStart, 
-                CompetitionId = 123456789,
-                Competition = new Core.Data.Models.Competition(), 
-                HomeTeamId = homeTeamId,
-                HomeTeam = new Core.Data.Models.Team(), 
-                AwayTeamId = awayTeamId,
-                AwayTeam = new Core.Data.Models.Team()
+                CompetitionId = 1,
+                Competition = new Core.Data.Models.Competition { BookieId = 123456789 }, 
+                //HomeTeamId = homeTeamId,
+                HomeTeam = new Core.Data.Models.Team { BookieName = "homeTeam" }, 
+                //AwayTeamId = awayTeamId,
+                AwayTeam = new Core.Data.Models.Team { BookieName = "homeTeam" }
             };
             _fixturesReturned = new[]{ _fixture };
 
@@ -95,10 +94,20 @@ namespace ProphetSquad.Matcher.Tests
             return Task.FromResult(_oddsReturned);
         }
 
-        void IFixturesDatabase.Save(Fixture fixture)
+        Task<IEnumerable<Fixture>> IFixturesDatabase.Retrieve(DateTime from, DateTime to)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IDatabase<Fixture>.Save(Fixture fixture)
         {
             _fixturesSaved = true;
             _savedFixtures.Add(fixture);
+        }
+
+        Task<Fixture> IDatabase<Fixture>.GetBySourceId(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

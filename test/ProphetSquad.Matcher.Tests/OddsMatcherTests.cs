@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ProphetSquad.Core;
 using ProphetSquad.Core.Data.Models;
-using ProphetSquad.Core.Matcher;
 using ProphetSquad.Core.Models.Betfair.Response;
 using Xunit;
 
@@ -106,11 +105,11 @@ namespace ProphetSquad.Matcher.Tests
 
 
         [Fact]
-        public async Task DoNotUpdateFixtureIfCompetitionIdsAndNamesDifferAsync()
+        public async Task DoNotUpdateFixtureIfCompetitionIdsAndTeamNamesDifferAsync()
         {
             var matchedFixture = CreateFixture();
             _fixturesReturned = new[]{ matchedFixture }; 
-            var odds = CreateOddsFrom(matchedFixture, competitionId: matchedFixture.CompetitionId + 1, competitionName: $"NEW {matchedFixture.Competition.Name}");
+            var odds = CreateOddsFrom(matchedFixture, competitionId: matchedFixture.CompetitionId + 1, competitionName: $"NEW {matchedFixture.Competition.Name}", homeTeamName: $"NEW {matchedFixture.HomeTeam.Name}");
             _oddsReturned = new[]{ odds }; 
 
             await _oddsMatcher.Synchronise();
@@ -210,8 +209,19 @@ namespace ProphetSquad.Matcher.Tests
             return Task.FromResult(_oddsReturned);
         }
 
-        void IFixturesDatabase.Save(Fixture fixture)
-        {            
+
+        Task<IEnumerable<Fixture>> IFixturesDatabase.Retrieve(DateTime from, DateTime to)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IDatabase<Fixture>.Save(Fixture fixture)
+        {
+        }
+
+        Task<Fixture> IDatabase<Fixture>.GetBySourceId(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 
 namespace ProphetSquad.Core.Data.Models
 {
+
     public class Fixture
     {
         public int Id { get; set; }
@@ -22,17 +23,8 @@ namespace ProphetSquad.Core.Data.Models
         public Team HomeTeam { get; set; }
         public Team AwayTeam { get; set; }
 
+        public int ModelState => 0;
+
         public bool RequiresOdds => Date > DateTime.UtcNow && String.IsNullOrEmpty(MatchOddsId);
-    }
-
-    public class Competition
-    {
-        public string Name { get; set; }
-        public long BookieId { get; set; }
-    }
-
-    public class Team
-    {
-        public string BookieName { get; set; }
     }
 }

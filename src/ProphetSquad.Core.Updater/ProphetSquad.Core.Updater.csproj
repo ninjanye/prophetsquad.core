@@ -1,12 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <DebugType>portable</DebugType>
-    <AssemblyName>ProphetSquad.Core.Updater</AssemblyName>
     <OutputType>Exe</OutputType>
-    <PackageId>ProphetSquad.Core.Updater</PackageId>
-    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
-    <RuntimeFrameworkVersion>2.0.5</RuntimeFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Update="appsettings.json">

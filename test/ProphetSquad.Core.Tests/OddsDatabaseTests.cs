@@ -62,5 +62,15 @@ COMMIT TRAN;";
         {
             throw new NotImplementedException();
         }
+
+        Task<IEnumerable<TReturn>> IDatabaseConnection.Query<TFirst, TSecond, TThird, TFourth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, object param, string splitOn)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<T> IDatabaseConnection.QuerySingle<T>(string sql, object param)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

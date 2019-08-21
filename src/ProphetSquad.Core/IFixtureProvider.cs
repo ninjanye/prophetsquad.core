@@ -9,4 +9,9 @@ namespace ProphetSquad.Core
     {
         Task<IEnumerable<Fixture>> Retrieve(DateTime from, DateTime to);
     }
+
+    public interface IProvider<T>
+    {
+        Task<IEnumerable<T>> RetrieveAll();
+    }
 }
