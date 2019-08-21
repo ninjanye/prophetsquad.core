@@ -1,34 +1,30 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using AutoFixture;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Models.Betfair.Response;
 using Xunit;
 
 namespace ProphetSquad.Core.Tests
 {
-    public class BetfairOddsProviderTests: IBetfairClient
+    public class BetfairOddsProviderTests : IHttpClient, IAuthenticator
     {
-        private bool _betfairClientCalled;
+        private readonly AutoFixture.Fixture _autoFixture;
         private IOddsProvider oddsProvider;
         private IEnumerable<MatchOdds> odds;
         private Market _firstOdd;
-        private IEnumerable<Market> _betfairOdds;
+        private List<Market> _betfairOdds = new List<Market>();
+        private readonly List<string> _requestedEndpoints = new List<string>();
 
         public BetfairOddsProviderTests()
         {
-            oddsProvider = new BetfairOddsProvider(this);
-            _betfairOdds = BuildBetfairOdds();
+            _autoFixture = new AutoFixture.Fixture();
+            oddsProvider = new BetfairOddsProvider(this, this);
 
             odds = oddsProvider.RetrieveAsync().Result;
-        }
-
-        private Market[] BuildBetfairOdds()
-        {
-            _firstOdd = new Market{ Id = "test", Competition = new Models.Betfair.Response.Competition { Id = "CompetitionId"} };
-            var another = new Market{ Id = "another", Competition = new Models.Betfair.Response.Competition { Id = "AnotherCompetitionId"} };
-            return new[] { _firstOdd, another };
         }
 
         [Fact]
@@ -40,7 +36,7 @@ namespace ProphetSquad.Core.Tests
         [Fact]
         public void RetrieveAskBetfairClientForOdds()
         {
-            Assert.True(_betfairClientCalled);
+            Assert.Contains(_requestedEndpoints, x => x.EndsWith("listMarketBook/"));
         }
 
         [Fact]
@@ -62,10 +58,27 @@ namespace ProphetSquad.Core.Tests
             Assert.Equal(expected.Competition.Id, result.CompetitionId);
         }
 
-        Task<IEnumerable<Market>> IBetfairClient.GetOdds()
+        async Task<string> IAuthenticator.GetAuthTokenAsync()
         {
-            _betfairClientCalled = true;
-            return Task.FromResult(_betfairOdds);
+            return await Task.FromResult("token");
+        }
+
+        Task<T> IHttpClient.Get<T>(string authToken, string endpoint)
+        {
+            return Task.FromResult(new T());
+        }
+
+        Task<T> IHttpClient.Post<T>(string endpoint, HttpContent httpContent)
+        {
+            _requestedEndpoints.Add(endpoint);
+
+            var result = _autoFixture.Create<T>();
+            if (result.GetType().IsAssignableFrom(_betfairOdds.GetType()))
+            {
+                _betfairOdds.AddRange(result as List<Market>);
+            }
+
+            return Task.FromResult(result);
         }
     }
 }

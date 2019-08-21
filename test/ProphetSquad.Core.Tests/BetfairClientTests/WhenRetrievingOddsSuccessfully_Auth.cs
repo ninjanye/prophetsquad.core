@@ -12,12 +12,12 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
         private const string _authToken = "authToken";
         private bool _authTokenUsed;
         private string _authTokenSent;
-        private BetfairClient _client;
+        private BetfairOddsProvider _client;
 
         public WhenRetrievingOddsSuccessfully_Auth()
         {
-            _client = new BetfairClient(this, this);
-            var result = _client.GetOdds().Result;            
+            _client = new BetfairOddsProvider(this, this);
+            var result = _client.RetrieveAsync().Result;            
         }
 
         [Fact]

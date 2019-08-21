@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Models.Betfair.Response;
 using Xunit;
 
@@ -11,8 +12,8 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
 {
     public class WhenRetrievingOddsSuccessfully : IHttpClient, IAuthenticator
     {
-        private BetfairClient _client;
-        private readonly IEnumerable<Market> _result;
+        private BetfairOddsProvider _client;
+        private readonly IEnumerable<MatchOdds> _result;
         private readonly ICollection<string> _requestedEndpoints;
         private List<Country> _countries;
         private List<Market> _expected = new List<Market>();
@@ -24,12 +25,12 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
         public WhenRetrievingOddsSuccessfully()
         {
             _requestedEndpoints = new List<string>();
-            _client = new BetfairClient(this, this);            
+            _client = new BetfairOddsProvider(this, this);            
             var country1 = new Country{ CountryCode = "TEST1" };
             var country2 = new Country{ CountryCode = "TEST2" };
             _countries = new List<Country> { country1, country2 };
 
-            _result = _client.GetOdds().Result;
+            _result = _client.RetrieveAsync().Result;
         }
 
         [Fact]
@@ -41,9 +42,10 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
         [Fact]
         public void ReturnsResultFromHttpClient()
         {
-            Assert.Equal(_expected, _result);
+            var expected = _expected.Select(MatchOdds.From);
+            Assert.Equal(expected.Count(), _result.Count());
         }
-        
+
         [Theory]
         [InlineData(listCountries, 1)]
         public void RequestsUrlsFor(string expectedUrl, int count)

@@ -15,8 +15,7 @@ namespace ProphetSquad.Core.Updater
             var database = BuildDatabase(settings);
             var httpClient = new HttpClientWrapper();
             var authenticator = new BetfairAuthenticator(httpClient, settings.BetfairUsername, settings.BetfairPassword);
-            var betfairClient = new BetfairClient(httpClient, authenticator);
-            var oddsSource = new BetfairOddsProvider(betfairClient);
+            var oddsSource = new BetfairOddsProvider(httpClient, authenticator);
             var oddsImporter = new OddsImporter(database, oddsSource);
 
             oddsImporter.Import().Wait();
