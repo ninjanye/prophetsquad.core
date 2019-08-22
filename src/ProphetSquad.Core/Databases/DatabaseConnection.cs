@@ -4,7 +4,7 @@ using System.Data;
 using System.Threading.Tasks;
 using Dapper;
 
-namespace ProphetSquad.Core
+namespace ProphetSquad.Core.Databases
 {
     public interface IDatabaseConnection
     {
@@ -23,7 +23,7 @@ namespace ProphetSquad.Core
         {
             _connection = connection;
         }
-        
+
         public int Execute(string sql, object param = null)
         {
             return _connection.Execute(sql, param);
