@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ProphetSquad.Core.Collections;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
 using ProphetSquad.Core.Mappers;

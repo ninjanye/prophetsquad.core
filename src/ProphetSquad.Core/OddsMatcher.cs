@@ -1,4 +1,5 @@
-﻿using ProphetSquad.Core.Databases;
+﻿using ProphetSquad.Core.Collections;
+using ProphetSquad.Core.Databases;
 using System;
 using System.Threading.Tasks;
 

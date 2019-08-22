@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
 
-namespace ProphetSquad.Core
+namespace ProphetSquad.Core.Collections
 {
     public class FixtureCollection : IEnumerable<Fixture>
     {
