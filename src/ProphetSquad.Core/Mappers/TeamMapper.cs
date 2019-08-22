@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ProphetSquad.Core
+namespace ProphetSquad.Core.Mappers
 {
     public class TeamMapper : IMapper<TeamResponse, IEnumerable<Data.Models.Team>>
     {

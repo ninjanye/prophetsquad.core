@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoFixture;
 using ProphetSquad.Core;
 using ProphetSquad.Core.Data.Models.FootballDataApi;
+using ProphetSquad.Core.Mappers;
 using Xunit;
 
 namespace ProphetSquad.Matcher.Tests

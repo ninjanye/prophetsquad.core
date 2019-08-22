@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ProphetSquad.Core.Data.Models.FootballDataApi;
+using ProphetSquad.Core.Mappers;
 
 namespace ProphetSquad.Core
 {

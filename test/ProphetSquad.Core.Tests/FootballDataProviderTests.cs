@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Data.Models.FootballDataApi;
+using ProphetSquad.Core.Mappers;
 using System;
 using System.Collections.Generic;
 using System.Net;

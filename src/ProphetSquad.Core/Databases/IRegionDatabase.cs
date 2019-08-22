@@ -1,8 +1,7 @@
 ﻿using ProphetSquad.Core.Data.Models;
-using ProphetSquad.Core.Databases;
 using System.Threading.Tasks;
 
-namespace ProphetSquad.Core
+namespace ProphetSquad.Core.Databases
 {
     public interface IRegionDatabase : IDatabase<Region>
     {

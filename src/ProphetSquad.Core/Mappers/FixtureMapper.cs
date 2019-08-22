@@ -4,7 +4,7 @@ using ProphetSquad.Core.Databases;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ProphetSquad.Core
+namespace ProphetSquad.Core.Mappers
 {
     public class FixtureMapper : IMapper<MatchResponse, IEnumerable<Fixture>>
     {
@@ -63,7 +63,7 @@ namespace ProphetSquad.Core
                 AwayTeamScore = match.Score.FullTime.AwayTeam ?? 0,
                 WinnerId = winner?.Id,
                 GameweekId = gameweek.Id,
-                IsResult = match.Status == "FINISHED"                
+                IsResult = match.Status == "FINISHED"
             };
         }
     }

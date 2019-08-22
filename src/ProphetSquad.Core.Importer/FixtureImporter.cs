@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
+using ProphetSquad.Core.Mappers;
 
 namespace ProphetSquad.Core.Importer
 {

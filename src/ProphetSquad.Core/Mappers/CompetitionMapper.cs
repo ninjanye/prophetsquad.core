@@ -3,8 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Data.Models.FootballDataApi;
+using ProphetSquad.Core.Databases;
 
-namespace ProphetSquad.Core
+namespace ProphetSquad.Core.Mappers
 {
     public class CompetitionMapper : IMapper<CompetitionResponse, IEnumerable<Data.Models.Competition>>
     {
