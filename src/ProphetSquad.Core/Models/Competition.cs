@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace ProphetSquad.Core.Data.Models
+﻿namespace ProphetSquad.Core.Data.Models
 {
     public class Competition
     {

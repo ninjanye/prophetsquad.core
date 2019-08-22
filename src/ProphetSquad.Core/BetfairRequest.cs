@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading.Tasks;
 using ProphetSquad.Core.Models.Betfair.Request;
 
 namespace ProphetSquad.Core
