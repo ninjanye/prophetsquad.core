@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
 
-namespace ProphetSquad.Core
+namespace ProphetSquad.Core.Databases
 {
     public class TeamDatabase : IDatabase<Team>
     {

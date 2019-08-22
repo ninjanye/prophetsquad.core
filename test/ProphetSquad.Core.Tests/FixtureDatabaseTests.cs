@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoFixture;
 using ProphetSquad.Core;
 using ProphetSquad.Core.Data.Models;
+using ProphetSquad.Core.Databases;
 using Xunit;
 using Fixture = ProphetSquad.Core.Data.Models.Fixture;
 

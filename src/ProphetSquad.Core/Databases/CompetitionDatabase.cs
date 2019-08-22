@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
 
-namespace ProphetSquad.Core
+namespace ProphetSquad.Core.Databases
 {
-
     public class CompetitionDatabase : IDatabase<Competition>, IProvider<Competition>
     {
         private readonly IDatabaseConnection _connection;

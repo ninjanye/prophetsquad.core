@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ProphetSquad.Core
+namespace ProphetSquad.Core.Databases
 {
     public interface IFixturesDatabase : IDatabase<Fixture>
     {

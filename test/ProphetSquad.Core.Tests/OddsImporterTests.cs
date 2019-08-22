@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
+using ProphetSquad.Core.Databases;
 using ProphetSquad.Core.Models.Betfair.Response;
 using Xunit;
 

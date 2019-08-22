@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
+using ProphetSquad.Core.Databases;
 
 namespace ProphetSquad.Core
 {

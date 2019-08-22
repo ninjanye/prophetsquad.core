@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ProphetSquad.Core
+namespace ProphetSquad.Core.Databases
 {
     public interface IDatabase<T>
     {

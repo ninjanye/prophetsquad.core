@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using ProphetSquad.Core.Data.Models.FootballDataApi;
+using ProphetSquad.Core.Databases;
 
 namespace ProphetSquad.Core.Tests
 {

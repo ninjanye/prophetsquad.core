@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
 
-namespace ProphetSquad.Core
+namespace ProphetSquad.Core.Databases
 {
     public class FixtureDatabase : IFixturesDatabase, IFixtureProvider
     {
@@ -46,7 +46,7 @@ COMMIT TRAN;";
         public FixtureDatabase(IDatabaseConnection connection)
         {
             _connection = connection;
-        }        
+        }
 
         public void Save(Fixture fixture)
         {

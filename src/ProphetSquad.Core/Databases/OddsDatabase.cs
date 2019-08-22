@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
 
-namespace ProphetSquad.Core
+namespace ProphetSquad.Core.Databases
 {
     public interface IOddsDatabase
     {
-        void Save(MatchOdds odds);   
+        void Save(MatchOdds odds);
     }
 
     public class OddsDatabase : IOddsDatabase, IOddsProvider
     {
         IDatabaseConnection _connection;
-        
+
         public OddsDatabase(IDatabaseConnection connection)
         {
             _connection = connection;
