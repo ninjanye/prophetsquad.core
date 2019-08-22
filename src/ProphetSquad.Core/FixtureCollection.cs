@@ -38,7 +38,7 @@ namespace ProphetSquad.Core
             }
         }
 
-        public void SaveTo(IFixturesDatabase database)
+        public void SaveTo(IDatabase<Fixture> database)
         {
             foreach (var fixture in this)
             {
