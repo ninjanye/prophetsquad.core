@@ -17,7 +17,7 @@ namespace ProphetSquad.Core.Importer
         [FunctionName("TeamImporter")]
         public static async Task Run([TimerTrigger("0 0 2 * * *")]TimerInfo myTimer, ILogger log)
         {
-            log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+            log.LogInformation($"[BEGIN] TeamImporter: {DateTime.Now}");
             var serviceProvider = new ServiceCollection().AddHttpClient().BuildServiceProvider();
 
             var settings = AppSettings.Configure();
@@ -40,6 +40,7 @@ namespace ProphetSquad.Core.Importer
                 log.LogInformation($"Retrieved {teams.Count()} teams");
                 teams.SaveTo(teamDatabase);
             }
+            log.LogInformation($"[COMPLETE] TeamImporter: {DateTime.Now}");
         }
     }
 }

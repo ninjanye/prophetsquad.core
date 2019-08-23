@@ -2,7 +2,6 @@ using System;
 
 namespace ProphetSquad.Core.Data.Models
 {
-
     public class Fixture
     {
         public int Id { get; set; }

@@ -31,7 +31,5 @@ namespace ProphetSquad.Core.Collections
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         public IEnumerator<Competition> GetEnumerator() => _competitions.GetEnumerator();
-
-
     }
 }
