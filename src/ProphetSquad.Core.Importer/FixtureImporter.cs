@@ -18,7 +18,7 @@ namespace ProphetSquad.Core.Importer
         [FunctionName("FixtureImporter")]
         public static async Task Run([TimerTrigger("0 0 */5 * * *")]TimerInfo myTimer, ILogger log)
         {
-            log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+            log.LogInformation($"[BEGIN] FixtureImporter: {DateTime.Now}");
             var serviceProvider = new ServiceCollection().AddHttpClient().BuildServiceProvider();
             var httpClientFactory = serviceProvider.GetService<IHttpClientFactory>();
 
@@ -41,6 +41,7 @@ namespace ProphetSquad.Core.Importer
                 log.LogInformation($"Retrieved {fixtures.Count()} fixtures");
                 fixtures.SaveTo(fixtureDb);
             }
+            log.LogInformation($"[COMPLETE] FixtureImporter: {DateTime.Now}");
         }
     }
 }

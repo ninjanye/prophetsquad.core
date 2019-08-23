@@ -1,4 +1,5 @@
-﻿using ProphetSquad.Core.Collections;
+﻿using Microsoft.Extensions.Logging;
+using ProphetSquad.Core.Collections;
 using ProphetSquad.Core.Databases;
 using System;
 using System.Threading.Tasks;
@@ -18,10 +19,10 @@ namespace ProphetSquad.Core
             this.fixtureDatabase = fixtureDatabase;
         }
 
-        public async Task Synchronise()
+        public async Task Synchronise(ILogger logger = null)
         {
             var fixtures = await FixtureCollection.RetrieveFrom(fixtureProvider, DateTime.Today, DateTime.Today.AddDays(7));
-            fixtures.UpdateOdds(oddsSource);
+            fixtures.UpdateOdds(oddsSource, logger);
             fixtures.SaveTo(fixtureDatabase);
         }
     }

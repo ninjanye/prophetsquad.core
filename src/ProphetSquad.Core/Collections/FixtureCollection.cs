@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
 
@@ -23,9 +24,10 @@ namespace ProphetSquad.Core.Collections
             return new FixtureCollection(fixtures);
         }
 
-        public void UpdateOdds(IOddsProvider oddsProvider)
+        public void UpdateOdds(IOddsProvider oddsProvider, ILogger logger = null)
         {
             var odds = OddsCollection.RetrieveFrom(oddsProvider).Result;
+            int matchedOddsCount = 0;
             foreach (var fixture in _fixtures.Where(f => f.RequiresOdds))
             {
                 var matchOdds = odds.FindFor(fixture);
@@ -35,8 +37,10 @@ namespace ProphetSquad.Core.Collections
                     fixture.Competition.BookieId = Convert.ToInt64(matchOdds.CompetitionId);
                     fixture.HomeTeam.BookieName = matchOdds.HomeTeamName;
                     fixture.AwayTeam.BookieName = matchOdds.AwayTeamName;
+                    matchedOddsCount++;
                 }
             }
+            logger?.LogInformation($"Odds matched: {matchedOddsCount}");
         }
 
         public void SaveTo(IDatabase<Fixture> database)

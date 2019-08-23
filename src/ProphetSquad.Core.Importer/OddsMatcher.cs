@@ -12,14 +12,15 @@ namespace ProphetSquad.Core.Importer
         [FunctionName("OddsMatcher")]
         public static async Task Run([TimerTrigger("0 0 */2 * * *")]TimerInfo myTimer, ILogger log)
         {
-            log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+            log.LogInformation($"[BEGIN] OddsMatcher: {DateTime.Now}");
             var settings = AppSettings.Configure();
             var fixtureDatabase = BuildFixtureDatabase(settings);
             var oddsDatabase = BuildOddsDatabase(settings);
 
-            log.LogInformation("Synchronising fixtures with odds...");
             var matcher = new Core.OddsMatcher(fixtureDatabase, oddsDatabase, fixtureDatabase);
-            await matcher.Synchronise();
+            await matcher.Synchronise(log);
+            log.LogInformation($"[COMPLETE] OddsMatcher: {DateTime.Now}");
+
         }
 
         private static FixtureDatabase BuildFixtureDatabase(AppSettings settings)

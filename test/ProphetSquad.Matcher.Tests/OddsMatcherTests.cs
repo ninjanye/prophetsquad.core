@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using ProphetSquad.Core;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
@@ -34,7 +35,7 @@ namespace ProphetSquad.Matcher.Tests
         }
 
         [Fact]
-        public async Task RetrievesFixturesForNextSevenDaysAsync()
+        public async Task RetrievesFixturesForNextSevenDays()
         {
             await _oddsMatcher.Synchronise();
             Assert.Equal(DateTime.Today, _fixturesRetrievedFrom);
@@ -42,14 +43,14 @@ namespace ProphetSquad.Matcher.Tests
         }
 
         [Fact]
-        public async Task RetrievesOddsAsync()
+        public async Task RetrievesOdds()
         {
             await _oddsMatcher.Synchronise();
             Assert.True(_oddsRetrieved);
         }
 
         [Fact]
-        public async Task DoNotUpdateFixturesInThePastAsync()
+        public async Task DoNotUpdateFixturesInThePast()
         {
             var matchedFixture = CreateFixture();
             matchedFixture.Date = DateTime.UtcNow.AddHours(-2);
@@ -64,7 +65,7 @@ namespace ProphetSquad.Matcher.Tests
         }
 
         [Fact]
-        public async Task DoNotUpdateFixturesWithOddsMatchedAsync()
+        public async Task DoNotUpdateFixturesWithOddsMatched()
         {
             const string matchedOddsId = "matched";
             var matchedFixture = CreateFixture();
@@ -79,7 +80,7 @@ namespace ProphetSquad.Matcher.Tests
         }
 
         [Fact]
-        public async Task DoesNotUpdateFixtureIfMatchTimeIsNotWithinAnHourAsync()
+        public async Task DoesNotUpdateFixtureIfMatchTimeIsNotWithinAnHour()
         {
             var matchedFixture = CreateFixture();
             _fixturesReturned = new[]{ matchedFixture }; 
@@ -92,7 +93,7 @@ namespace ProphetSquad.Matcher.Tests
         }
 
         [Fact]
-        public async Task DoesNotUpdateFixtureIfMatchTimeIsBeforeAsync()
+        public async Task DoesNotUpdateFixtureIfMatchTimeIsBefore()
         {
             var matchedFixture = CreateFixture();
             _fixturesReturned = new[]{ matchedFixture }; 
@@ -106,7 +107,7 @@ namespace ProphetSquad.Matcher.Tests
 
 
         [Fact]
-        public async Task DoNotUpdateFixtureIfCompetitionIdsAndTeamNamesDifferAsync()
+        public async Task DoNotUpdateFixtureIfCompetitionIdsAndTeamNamesDiffer()
         {
             var matchedFixture = CreateFixture();
             _fixturesReturned = new[]{ matchedFixture }; 
@@ -119,7 +120,7 @@ namespace ProphetSquad.Matcher.Tests
         }
 
         [Fact]
-        public async Task UpdateFixtureIfCompetitionIdsDifferButNamesMatchAsync()
+        public async Task UpdateFixtureIfCompetitionIdsDifferButNamesMatch()
         {
             var matchedFixture = CreateFixture();
             _fixturesReturned = new[]{ matchedFixture }; 
@@ -132,7 +133,7 @@ namespace ProphetSquad.Matcher.Tests
         }
         
         [Fact]
-        public async Task UpdateFixtureIfAwayTeamIsNotSetButOthersMatchAsync()
+        public async Task UpdateFixtureIfAwayTeamIsNotSetButOthersMatch()
         {
             var partialMatchedFixture = CreateFixture();
             partialMatchedFixture.HomeTeamId = 0;
@@ -146,7 +147,7 @@ namespace ProphetSquad.Matcher.Tests
         }
 
         [Fact]
-        public async Task UpdateFixtureIdsDifferButTeamNamesMatchAsync()
+        public async Task UpdateFixtureIdsDifferButTeamNamesMatch()
         {
             var matchedFixture = CreateFixture();
             _fixturesReturned = new[]{ matchedFixture };
@@ -157,7 +158,6 @@ namespace ProphetSquad.Matcher.Tests
 
             Assert.Equal(odds.Id, matchedFixture.MatchOddsId);
         }
-
 
         private Fixture CreateFixture()
         {
