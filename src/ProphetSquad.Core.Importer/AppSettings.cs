@@ -29,10 +29,26 @@ namespace ProphetSquad.Core.Importer
             var config = builder.Build();
             Database = Database.Configure(config);
             Api = Api.Configure(config);
+
+            string username = Environment.GetEnvironmentVariable("bfUser");
+            string password = Environment.GetEnvironmentVariable("bfPassword");
+            if (username == null)
+            {
+                Console.WriteLine("Credentials required for odds retrieval:");
+                Console.Write("Username:");
+                username = Console.ReadLine();
+                Console.Write("Password:");
+                password = Console.ReadLine();
+            }
+            BetfairUsername = username;
+            BetfairPassword = password;
+
         }
 
         public Database Database { get; }
         public Api Api { get; set; }
+        public string BetfairUsername { get; }
+        public string BetfairPassword { get; }
     }
 
     internal class Api
@@ -52,8 +68,6 @@ namespace ProphetSquad.Core.Importer
                 apiToken = Console.ReadLine();
             }
             AuthToken = apiToken;
-            //var api = config.GetSection("Api");
-            //AuthToken = api.GetValue<string>("AuthToken");
         }
 
         public string AuthToken { get; }

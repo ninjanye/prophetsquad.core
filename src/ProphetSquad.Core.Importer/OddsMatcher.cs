@@ -10,7 +10,7 @@ namespace ProphetSquad.Core.Importer
     public static class OddsMatcher
     {
         [FunctionName("OddsMatcher")]
-        public static async Task Run([TimerTrigger("0 0 */2 * * *")]TimerInfo myTimer, ILogger log)
+        public static async Task Run([TimerTrigger("0 30 */2 * * *")]TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"[BEGIN] OddsMatcher: {DateTime.Now}");
             var settings = AppSettings.Configure();
@@ -20,6 +20,22 @@ namespace ProphetSquad.Core.Importer
             var matcher = new Core.OddsMatcher(fixtureDatabase, oddsDatabase, fixtureDatabase);
             await matcher.Synchronise(log);
             log.LogInformation($"[COMPLETE] OddsMatcher: {DateTime.Now}");
+
+        }
+
+        [FunctionName("OddsImporter")]
+        public static async Task RunImporter([TimerTrigger("0 0 */3 * * *")]TimerInfo myTimer, ILogger log)
+        {
+            log.LogInformation($"[BEGIN] OddsImporter: {DateTime.Now}");
+            var settings = AppSettings.Configure();
+            var database = BuildOddsDatabase(settings);
+            var httpClient = new HttpClientWrapper();
+            var authenticator = new BetfairAuthenticator(httpClient, settings.BetfairUsername, settings.BetfairPassword);
+            var oddsSource = new BetfairOddsProvider(httpClient, authenticator);
+            var oddsImporter = new OddsImporter(database, oddsSource);
+
+            await oddsImporter.Import();
+            log.LogInformation($"[COMPLETE] OddsImporter: {DateTime.Now}");
 
         }
 
