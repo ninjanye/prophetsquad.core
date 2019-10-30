@@ -14,8 +14,12 @@ BEGIN TRAN;
     MERGE Matches m
     USING data d on d.OpenFootyId = m.OpenFootyId
     WHEN MATCHED 
-        THEN UPDATE
-            SET m.MatchOddsId = COALESCE(@MatchOddsId, m.MatchOddsId)
+        THEN UPDATE SET
+            m.MatchOddsId = COALESCE(@MatchOddsId, m.MatchOddsId),
+            m.HomeTeamScore = @HomeTeamScore,
+            m.AwayTeamScore = @AwayTeamScore,
+            m.IsResult = @IsResult,
+            m.WinnerId = @WinnerId
     WHEN NOT MATCHED BY TARGET
         THEN INSERT (OpenFootyId,CompetitionId,GameweekId,Date,
                     HomeTeamId,HomeTeamScore,AwayTeamId,AwayTeamScore,

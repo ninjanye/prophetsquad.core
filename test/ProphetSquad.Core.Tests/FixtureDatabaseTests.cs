@@ -20,8 +20,11 @@ BEGIN TRAN;
     MERGE Matches m
     USING data d on d.OpenFootyId = m.OpenFootyId
     WHEN MATCHED 
-        THEN UPDATE
-            SET m.MatchOddsId = COALESCE(@MatchOddsId, m.MatchOddsId)
+        THEN UPDATE SET
+            m.MatchOddsId = COALESCE(@MatchOddsId, m.MatchOddsId),
+            m.HomeTeamScore = @HomeTeamScore,
+            m.AwayTeamScore = @AwayTeamScore,
+            m.IsResult = @IsResult
     WHEN NOT MATCHED BY TARGET
         THEN INSERT (OpenFootyId,CompetitionId,GameweekId,Date,
                     HomeTeamId,HomeTeamScore,AwayTeamId,AwayTeamScore,
@@ -49,7 +52,7 @@ COMMIT TRAN;";
         {
             var sut = new FixtureDatabase(this);
             sut.Save(_autoFixture.Create<Fixture>());
-            Assert.Equal(expectedSql, _sqlReceived);            
+            Assert.Equal(expectedSql, _sqlReceived);
 
         }
 
@@ -81,7 +84,7 @@ COMMIT TRAN;";
             return await Task.FromResult(new T[0]);
         }
 
-        Task<T> IDatabaseConnection.QuerySingle<T>(string sql, object param = null)
+        Task<T> IDatabaseConnection.QuerySingle<T>(string sql, object param)
         {
             throw new System.NotImplementedException();
         }

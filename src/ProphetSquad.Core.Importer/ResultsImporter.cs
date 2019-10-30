@@ -13,12 +13,12 @@ using ProphetSquad.Core.Mappers;
 
 namespace ProphetSquad.Core.Importer
 {
-    public static class FixtureImporter
+    public static class ResultsImporter
     {
-        [FunctionName("FixtureImporter")]
-        public static async Task Run([TimerTrigger("0 0 */5 * * *")]TimerInfo myTimer, ILogger log)
+        [FunctionName("ResultsImporter")]
+        public static async Task Run([TimerTrigger("0 30 */6 * * *")]TimerInfo myTimer, ILogger log)
         {
-            log.LogInformation($"[BEGIN] FixtureImporter: {DateTime.Now}");
+            log.LogInformation($"[BEGIN] ResultsImporter: {DateTime.Now}");
             var serviceProvider = new ServiceCollection().AddHttpClient().BuildServiceProvider();
             var httpClientFactory = serviceProvider.GetService<IHttpClientFactory>();
 
@@ -37,11 +37,11 @@ namespace ProphetSquad.Core.Importer
 
                 var fixtureDb = new FixtureDatabase(databaseConnection);
                 var today = DateTime.Today;
-                var fixtures = await FixtureCollection.RetrieveFrom(footballDataProvider, today, today.AddDays(10));
-                log.LogInformation($"Retrieved {fixtures.Count()} fixtures");
+                var fixtures = await FixtureCollection.RetrieveFrom(footballDataProvider, today.AddDays(-10), today);
+                log.LogInformation($"Retrieved {fixtures.Count()} results");
                 fixtures.SaveTo(fixtureDb);
             }
-            log.LogInformation($"[COMPLETE] FixtureImporter: {DateTime.Now}");
+            log.LogInformation($"[COMPLETE] ResultsImporter: {DateTime.Now}");
         }
     }
 }
