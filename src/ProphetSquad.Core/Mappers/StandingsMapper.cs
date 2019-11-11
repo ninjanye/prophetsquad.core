@@ -12,7 +12,7 @@ namespace ProphetSquad.Core.Mappers
             var standing = source.Standings.FirstOrDefault(s => s.Stage == "REGULAR_SEASON" && s.Type == "TOTAL");
             if (standing != null)
             {
-                var rankings = standing.Table.Select(BuildRanking);
+                var rankings = standing.Table.Select(BuildRanking).ToList();
                 return await Task.FromResult(rankings);
             }
 

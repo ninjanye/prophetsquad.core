@@ -39,7 +39,7 @@ namespace ProphetSquad.Core
             var competitions = await _competitionProvider.RetrieveAll();
             foreach (var competition in competitions)
             {
-                string url = $"/v2/competitions/{competition.OpenFootyId}/standings?plan=TIER_ONE";
+                string url = $"/v2/competitions/{competition.OpenFootyId}/standings";
                 var response = await client.GetStringAsync(url);
                 _throttler.Wait();
 

@@ -14,8 +14,7 @@ namespace ProphetSquad.Core.Importer
     public static class StandingsImporter
     {
         [FunctionName("StandingsImporter")]
-        //public static async Task Run([TimerTrigger("0 45 */6 * * *")]TimerInfo myTimer, ILogger log)
-        public static async Task Run([TimerTrigger("0 * * * * *")]TimerInfo myTimer, ILogger log)
+        public static async Task Run([TimerTrigger("0 45 */6 * * *")]TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"[BEGIN] StandingsImporter: {DateTime.Now}");
             var serviceProvider = new ServiceCollection().AddHttpClient().BuildServiceProvider();

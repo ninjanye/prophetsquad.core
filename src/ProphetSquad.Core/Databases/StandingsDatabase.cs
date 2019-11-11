@@ -19,10 +19,10 @@ BEGIN TRAN;
             cp.Played = @Played,
             cp.Wins = @Wins,
             cp.Draws = @Draws,
-            cp.Losses = @Losses
-            cp.GoalsFor = @GoalsFor
-            cp.GoalsAgainst = @GoalsAgainst
-            cp.Points = @Points
+            cp.Losses = @Losses,
+            cp.GoalsFor = @GoalsFor,
+            cp.GoalsAgainst = @GoalsAgainst,
+            cp.Points = @Points,
             cp.Form = @Form
     WHEN NOT MATCHED BY TARGET
         THEN INSERT (CompetitionId,TeamId,Played,Wins,Draws,Losses,GoalsFor,GoalsAgainst,Points,Form)
