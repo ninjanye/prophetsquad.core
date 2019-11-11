@@ -24,7 +24,8 @@ BEGIN TRAN;
             m.MatchOddsId = COALESCE(@MatchOddsId, m.MatchOddsId),
             m.HomeTeamScore = @HomeTeamScore,
             m.AwayTeamScore = @AwayTeamScore,
-            m.IsResult = @IsResult
+            m.IsResult = @IsResult,
+            m.WinnerId = @WinnerId
     WHEN NOT MATCHED BY TARGET
         THEN INSERT (OpenFootyId,CompetitionId,GameweekId,Date,
                     HomeTeamId,HomeTeamScore,AwayTeamId,AwayTeamScore,

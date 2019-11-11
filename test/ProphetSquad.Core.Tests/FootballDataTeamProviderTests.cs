@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
 using ProphetSquad.Core;
+using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Data.Models.FootballDataApi;
 using ProphetSquad.Core.Mappers;
 using Xunit;
@@ -15,7 +16,7 @@ namespace ProphetSquad.Matcher.Tests
 {
     public class TeamDataProviderFixture : IHttpClientFactory, IMapper<TeamResponse, IEnumerable<Core.Data.Models.Team>>, IProvider<Core.Data.Models.Competition>
     {
-        private readonly Fixture _autoFixture;
+        private readonly AutoFixture.Fixture _autoFixture;
         private readonly FootballDataTeamProvider _provider;
 
         public TeamDataProviderFixture()
