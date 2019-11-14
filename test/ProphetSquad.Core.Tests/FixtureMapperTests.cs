@@ -91,10 +91,7 @@ namespace ProphetSquad.Core.Tests
             Assert.True(_gameweekRetrieved);
         }
 
-        public void Save(Data.Models.Competition fixture)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void Save(Data.Models.Competition fixture) => throw new NotImplementedException();
 
         public Task<Data.Models.Competition> GetBySourceId(int id)
         {
@@ -104,7 +101,7 @@ namespace ProphetSquad.Core.Tests
 
         void IDatabase<Data.Models.Team>.Save(Data.Models.Team fixture)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         int _teamCount;

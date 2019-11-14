@@ -14,10 +14,9 @@ namespace ProphetSquad.Core.Tests
     public class BetfairOddsProviderTests : IHttpClient, IAuthenticator, IThrottler
     {
         private readonly AutoFixture.Fixture _autoFixture;
-        private IOddsProvider oddsProvider;
-        private IEnumerable<MatchOdds> odds;
-        private Market _firstOdd;
-        private List<Market> _betfairOdds = new List<Market>();
+        private readonly IOddsProvider oddsProvider;
+        private readonly IEnumerable<MatchOdds> odds;
+        private readonly List<Market> _betfairOdds = new List<Market>();
         private readonly List<string> _requestedEndpoints = new List<string>();
 
         public BetfairOddsProviderTests()
