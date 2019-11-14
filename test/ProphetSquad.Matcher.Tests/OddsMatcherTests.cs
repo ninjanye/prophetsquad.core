@@ -38,8 +38,10 @@ namespace ProphetSquad.Matcher.Tests
         [Fact]
         public async Task RetrievesFixturesForNextSevenDays()
         {
+            var startTime = DateTime.UtcNow;
             await _oddsMatcher.Synchronise();
-            Assert.Equal(DateTime.Today, _fixturesRetrievedFrom);
+            Assert.True(_fixturesRetrievedFrom > startTime);
+            Assert.True(_fixturesRetrievedFrom < DateTime.UtcNow);
             Assert.Equal(DateTime.Today.AddDays(7), _fixturesRetrievedTo);
         }
 

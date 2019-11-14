@@ -22,7 +22,7 @@ namespace ProphetSquad.Core
 
         public async Task Synchronise(ILogger logger = null)
         {
-            var fixtures = await FixtureCollection.RetrieveFrom(fixtureProvider, DateTime.Today, DateTime.Today.AddDays(7));
+            var fixtures = await FixtureCollection.RetrieveFrom(fixtureProvider, DateTime.UtcNow, DateTime.Today.AddDays(7));
             fixtures.UpdateOdds(oddsSource, logger);
             fixtures.SaveTo(fixtureDatabase);
         }
