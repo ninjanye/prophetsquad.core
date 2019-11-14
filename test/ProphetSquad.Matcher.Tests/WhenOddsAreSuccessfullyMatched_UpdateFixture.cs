@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ProphetSquad.Core;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
 using ProphetSquad.Core.Models.Betfair.Response;
 using ProphetSquad.Core.Providers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ProphetSquad.Matcher.Tests
@@ -26,53 +26,54 @@ namespace ProphetSquad.Matcher.Tests
             int homeTeamId = 111;
             int awayTeamId = homeTeamId + 1;
             var competition = new Core.Models.Betfair.Response.Competition { Id = "123456789", Name = "competition" };
-            var homeTeam = new Core.Models.Betfair.Response.Team { Name = "homeTeam", Odds = 1.5m, SelectionId = "homeSelection", Metadata = new Metadata {Id = homeTeamId.ToString()}};
-            var awayTeam = new Core.Models.Betfair.Response.Team { Name = "awayTeam", Odds = 5m, SelectionId = "awaySelection", Metadata = new Metadata {Id = awayTeamId.ToString()}};
+            var homeTeam = new Core.Models.Betfair.Response.Team { Name = "homeTeam", Odds = 1.5m, SelectionId = "homeSelection", Metadata = new Metadata { Id = homeTeamId.ToString() } };
+            var awayTeam = new Core.Models.Betfair.Response.Team { Name = "awayTeam", Odds = 5m, SelectionId = "awaySelection", Metadata = new Metadata { Id = awayTeamId.ToString() } };
             DateTime matchStart = DateTime.UtcNow.AddDays(2);
             var market = new Market
             {
-                Id = "marketId", 
-                Competition = competition, 
-                Name = "market", 
+                Id = "marketId",
+                Competition = competition,
+                Name = "market",
                 StartTime = matchStart,
-                Teams = new[]{ homeTeam, awayTeam }
+                Teams = new[] { homeTeam, awayTeam }
             };
 
             _matchOdds = MatchOdds.From(market);
-            _oddsReturned = new[]{ _matchOdds }; 
-            _fixture = new Fixture { 
-                Date = matchStart, 
+            _oddsReturned = new[] { _matchOdds };
+            _fixture = new Fixture
+            {
+                Date = matchStart,
                 CompetitionId = 1,
-                Competition = new Core.Data.Models.Competition { BookieId = 123456789 }, 
+                Competition = new Core.Data.Models.Competition { BookieId = 123456789 },
                 //HomeTeamId = homeTeamId,
-                HomeTeam = new Core.Data.Models.Team { BookieName = "homeTeam" }, 
+                HomeTeam = new Core.Data.Models.Team { BookieName = "homeTeam" },
                 //AwayTeamId = awayTeamId,
                 AwayTeam = new Core.Data.Models.Team { BookieName = "homeTeam" }
             };
-            _fixturesReturned = new[]{ _fixture };
+            _fixturesReturned = new[] { _fixture };
 
             _oddsMatcher = new OddsMatcher(this, this, this);
             _oddsMatcher.Synchronise().Wait();
         }
-        
+
         [Fact]
         public void MatchOddsIdIsSet()
         {
             Assert.Equal(_matchOdds.Id, _fixture.MatchOddsId);
         }
-        
+
         [Fact]
         public void MatchOddsCompetitionBookieIdSet()
         {
             Assert.Equal(Convert.ToInt64(_matchOdds.CompetitionId), _fixture.Competition.BookieId);
         }
-        
+
         [Fact]
         public void MatchOddsHomeTeamBookieNameSet()
         {
             Assert.Equal(_matchOdds.HomeTeamName, _fixture.HomeTeam.BookieName);
         }
-        
+
         [Fact]
         public void MatchOddsAwayTeamBookieNameSet()
         {
@@ -83,7 +84,7 @@ namespace ProphetSquad.Matcher.Tests
         public void FixtureUpdatesAreSaved()
         {
             Assert.True(_fixturesSaved);
-            Assert.Equal(_fixturesReturned, _savedFixtures); 
+            Assert.Equal(_fixturesReturned, _savedFixtures);
         }
 
         async Task<IEnumerable<Fixture>> IFixtureProvider.Retrieve(DateTime from, DateTime to)

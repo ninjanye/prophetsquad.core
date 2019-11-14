@@ -27,7 +27,7 @@ namespace ProphetSquad.Core
 
         public async Task<T> Submit<T>(IHttpClient httpClient) where T : class, new()
         {
-            if(_authenticator != null)
+            if (_authenticator != null)
             {
                 _authToken = await _authenticator.GetAuthTokenAsync();
                 _httpContent.Headers.Add("X-Authentication", _authToken);
@@ -36,7 +36,7 @@ namespace ProphetSquad.Core
             switch (_httpMethod.Method)
             {
                 case "POST":
-                    return await httpClient.Post<T>(_endpoint, _httpContent);                
+                    return await httpClient.Post<T>(_endpoint, _httpContent);
                 default:
                     return await httpClient.Get<T>(_authToken, _endpoint);
             }

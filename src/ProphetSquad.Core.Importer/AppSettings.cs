@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.IO;
 
 namespace ProphetSquad.Core.Importer
@@ -10,7 +10,7 @@ namespace ProphetSquad.Core.Importer
 
         public static AppSettings Configure()
         {
-            if(_options != null)
+            if (_options != null)
             {
                 return _options;
             }
@@ -73,11 +73,11 @@ namespace ProphetSquad.Core.Importer
         public string AuthToken { get; }
     }
 
-    internal class Database 
+    internal class Database
     {
         public static Database Configure(IConfigurationRoot config)
         {
-            return new Database(config);                                    
+            return new Database(config);
         }
 
         private Database(IConfigurationRoot config)

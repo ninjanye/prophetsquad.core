@@ -1,5 +1,5 @@
-using System;
 using ProphetSquad.Core.Models.Betfair.Response;
+using System;
 
 namespace ProphetSquad.Core.Data.Models
 {
@@ -16,7 +16,7 @@ namespace ProphetSquad.Core.Data.Models
             CompetitionId = source.Competition?.Id;
             CompetitionName = source.Competition?.Name;
             Date = source.StartTime;
-            if(source.Teams?.Length > 1)
+            if (source.Teams?.Length > 1)
             {
                 var homeTeam = source.Teams[0];
                 HomeTeamId = homeTeam.Id;
@@ -24,7 +24,7 @@ namespace ProphetSquad.Core.Data.Models
                 HomeTeamOddsDecimal = homeTeam.Odds;
 
                 var awayTeam = source.Teams[1];
-                AwayTeamId = awayTeam.Id;                
+                AwayTeamId = awayTeam.Id;
                 AwayTeamName = awayTeam.Name;
                 AwayTeamOddsDecimal = awayTeam.Odds;
             }
@@ -34,7 +34,7 @@ namespace ProphetSquad.Core.Data.Models
         public MatchOdds()
         {
         }
-        
+
         public string Id { get; set; }
         public string CompetitionId { get; set; }
         public string CompetitionName { get; set; }
@@ -52,7 +52,7 @@ namespace ProphetSquad.Core.Data.Models
 
         public bool IsValid()
         {
-            return 
+            return
                 !String.IsNullOrEmpty(Id) &&
                 !String.IsNullOrEmpty(CompetitionId) &&
                 !String.IsNullOrEmpty(CompetitionName) &&

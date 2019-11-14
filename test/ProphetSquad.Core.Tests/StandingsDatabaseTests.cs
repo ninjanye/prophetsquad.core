@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using AutoFixture;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
-using AutoFixture;
 
 namespace ProphetSquad.Core.Tests
 {

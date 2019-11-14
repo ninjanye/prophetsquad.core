@@ -21,7 +21,8 @@ namespace ProphetSquad.Core.Mappers
 
         private static Data.Models.Standing BuildRanking(Ranking ranking)
         {
-            return new Data.Models.Standing {
+            return new Data.Models.Standing
+            {
                 SourceTeamId = ranking.Team.Id,
                 Played = ranking.PlayedGames,
                 Wins = ranking.Won,

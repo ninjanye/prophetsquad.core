@@ -1,11 +1,11 @@
+using ProphetSquad.Core.Data.Models;
+using ProphetSquad.Core.Models.Betfair.Response;
+using ProphetSquad.Core.Providers.Betfair;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using ProphetSquad.Core.Data.Models;
-using ProphetSquad.Core.Models.Betfair.Response;
-using ProphetSquad.Core.Providers.Betfair;
 using Xunit;
 
 namespace ProphetSquad.Core.Tests.BetfairClientTests
@@ -26,9 +26,9 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
         public WhenRetrievingOddsSuccessfully()
         {
             _requestedEndpoints = new List<string>();
-            _client = new BetfairOddsProvider(this, this, this);            
-            var country1 = new Country{ CountryCode = "TEST1" };
-            var country2 = new Country{ CountryCode = "TEST2" };
+            _client = new BetfairOddsProvider(this, this, this);
+            var country1 = new Country { CountryCode = "TEST1" };
+            var country2 = new Country { CountryCode = "TEST2" };
             _countries = new List<Country> { country1, country2 };
 
             _result = _client.RetrieveAsync().Result;
@@ -82,9 +82,9 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
                 case listCountries:
                     return Task.FromResult(_countries as T);
                 case listMarketCatalogue:
-                    var marketOne = new Market{ Id =$"{DateTime.UtcNow.Second}.{DateTime.UtcNow.Millisecond}"};
-                    var marketTwo = new Market{ Id =$"{DateTime.UtcNow.Second}.{DateTime.UtcNow.Millisecond}"};
-                    var markets = new List<Market>{ marketOne, marketTwo };
+                    var marketOne = new Market { Id = $"{DateTime.UtcNow.Second}.{DateTime.UtcNow.Millisecond}" };
+                    var marketTwo = new Market { Id = $"{DateTime.UtcNow.Second}.{DateTime.UtcNow.Millisecond}" };
+                    var markets = new List<Market> { marketOne, marketTwo };
                     _expected.Add(marketOne);
                     _expected.Add(marketTwo);
                     return Task.FromResult(markets as T);

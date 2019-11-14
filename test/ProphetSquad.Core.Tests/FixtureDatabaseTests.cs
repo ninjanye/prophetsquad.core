@@ -1,8 +1,8 @@
+using AutoFixture;
+using ProphetSquad.Core.Databases;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoFixture;
-using ProphetSquad.Core.Databases;
 using Xunit;
 using Fixture = ProphetSquad.Core.Data.Models.Fixture;
 
@@ -45,7 +45,7 @@ COMMIT TRAN;";
         {
             var sut = new FixtureDatabase(this);
             sut.Save(_autoFixture.Create<Fixture>());
-            Assert.True(_executeCalled);            
+            Assert.True(_executeCalled);
         }
 
         [Fact]

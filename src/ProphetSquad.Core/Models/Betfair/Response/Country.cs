@@ -1,8 +1,8 @@
+using ProphetSquad.Core.Models.Betfair.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ProphetSquad.Core.Models.Betfair.Request;
 
 namespace ProphetSquad.Core.Models.Betfair.Response
 {
@@ -21,23 +21,23 @@ namespace ProphetSquad.Core.Models.Betfair.Response
                 var startTime = DateTime.Today;
                 for (int i = 0; i < 5; i++)
                 {
-                    var timeRange = new TimeRange{From = startTime.AddDays(i), To = startTime.AddDays(i+1)};
-                    using(var marketRequest = BetfairRequest.GetCatalogue(authenticator, CountryCode, timeRange))
+                    var timeRange = new TimeRange { From = startTime.AddDays(i), To = startTime.AddDays(i + 1) };
+                    using (var marketRequest = BetfairRequest.GetCatalogue(authenticator, CountryCode, timeRange))
                     {
                         var markets = await marketRequest.Submit<List<Market>>(httpClient);
-                        if(markets == null || markets.Count == 0)
+                        if (markets == null || markets.Count == 0)
                         {
                             Console.WriteLine($"[ERROR] Unable to get odds for {CountryCode}");
                             break;
                         }
 
                         var marketIds = markets.Select(m => m.Id).ToList();
-                        if(marketIds.Any())
+                        if (marketIds.Any())
                         {
-                            using(var oddsRequest = BetfairRequest.GetOdds(authenticator, marketIds))
-                            {                        
+                            using (var oddsRequest = BetfairRequest.GetOdds(authenticator, marketIds))
+                            {
                                 var odds = await oddsRequest.Submit<List<MarketBook>>(httpClient);
-                                if(odds == null) 
+                                if (odds == null)
                                 {
                                     Console.WriteLine($"Retrieving odds for {CountryCode}... FAILED");
                                     break;

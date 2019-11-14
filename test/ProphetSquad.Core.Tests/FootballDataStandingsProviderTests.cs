@@ -1,17 +1,16 @@
-﻿using System;
+﻿using AutoFixture;
+using ProphetSquad.Core;
+using ProphetSquad.Core.Data.Models.FootballDataApi;
+using ProphetSquad.Core.Mappers;
+using ProphetSquad.Core.Providers;
+using ProphetSquad.Core.Providers.FootballData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoFixture;
-using ProphetSquad.Core;
-using ProphetSquad.Core.Data.Models;
-using ProphetSquad.Core.Data.Models.FootballDataApi;
-using ProphetSquad.Core.Mappers;
-using ProphetSquad.Core.Providers;
-using ProphetSquad.Core.Providers.FootballData;
 using Xunit;
 
 namespace ProphetSquad.Matcher.Tests

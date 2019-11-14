@@ -17,7 +17,7 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
         public WhenRetrievingOddsSuccessfully_Auth()
         {
             _client = new BetfairOddsProvider(this, this, this);
-            var result = _client.RetrieveAsync().Result;            
+            var result = _client.RetrieveAsync().Result;
         }
 
         [Fact]
@@ -41,7 +41,8 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
         Task<T> IHttpClient.Post<T>(string endpoint, HttpContent httpContent)
         {
             const string authenticationHeader = "X-Authentication";
-            if(httpContent.Headers.Contains(authenticationHeader)){
+            if (httpContent.Headers.Contains(authenticationHeader))
+            {
                 _authTokenUsed = true;
                 _authTokenSent = httpContent.Headers.GetValues(authenticationHeader).First();
             }

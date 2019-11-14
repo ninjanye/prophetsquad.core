@@ -1,7 +1,7 @@
+using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.WebUtilities;
 using Xunit;
 
 namespace ProphetSquad.Core.Tests.BetfairAuthenticatorTests
@@ -43,19 +43,22 @@ namespace ProphetSquad.Core.Tests.BetfairAuthenticatorTests
         }
 
         [Fact]
-        public void PostsToAuthEndpoint(){
+        public void PostsToAuthEndpoint()
+        {
             var expectedEndpoint = "https://identitysso.betfair.com/api/login";
             Assert.Equal(expectedEndpoint, _requestedEndpoint);
         }
 
         [Fact]
-        public void PostsCredentials(){
+        public void PostsCredentials()
+        {
             Assert.NotEmpty(_requestedUsername);
             Assert.NotEmpty(_requestedPassword);
         }
 
         [Fact]
-        public void TokenIsNotRequestedMoreThanOnce(){
+        public void TokenIsNotRequestedMoreThanOnce()
+        {
             Assert.Equal(1, _requestCount);
             var token = _authenticator.GetAuthTokenAsync().Result;
             Assert.Equal(_expectedToken, token);
@@ -70,7 +73,7 @@ namespace ProphetSquad.Core.Tests.BetfairAuthenticatorTests
         async Task<T> IHttpClient.Post<T>(string endpoint, HttpContent httpContent)
         {
             _requestCount++;
-            _requestedType = typeof(T);        
+            _requestedType = typeof(T);
             _requestedEndpoint = endpoint;
             _requestedUsername = await GetValue(httpContent, "username");
             _requestedPassword = await GetValue(httpContent, "password");

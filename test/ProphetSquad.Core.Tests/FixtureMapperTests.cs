@@ -1,14 +1,14 @@
-﻿using ProphetSquad.Core.Data.Models;
-using AutoFixture;
-using Xunit;
-using Fixture = ProphetSquad.Core.Data.Models.Fixture;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
+﻿using AutoFixture;
+using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Data.Models.FootballDataApi;
 using ProphetSquad.Core.Databases;
 using ProphetSquad.Core.Mappers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
+using Fixture = ProphetSquad.Core.Data.Models.Fixture;
 
 namespace ProphetSquad.Core.Tests
 {

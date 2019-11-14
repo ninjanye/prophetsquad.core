@@ -1,7 +1,7 @@
+using ProphetSquad.Core.Models.Betfair.Request;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using ProphetSquad.Core.Models.Betfair.Request;
 
 namespace ProphetSquad.Core
 {
@@ -17,7 +17,7 @@ namespace ProphetSquad.Core
                 { "password", password }
             };
 
-            var httpConfig = new HttpRequestConfiguration(AuthEnpoint, new FormUrlEncodedContent(authData)); 
+            var httpConfig = new HttpRequestConfiguration(AuthEnpoint, new FormUrlEncodedContent(authData));
             return new HttpRequest(httpConfig);
         }
 
@@ -25,12 +25,12 @@ namespace ProphetSquad.Core
         public static HttpRequest GetCatalogue(IAuthenticator authenticator, string countryCode, TimeRange timeRange)
         {
             var filter = new Filter();
-            filter.MarketCountries = new HashSet<string>{ countryCode };
-            filter.EventTypeIds = new HashSet<string>{ "1" };
-            filter.MarketTypeCodes = new HashSet<string>{ "MATCH_ODDS" };
+            filter.MarketCountries = new HashSet<string> { countryCode };
+            filter.EventTypeIds = new HashSet<string> { "1" };
+            filter.MarketTypeCodes = new HashSet<string> { "MATCH_ODDS" };
             DateTime utcNow = DateTime.UtcNow;
-            filter.MarketStartTime = timeRange ?? new TimeRange { From = utcNow, To = utcNow.AddHours(24)};
-            var marketProjection = new HashSet<string>{ "COMPETITION", "RUNNER_METADATA", "MARKET_DESCRIPTION", "MARKET_START_TIME" };
+            filter.MarketStartTime = timeRange ?? new TimeRange { From = utcNow, To = utcNow.AddHours(24) };
+            var marketProjection = new HashSet<string> { "COMPETITION", "RUNNER_METADATA", "MARKET_DESCRIPTION", "MARKET_START_TIME" };
             var data = new { filter = filter, marketProjection, maxResults = 100 };
             var jsonContent = new JsonContent(data);
             var httpConfig = new HttpRequestConfiguration(CatalogueEndpoint, jsonContent, authenticator);
@@ -40,7 +40,7 @@ namespace ProphetSquad.Core
         private const string CountriesEndpoint = restApiBase + "listCountries/";
         public static HttpRequest GetCountries(IAuthenticator authenticator)
         {
-            var data = new { filter = new Filter()};
+            var data = new { filter = new Filter() };
             var jsonContent = new JsonContent(data);
             var httpConfig = new HttpRequestConfiguration(CountriesEndpoint, jsonContent, authenticator);
             return new HttpRequest(httpConfig);
@@ -50,15 +50,16 @@ namespace ProphetSquad.Core
         public static HttpRequest GetOdds(IAuthenticator authenticator, List<string> marketIds)
         {
             var priceDepth = new { bestPricesDepth = 1 };
-            var priceProjection = new {
-                priceData = new string[] { "EX_BEST_OFFERS"}, 
+            var priceProjection = new
+            {
+                priceData = new string[] { "EX_BEST_OFFERS" },
                 exBestOffersOverrides = priceDepth
             };
 
-            var data = new { marketIds = marketIds, priceProjection = priceProjection};
+            var data = new { marketIds = marketIds, priceProjection = priceProjection };
             var jsonContent = new JsonContent(data);
             var httpConfig = new HttpRequestConfiguration(OddsEndpoint, jsonContent, authenticator);
             return new HttpRequest(httpConfig);
-        }        
+        }
     }
 }

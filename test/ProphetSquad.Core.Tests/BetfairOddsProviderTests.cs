@@ -1,12 +1,12 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using AutoFixture;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Models.Betfair.Response;
 using ProphetSquad.Core.Providers;
 using ProphetSquad.Core.Providers.Betfair;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ProphetSquad.Core.Tests

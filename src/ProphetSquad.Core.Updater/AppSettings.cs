@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.IO;
 
 namespace ProphetSquad.Core.Updater
@@ -10,7 +10,7 @@ namespace ProphetSquad.Core.Updater
 
         public static AppSettings Configure()
         {
-            if(_options != null)
+            if (_options != null)
             {
                 return _options;
             }
@@ -29,7 +29,8 @@ namespace ProphetSquad.Core.Updater
 
             string username = Environment.GetEnvironmentVariable("bfUser");
             string password = Environment.GetEnvironmentVariable("bfPassword");
-            if(username == null){
+            if (username == null)
+            {
                 Console.WriteLine("Credentials required for odds retrieval:");
                 Console.Write("Username:");
                 username = Console.ReadLine();
@@ -40,22 +41,22 @@ namespace ProphetSquad.Core.Updater
             BetfairPassword = password;
         }
 
-        public Database Database { get; }        
+        public Database Database { get; }
         public string BetfairUsername { get; }
         public string BetfairPassword { get; }
     }
 
-    internal class Database 
+    internal class Database
     {
         public static Database Configure(IConfigurationRoot config)
         {
-            return new Database(config);                                    
+            return new Database(config);
         }
 
         private Database(IConfigurationRoot config)
         {
             var database = config.GetSection("Application").GetSection("Database");
-            ConnectionString = database.GetValue<string>("ConnectionString");            
+            ConnectionString = database.GetValue<string>("ConnectionString");
         }
 
         public string ConnectionString { get; }

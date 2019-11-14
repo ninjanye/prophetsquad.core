@@ -1,5 +1,5 @@
-using System.Linq;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace ProphetSquad.Core.Models.Betfair.Response
 {

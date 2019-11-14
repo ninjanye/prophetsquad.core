@@ -6,5 +6,5 @@ namespace ProphetSquad.Core.Models.Betfair.Request
     {
         public DateTime From { get; set; }
         public DateTime To { get; set; }
-    }           
+    }
 }

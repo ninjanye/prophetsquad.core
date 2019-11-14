@@ -1,12 +1,12 @@
+using Microsoft.Extensions.Logging;
+using ProphetSquad.Core.Data.Models;
+using ProphetSquad.Core.Databases;
+using ProphetSquad.Core.Providers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using ProphetSquad.Core.Data.Models;
-using ProphetSquad.Core.Databases;
-using ProphetSquad.Core.Providers;
 
 namespace ProphetSquad.Core.Collections
 {

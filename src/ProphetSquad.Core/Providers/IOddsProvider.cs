@@ -1,6 +1,6 @@
+using ProphetSquad.Core.Data.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ProphetSquad.Core.Data.Models;
 
 namespace ProphetSquad.Core.Providers
 {

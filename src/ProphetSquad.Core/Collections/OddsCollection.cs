@@ -1,11 +1,11 @@
+using ProphetSquad.Core.Data.Models;
+using ProphetSquad.Core.Databases;
+using ProphetSquad.Core.Providers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ProphetSquad.Core.Data.Models;
-using ProphetSquad.Core.Databases;
-using ProphetSquad.Core.Providers;
 
 namespace ProphetSquad.Core
 {
@@ -18,7 +18,7 @@ namespace ProphetSquad.Core
     public class OddsCollection : IOddsCollection
     {
         private readonly IEnumerable<MatchOdds> _odds;
-        
+
         public static async Task<OddsCollection> RetrieveFrom(IOddsProvider source)
         {
             return new OddsCollection(await source.RetrieveAsync());
@@ -36,7 +36,7 @@ namespace ProphetSquad.Core
             foreach (var matchOdds in validOdds)
             {
                 Console.WriteLine($"Saving odds [{++i} of {validOdds.Count}] {matchOdds.HomeTeamName} vs {matchOdds.AwayTeamName}");
-                database.Save(matchOdds);                
+                database.Save(matchOdds);
             }
         }
 

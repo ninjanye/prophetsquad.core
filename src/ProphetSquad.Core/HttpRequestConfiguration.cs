@@ -11,7 +11,7 @@ namespace ProphetSquad.Core
             HttpContent = httpContent;
             Authenticator = authenticator;
         }
-        public string Endpoint { get; }            
+        public string Endpoint { get; }
         public HttpContent HttpContent { get; }
         public HttpMethod HttpMethod { get; }
         public IAuthenticator Authenticator { get; }

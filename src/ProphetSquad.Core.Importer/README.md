@@ -12,8 +12,8 @@ This project holds each of the azure functions for azure.  Each function runs on
 * ~Move `ProphetSquad.Core.OddsMatcher` to Azure function and upload (and remove old webjob)~
 * ~Move `ProphetSquad.Core.FixtureUpdater` to Azure function and upload (and remove old webjob)~
 * ~Build Import league tables functionality~
-* OddsMatcher to not process odds for a game that has begun
-* Move `ProphetSquad.Core.Updater` (OddsUpdater) to Azure function and upload (and remove old webjob)
+* ~OddsMatcher to not process odds for a game that has begun~
+* ~Move `ProphetSquad.Core.Updater` (OddsUpdater) to Azure function and upload (and remove old webjob)~
 * Build Process Points functionality
 
 ### Site (larger)

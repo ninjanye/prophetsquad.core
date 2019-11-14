@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
 using ProphetSquad.Core.Models.Betfair.Response;
 using ProphetSquad.Core.Providers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ProphetSquad.Core.Tests
@@ -19,7 +19,7 @@ namespace ProphetSquad.Core.Tests
 
         public OddsCollectionTests()
         {
-            retrievedOdds = new List<MatchOdds>{odds1, odds2};
+            retrievedOdds = new List<MatchOdds> { odds1, odds2 };
         }
 
         [Fact]
@@ -51,14 +51,15 @@ namespace ProphetSquad.Core.Tests
 
         private static Market BuildMarket(string marketId)
         {
-            var homeTeam = new Models.Betfair.Response.Team { Metadata = new Metadata {Id = "home" }, Name = "home", Odds = 3.8m };
-            var awayTeam = new Models.Betfair.Response.Team { Metadata = new Metadata {Id = "away" }, Name = "away", Odds = 6.4m };
+            var homeTeam = new Models.Betfair.Response.Team { Metadata = new Metadata { Id = "home" }, Name = "home", Odds = 3.8m };
+            var awayTeam = new Models.Betfair.Response.Team { Metadata = new Metadata { Id = "away" }, Name = "away", Odds = 6.4m };
             var competition = new Models.Betfair.Response.Competition { Id = "comp", Name = "comp" };
-            return new Market { 
+            return new Market
+            {
                 Id = marketId,
                 StartTime = DateTime.UtcNow,
                 Competition = competition,
-                Teams = new[] {homeTeam, awayTeam}
+                Teams = new[] { homeTeam, awayTeam }
             };
         }
     }

@@ -20,7 +20,7 @@ namespace ProphetSquad.Core.Tests.BetfairAuthenticatorTests
         {
             await Assert.ThrowsAsync<AuthenticationException>(async () => await _authenticator.GetAuthTokenAsync());
         }
-        
+
         Task<T> IHttpClient.Get<T>(string authToken, string endpoint)
         {
             throw new NotImplementedException();

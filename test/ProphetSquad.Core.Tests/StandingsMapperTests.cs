@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using AutoFixture;
 using ProphetSquad.Core.Data.Models.FootballDataApi;
 using ProphetSquad.Core.Mappers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace ProphetSquad.Core.Tests

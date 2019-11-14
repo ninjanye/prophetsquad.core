@@ -8,5 +8,5 @@ namespace ProphetSquad.Core.Models.Betfair.Request
         public ISet<string> MarketCountries { get; set; }
         public ISet<string> MarketTypeCodes { get; set; }
         public TimeRange MarketStartTime { get; set; }
-    } 
+    }
 }

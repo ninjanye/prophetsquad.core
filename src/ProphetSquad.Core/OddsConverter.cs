@@ -13,7 +13,7 @@ namespace ProphetSquad.Core
                 {1.57m, "4/7"},{1.62m, "8/13"},{1.67m, "4/6"},{1.73m, "8/11"},{1.83m, "5/6"},
                 {1.91m, "10/11"},{2.01m, "1/1"},{2.02m, "1/1"},{2.38m, "11/8"},{2.5m, "6/4"},
                 {2.63m, "13/8"},{2.86m, "15/8"},{4.33m, "10/3"}
-            }; 
+            };
 
         public static string ToFractional(decimal value)
         {
@@ -50,7 +50,7 @@ namespace ProphetSquad.Core
                 decimalPlace = (multipliedValue % 1) * 100;
             }
 
-            return string.Format("{0}/{1}", (multipliedValue).ToString("0"), loopCount);            
+            return string.Format("{0}/{1}", (multipliedValue).ToString("0"), loopCount);
         }
 
         private static string FindNearestMatch(decimal value, int maxDenominator)
@@ -67,13 +67,13 @@ namespace ProphetSquad.Core
 
             for (int i = 1; i <= precisionRange; i++)
             {
-                var displacement = step*i;
+                var displacement = step * i;
                 var increaseFraction = FindFraction(increase + displacement);
                 if (increaseFraction.GetDenominator() < maxDenominator)
                 {
                     return increaseFraction;
                 }
-                
+
                 var decreaseFraction = FindFraction(decrease - displacement);
                 var decreasedDenominator = decreaseFraction.GetDenominator();
                 if (decreasedDenominator < maxDenominator)

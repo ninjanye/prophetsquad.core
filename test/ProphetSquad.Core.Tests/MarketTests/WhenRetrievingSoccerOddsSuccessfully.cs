@@ -1,11 +1,11 @@
+using Newtonsoft.Json;
+using ProphetSquad.Core.Models.Betfair.Request;
+using ProphetSquad.Core.Models.Betfair.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using ProphetSquad.Core.Models.Betfair.Request;
-using ProphetSquad.Core.Models.Betfair.Response;
 using Xunit;
 
 namespace ProphetSquad.Core.Tests.CountryTests
@@ -24,8 +24,8 @@ namespace ProphetSquad.Core.Tests.CountryTests
 
         public WhenRetrievingSoccerOddsSuccessfully()
         {
-            markets = new List<Market>{ BuildMarket("1"), BuildMarket("2")};
-            marketBook = new List<MarketBook> { BuildMarketBook("1"), BuildMarketBook("2")};
+            markets = new List<Market> { BuildMarket("1"), BuildMarket("2") };
+            marketBook = new List<MarketBook> { BuildMarketBook("1"), BuildMarketBook("2") };
 
             country = new Country { CountryCode = "TST" };
             result = country.SoccerOdds(this, this).Result;
@@ -42,25 +42,28 @@ namespace ProphetSquad.Core.Tests.CountryTests
         [Fact]
         public void CountryCodeFilterSubmitted()
         {
-            Assert.All(requestedFilters, rf => {
+            Assert.All(requestedFilters, rf =>
+            {
                 Assert.NotNull(rf.Filter.MarketCountries);
-                Assert.Contains(country.CountryCode, rf.Filter.MarketCountries);            
+                Assert.Contains(country.CountryCode, rf.Filter.MarketCountries);
             });
         }
 
         [Fact]
         public void MatchOddsRequested()
         {
-            Assert.All(requestedFilters, rf => {
+            Assert.All(requestedFilters, rf =>
+            {
                 Assert.NotNull(rf.Filter.MarketTypeCodes);
-                Assert.Contains("MATCH_ODDS", rf.Filter.MarketTypeCodes);            
+                Assert.Contains("MATCH_ODDS", rf.Filter.MarketTypeCodes);
             });
         }
 
         [Fact]
         public void DateFilterApplied()
         {
-            Assert.All(requestedFilters, rf => {
+            Assert.All(requestedFilters, rf =>
+            {
                 Assert.NotNull(rf.Filter.MarketStartTime);
                 Assert.True(rf.Filter.MarketStartTime.From >= DateTime.Today, "MarketStartTime is not less than now");
 
@@ -68,13 +71,13 @@ namespace ProphetSquad.Core.Tests.CountryTests
                 //TODO: Check each request passes different date filter
                 foreach (var filter in requestedFilters)
                 {
-                    Assert.True((rf.Filter.MarketStartTime.From <= filter.Filter.MarketStartTime.From 
+                    Assert.True((rf.Filter.MarketStartTime.From <= filter.Filter.MarketStartTime.From
                                  && rf.Filter.MarketStartTime.To <= filter.Filter.MarketStartTime.To)
-                              ||(rf.Filter.MarketStartTime.From >= filter.Filter.MarketStartTime.From 
-                                 && rf.Filter.MarketStartTime.To >= filter.Filter.MarketStartTime.To)); 
+                              || (rf.Filter.MarketStartTime.From >= filter.Filter.MarketStartTime.From
+                                 && rf.Filter.MarketStartTime.To >= filter.Filter.MarketStartTime.To));
                 }
             });
-        }        
+        }
 
         [Fact]
         public void MarketHasOddsPopulated()
@@ -90,7 +93,7 @@ namespace ProphetSquad.Core.Tests.CountryTests
             var expectedAwayOdds = marketBook.First(mb => mb.MarketId == originalMarket.Id).Teams.Last().Odds;
             Assert.Equal(expectedAwayOdds, marketResult.Teams.Last().Odds);
         }
-        
+
         [Theory]
         [InlineData(listMarketCatalogue, 5)]
         public void RequestsUrlsFor(string expectedUrl, int count)
@@ -152,10 +155,11 @@ namespace ProphetSquad.Core.Tests.CountryTests
 
         private static MarketBook BuildMarketBook(string id)
         {
-            return new MarketBook {
+            return new MarketBook
+            {
                 Status = "OK",
                 MarketId = id,
-                Teams = new List<TeamOdds>{ 
+                Teams = new List<TeamOdds>{
                     BuildTeamOdds($"{id}.homeTeam"),
                     BuildTeamOdds($"{id}.awayTeam")
                 }
@@ -166,14 +170,16 @@ namespace ProphetSquad.Core.Tests.CountryTests
         {
             var rnd = new Random();
             var price = rnd.Next(1, 100);
-            var priceDetails = new PriceDetails{ Price = price / 10 };
+            var priceDetails = new PriceDetails { Price = price / 10 };
 
-            return new TeamOdds {
+            return new TeamOdds
+            {
                 SelectionId = id,
-                Exchange = new Exchange {
-                    AvailableToBack = new[]{ priceDetails }
+                Exchange = new Exchange
+                {
+                    AvailableToBack = new[] { priceDetails }
                 }
-            };            
+            };
         }
 
         private class RequestData
@@ -187,6 +193,6 @@ namespace ProphetSquad.Core.Tests.CountryTests
             public List<string> MarketCountries { get; set; }
             public string[] MarketTypeCodes { get; set; }
             public TimeRange MarketStartTime { get; set; }
-        } 
+        }
     }
 }

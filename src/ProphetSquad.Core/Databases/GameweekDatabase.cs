@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ProphetSquad.Core.Data.Models;
+using System;
 using System.Threading.Tasks;
-using ProphetSquad.Core.Data.Models;
 
 namespace ProphetSquad.Core.Databases
 {

@@ -26,21 +26,21 @@ namespace ProphetSquad.Core
 
         public async Task<string> GetAuthTokenAsync()
         {
-            if(!String.IsNullOrEmpty(_cachedToken))
+            if (!String.IsNullOrEmpty(_cachedToken))
             {
                 return _cachedToken;
             }
 
-            using (var authorisationRequest = BetfairRequest.Authorise(_username, _password)) 
+            using (var authorisationRequest = BetfairRequest.Authorise(_username, _password))
             {
                 var result = await authorisationRequest.Submit<AuthenticationResult>(_httpClient);
-                if(string.IsNullOrEmpty(result.Token))
+                if (string.IsNullOrEmpty(result.Token))
                 {
                     Console.WriteLine($"[ERROR] Unable to authenticate");
                     throw new AuthenticationException("Unable to authenticate");
                 }
                 _cachedToken = result.Token;
-                return _cachedToken;            
+                return _cachedToken;
             }
         }
 

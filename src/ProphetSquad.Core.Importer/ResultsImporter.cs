@@ -1,8 +1,3 @@
-using System;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -11,6 +6,11 @@ using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
 using ProphetSquad.Core.Mappers;
 using ProphetSquad.Core.Providers.FootballData;
+using System;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace ProphetSquad.Core.Importer
 {

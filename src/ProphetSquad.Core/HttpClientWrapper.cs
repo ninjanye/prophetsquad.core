@@ -1,9 +1,9 @@
+using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace ProphetSquad.Core
 {
@@ -28,10 +28,10 @@ namespace ProphetSquad.Core
             var request = await httpContent.ReadAsStringAsync();
             var response = await httpClient.PostAsync(endpoint, httpContent);
             var returnedData = await response.Content.ReadAsStringAsync();
-            if(response.StatusCode != HttpStatusCode.OK)
+            if (response.StatusCode != HttpStatusCode.OK)
             {
                 Console.WriteLine($"REQUEST: {request}");
-                Console.WriteLine($"STATUS: {response.StatusCode} RESPONSE: {returnedData}");                
+                Console.WriteLine($"STATUS: {response.StatusCode} RESPONSE: {returnedData}");
                 return null;
             }
 

@@ -24,5 +24,5 @@ namespace ProphetSquad.Core.Data.Models.FootballDataApi
         public int GoalsFor { get; set; }
         public int GoalsAgainst { get; set; }
         public int GoalDifference { get; set; }
-    }    
+    }
 }

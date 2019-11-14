@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using ProphetSquad.Core.Data.Models;
+﻿using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Data.Models.FootballDataApi;
 using ProphetSquad.Core.Databases;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ProphetSquad.Core.Mappers
 {
