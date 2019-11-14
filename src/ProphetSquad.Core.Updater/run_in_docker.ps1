@@ -1,1 +1,0 @@
-docker run -e bfUser=username -e bfPassword=password -it --rm prophetsquad.core.updater
