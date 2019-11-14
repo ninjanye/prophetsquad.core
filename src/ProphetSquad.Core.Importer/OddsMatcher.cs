@@ -32,7 +32,7 @@ namespace ProphetSquad.Core.Importer
             var database = BuildOddsDatabase(settings);
             var httpClient = new HttpClientWrapper();
             var authenticator = new BetfairAuthenticator(httpClient, settings.BetfairUsername, settings.BetfairPassword);
-            var oddsSource = new BetfairOddsProvider(httpClient, authenticator);
+            var oddsSource = new BetfairOddsProvider(httpClient, authenticator, new BetfairThrottler());
             var oddsImporter = new OddsImporter(database, oddsSource);
 
             await oddsImporter.Import();

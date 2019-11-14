@@ -8,7 +8,7 @@ using Xunit;
 
 namespace ProphetSquad.Core.Tests.BetfairClientTests
 {
-    public class WhenRetrievingOddsFails : IHttpClient, IAuthenticator
+    public class WhenRetrievingOddsFails : IHttpClient, IAuthenticator, IThrottler
     {
         private BetfairOddsProvider _client;
         private readonly IEnumerable<MatchOdds> _result;
@@ -18,13 +18,13 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
         public WhenRetrievingOddsFails()
         {
             _requestedEndpoints = new List<string>();
-            _client = new BetfairOddsProvider(this, this);            
-            var country1 = new Country{ CountryCode = "TEST1" };
-            var country2 = new Country{ CountryCode = "TEST2" };
+            _client = new BetfairOddsProvider(this, this, this);
+            var country1 = new Country { CountryCode = "TEST1" };
+            var country2 = new Country { CountryCode = "TEST2" };
             _countries = new List<Country> { country1, country2 };
 
             _result = _client.RetrieveAsync().Result;
-        }        
+        }
 
         [Fact]
         public void DoesNotReturnNull()
@@ -43,9 +43,10 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
             return Task.FromResult(null as T);
         }
 
-        Task<string> IAuthenticator.GetAuthTokenAsync()
+        Task<string> IAuthenticator.GetAuthTokenAsync() => Task.FromResult("TOKEN");
+
+        void IThrottler.Wait()
         {
-            return Task.FromResult("TOKEN");
-        }        
+        }
     }
 }

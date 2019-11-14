@@ -10,11 +10,12 @@ using Xunit;
 
 namespace ProphetSquad.Core.Tests.BetfairClientTests
 {
-    public class WhenRetrievingOddsSuccessfully : IHttpClient, IAuthenticator
+    public class WhenRetrievingOddsSuccessfully : IHttpClient, IAuthenticator, IThrottler
     {
         private BetfairOddsProvider _client;
         private readonly IEnumerable<MatchOdds> _result;
         private readonly ICollection<string> _requestedEndpoints;
+        private int _throttlerCalls = 0;
         private List<Country> _countries;
         private List<Market> _expected = new List<Market>();
         const string baseUrl = "https://api.betfair.com/exchange/betting/rest/v1.0/";
@@ -25,7 +26,7 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
         public WhenRetrievingOddsSuccessfully()
         {
             _requestedEndpoints = new List<string>();
-            _client = new BetfairOddsProvider(this, this);            
+            _client = new BetfairOddsProvider(this, this, this);            
             var country1 = new Country{ CountryCode = "TEST1" };
             var country2 = new Country{ CountryCode = "TEST2" };
             _countries = new List<Country> { country1, country2 };
@@ -61,6 +62,11 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
             Assert.True(_requestedEndpoints.Count(url => url == expectedUrl) >= count);
         }
 
+        [Fact]
+        public void CallsThrottlerForDelay()
+        {
+            Assert.Equal(_countries.Count(), _throttlerCalls);
+        }
 
         Task<T> IHttpClient.Get<T>(string authToken, string endpoint)
         {
@@ -90,6 +96,11 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
         Task<string> IAuthenticator.GetAuthTokenAsync()
         {
             return Task.FromResult("TOKEN");
+        }
+
+        void IThrottler.Wait()
+        {
+            _throttlerCalls++;
         }
     }
 }

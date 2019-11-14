@@ -6,7 +6,7 @@ using Xunit;
 
 namespace ProphetSquad.Core.Tests.BetfairClientTests
 {
-    public class WhenRetrievingOddsSuccessfully_Auth : IHttpClient, IAuthenticator
+    public class WhenRetrievingOddsSuccessfully_Auth : IHttpClient, IAuthenticator, IThrottler
     {
         private bool _authTokenRequested;
         private const string _authToken = "authToken";
@@ -16,7 +16,7 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
 
         public WhenRetrievingOddsSuccessfully_Auth()
         {
-            _client = new BetfairOddsProvider(this, this);
+            _client = new BetfairOddsProvider(this, this, this);
             var result = _client.RetrieveAsync().Result;            
         }
 
@@ -53,6 +53,10 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
         {
             _authTokenRequested = true;
             return Task.FromResult(_authToken);
+        }
+
+        void IThrottler.Wait()
+        {
         }
     }
 }

@@ -11,7 +11,7 @@ using Xunit;
 
 namespace ProphetSquad.Core.Tests
 {
-    public class BetfairOddsProviderTests : IHttpClient, IAuthenticator
+    public class BetfairOddsProviderTests : IHttpClient, IAuthenticator, IThrottler
     {
         private readonly AutoFixture.Fixture _autoFixture;
         private IOddsProvider oddsProvider;
@@ -23,7 +23,7 @@ namespace ProphetSquad.Core.Tests
         public BetfairOddsProviderTests()
         {
             _autoFixture = new AutoFixture.Fixture();
-            oddsProvider = new BetfairOddsProvider(this, this);
+            oddsProvider = new BetfairOddsProvider(this, this, this);
 
             odds = oddsProvider.RetrieveAsync().Result;
         }
@@ -80,6 +80,10 @@ namespace ProphetSquad.Core.Tests
             }
 
             return Task.FromResult(result);
+        }
+
+        void IThrottler.Wait()
+        {
         }
     }
 }

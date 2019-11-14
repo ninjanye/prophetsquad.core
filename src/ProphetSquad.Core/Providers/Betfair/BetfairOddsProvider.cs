@@ -12,11 +12,13 @@ namespace ProphetSquad.Core.Providers.Betfair
     {
         private IHttpClient _httpClient;
         private IAuthenticator _authenticator;
+        private readonly IThrottler _throttler;
 
-        public BetfairOddsProvider(IHttpClient httpClient, IAuthenticator authenticator)
+        public BetfairOddsProvider(IHttpClient httpClient, IAuthenticator authenticator, IThrottler throttler)
         {
             _authenticator = authenticator;
             _httpClient = httpClient;
+            _throttler = throttler;
         }
 
         public async Task<IEnumerable<MatchOdds>> RetrieveAsync()
@@ -38,7 +40,7 @@ namespace ProphetSquad.Core.Providers.Betfair
                     Console.WriteLine($"Retrieving odds for {country.CountryCode} [{++i} of {countries.Count}]...");
                     var scopedCountry = country;
                     tasks.Add(scopedCountry.SoccerOdds(_httpClient, _authenticator));
-                    await Task.Delay(1000);
+                    _throttler.Wait();
                 }
             }
 
