@@ -1,5 +1,6 @@
 ﻿using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
+using ProphetSquad.Core.Providers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;

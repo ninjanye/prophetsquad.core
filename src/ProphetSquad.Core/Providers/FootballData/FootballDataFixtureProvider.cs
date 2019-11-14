@@ -6,8 +6,9 @@ using Newtonsoft.Json;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Data.Models.FootballDataApi;
 using ProphetSquad.Core.Mappers;
+using ProphetSquad.Core.Providers;
 
-namespace ProphetSquad.Core
+namespace ProphetSquad.Core.Providers.FootballData
 {
     public class FootballDataFixtureProvider : IFixtureProvider
     {

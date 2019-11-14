@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using ProphetSquad.Core.Collections;
 using ProphetSquad.Core.Databases;
 using ProphetSquad.Core.Mappers;
+using ProphetSquad.Core.Providers.FootballData;
 
 namespace ProphetSquad.Core.Importer
 {

@@ -10,6 +10,8 @@ using ProphetSquad.Core;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Data.Models.FootballDataApi;
 using ProphetSquad.Core.Mappers;
+using ProphetSquad.Core.Providers;
+using ProphetSquad.Core.Providers.FootballData;
 using Xunit;
 
 namespace ProphetSquad.Matcher.Tests

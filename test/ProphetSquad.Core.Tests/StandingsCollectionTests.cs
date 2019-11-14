@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
+using ProphetSquad.Core.Providers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

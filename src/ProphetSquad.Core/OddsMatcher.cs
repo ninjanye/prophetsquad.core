@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using ProphetSquad.Core.Collections;
 using ProphetSquad.Core.Databases;
+using ProphetSquad.Core.Providers;
 using System;
 using System.Threading.Tasks;
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
+using ProphetSquad.Core.Providers;
 
 namespace ProphetSquad.Core.Databases
 {

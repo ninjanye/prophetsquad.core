@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Models.Betfair.Response;
+using ProphetSquad.Core.Providers;
 
-namespace ProphetSquad.Core
+namespace ProphetSquad.Core.Providers.Betfair
 {
     public class BetfairOddsProvider : IOddsProvider
     {

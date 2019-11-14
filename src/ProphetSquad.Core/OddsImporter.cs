@@ -1,4 +1,5 @@
 ﻿using ProphetSquad.Core.Databases;
+using ProphetSquad.Core.Providers;
 using System.Threading.Tasks;
 
 namespace ProphetSquad.Core

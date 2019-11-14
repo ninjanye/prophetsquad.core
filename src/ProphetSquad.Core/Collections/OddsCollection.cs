@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
+using ProphetSquad.Core.Providers;
 
 namespace ProphetSquad.Core
 {

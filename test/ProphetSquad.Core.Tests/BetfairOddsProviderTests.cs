@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using AutoFixture;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Models.Betfair.Response;
+using ProphetSquad.Core.Providers;
+using ProphetSquad.Core.Providers.Betfair;
 using Xunit;
 
 namespace ProphetSquad.Core.Tests

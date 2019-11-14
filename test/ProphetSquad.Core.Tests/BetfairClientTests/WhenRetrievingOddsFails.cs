@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Models.Betfair.Response;
+using ProphetSquad.Core.Providers.Betfair;
 using Xunit;
 
 namespace ProphetSquad.Core.Tests.BetfairClientTests

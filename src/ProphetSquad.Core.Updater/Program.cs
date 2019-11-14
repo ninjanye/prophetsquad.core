@@ -1,4 +1,5 @@
 ﻿using ProphetSquad.Core.Databases;
+using ProphetSquad.Core.Providers.Betfair;
 using System.Data.SqlClient;
 
 namespace ProphetSquad.Core.Updater

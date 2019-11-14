@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ProphetSquad.Core.Data.Models.FootballDataApi;
 using ProphetSquad.Core.Mappers;
+using ProphetSquad.Core.Providers;
 
-namespace ProphetSquad.Core
+namespace ProphetSquad.Core.Providers.FootballData
 {
     public class FootballDataStandingProvider : IProvider<Data.Models.Standing>
     {

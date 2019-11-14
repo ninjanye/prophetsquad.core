@@ -6,6 +6,7 @@ using ProphetSquad.Core;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
 using ProphetSquad.Core.Models.Betfair.Response;
+using ProphetSquad.Core.Providers;
 using Xunit;
 
 namespace ProphetSquad.Matcher.Tests
