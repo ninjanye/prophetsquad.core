@@ -9,7 +9,7 @@ using Xunit;
 
 namespace ProphetSquad.Core.Tests
 {
-    public class StandingsCollectionTests : IProvider<Standing>, IDatabase<Standing>, IDatabase<Competition>, IDatabase<Team>
+    public class StandingsCollectionTests : IProvider<Standing>, IStore<Standing>, IProvider<Competition>, IProvider<Team>
     {
         private readonly AutoFixture.Fixture _autoFixture;
         private readonly IEnumerable<Standing> _standings;
@@ -74,12 +74,12 @@ namespace ProphetSquad.Core.Tests
             Assert.Equal(teamIds, savedTeamIds);
         }
 
-        Task<Standing> IDatabase<Standing>.GetBySourceId(int id)
+        Task<Standing> IProvider<Standing>.RetrieveBySourceId(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        async Task<Competition> IDatabase<Competition>.GetBySourceId(int id)
+        async Task<Competition> IProvider<Competition>.RetrieveBySourceId(int id)
         {
             _compDbRetrieveCalled++;
             var comp = _autoFixture.Create<Competition>();
@@ -87,30 +87,31 @@ namespace ProphetSquad.Core.Tests
             return await Task.FromResult(comp);
         }
 
+        Task<IEnumerable<Competition>> IProvider<Competition>.RetrieveAll()
+        {
+            throw new System.NotImplementedException();
+        }
+
+
         async Task<IEnumerable<Standing>> IProvider<Standing>.RetrieveAll() => await Task.FromResult(_standings);
 
-        void IDatabase<Standing>.Save(Standing standing)
+        void IStore<Standing>.Save(Standing standing)
         {
             _dbSaveCalled++;
             _standingsSaved.Add(standing);
         }
 
-        void IDatabase<Competition>.Save(Competition competition)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        void IDatabase<Team>.Save(Team fixture)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        async Task<Team> IDatabase<Team>.GetBySourceId(int id)
+        async Task<Team> IProvider<Team>.RetrieveBySourceId(int id)
         {
             _teamDbRetrieveCalled++;
             var team = _autoFixture.Create<Team>();
             _teams.Add(team);
             return await Task.FromResult(team);
+        }
+
+        Task<IEnumerable<Team>> IProvider<Team>.RetrieveAll()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

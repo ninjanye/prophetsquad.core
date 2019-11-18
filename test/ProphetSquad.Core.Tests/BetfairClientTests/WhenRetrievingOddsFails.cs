@@ -23,7 +23,7 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
             var country2 = new Country { CountryCode = "TEST2" };
             _countries = new List<Country> { country1, country2 };
 
-            _result = _client.RetrieveAsync().Result;
+            _result = _client.RetrieveAll().Result;
         }
 
         [Fact]

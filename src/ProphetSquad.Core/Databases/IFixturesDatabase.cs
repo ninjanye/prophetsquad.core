@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ProphetSquad.Core.Databases
 {
-    public interface IFixturesDatabase : IDatabase<Fixture>
+    public interface IFixturesDatabase : IStore<Fixture>
     {
         Task<IEnumerable<Fixture>> Retrieve(DateTime from, DateTime to);
     }

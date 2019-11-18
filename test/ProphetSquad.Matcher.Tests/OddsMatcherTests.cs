@@ -11,7 +11,7 @@ using Xunit;
 
 namespace ProphetSquad.Matcher.Tests
 {
-    public class OddsMatcherTests : IFixtureProvider, IOddsProvider, IFixturesDatabase
+    public class OddsMatcherTests : IFixtureProvider, IProvider<MatchOdds>, IFixturesDatabase
     {
         private bool _fixturesRetrieved;
         private DateTime _fixturesRetrievedFrom;
@@ -207,25 +207,24 @@ namespace ProphetSquad.Matcher.Tests
             return await Task.FromResult(_fixturesReturned);
         }
 
-        Task<IEnumerable<MatchOdds>> IOddsProvider.RetrieveAsync()
+        Task<IEnumerable<MatchOdds>> IProvider<MatchOdds>.RetrieveAll()
         {
             _oddsRetrieved = true;
             return Task.FromResult(_oddsReturned);
         }
 
+        Task<MatchOdds> IProvider<MatchOdds>.RetrieveBySourceId(int id)
+        {
+            throw new NotImplementedException();
+        }
 
         Task<IEnumerable<Fixture>> IFixturesDatabase.Retrieve(DateTime from, DateTime to)
         {
             throw new NotImplementedException();
         }
 
-        void IDatabase<Fixture>.Save(Fixture fixture)
+        void IStore<Fixture>.Save(Fixture fixture)
         {
-        }
-
-        Task<Fixture> IDatabase<Fixture>.GetBySourceId(int id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

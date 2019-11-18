@@ -10,7 +10,7 @@ using Xunit;
 
 namespace ProphetSquad.Core.Tests
 {
-    public class OddsCollectionTests : IOddsProvider, IOddsDatabase
+    public class OddsCollectionTests : IProvider<MatchOdds>, IStore<MatchOdds>
     {
         private MatchOdds odds1 = MatchOdds.From(BuildMarket("test one"));
         private MatchOdds odds2 = MatchOdds.From(BuildMarket("test two"));
@@ -42,12 +42,17 @@ namespace ProphetSquad.Core.Tests
             Assert.Equal(retrievedOdds, savedOdds);
         }
 
-        Task<IEnumerable<MatchOdds>> IOddsProvider.RetrieveAsync()
+        Task<IEnumerable<MatchOdds>> IProvider<MatchOdds>.RetrieveAll()
         {
             return Task.FromResult(retrievedOdds.AsEnumerable());
         }
 
-        void IOddsDatabase.Save(MatchOdds odds) => savedOdds.Add(odds);
+        Task<MatchOdds> IProvider<MatchOdds>.RetrieveBySourceId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IStore<MatchOdds>.Save(MatchOdds item) => savedOdds.Add(item);
 
         private static Market BuildMarket(string marketId)
         {

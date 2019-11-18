@@ -1,9 +1,11 @@
 ﻿using ProphetSquad.Core.Data.Models;
+using ProphetSquad.Core.Providers;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ProphetSquad.Core.Databases
 {
-    public class TeamDatabase : IDatabase<Team>
+    public class TeamDatabase : IStore<Team>, IProvider<Team>
     {
         private readonly IDatabaseConnection _connection;
         private const string mergeSql = @"
@@ -27,7 +29,12 @@ COMMIT TRAN;";
             _connection = connection;
         }
 
-        public async Task<Team> GetBySourceId(int id)
+       public Task<IEnumerable<Team>> RetrieveAll()
+        {
+            throw new System.NotImplementedException();
+        }
+ 
+        public async Task<Team> RetrieveBySourceId(int id)
         {
             const string selectStatement = "SELECT * FROM Teams WHERE OpenFootyId = @id";
             return await _connection.QuerySingle<Team>(selectStatement, new { id });

@@ -11,7 +11,7 @@ namespace ProphetSquad.Core
 {
     public interface IOddsCollection : IEnumerable<MatchOdds>
     {
-        void SaveTo(IOddsDatabase database);
+        void SaveTo(IStore<MatchOdds> database);
         MatchOdds FindFor(Fixture fixture);
     }
 
@@ -19,9 +19,9 @@ namespace ProphetSquad.Core
     {
         private readonly IEnumerable<MatchOdds> _odds;
 
-        public static async Task<OddsCollection> RetrieveFrom(IOddsProvider source)
+        public static async Task<OddsCollection> RetrieveFrom(IProvider<MatchOdds> source)
         {
-            return new OddsCollection(await source.RetrieveAsync());
+            return new OddsCollection(await source.RetrieveAll());
         }
 
         private OddsCollection(IEnumerable<MatchOdds> odds)
@@ -29,7 +29,7 @@ namespace ProphetSquad.Core
             _odds = odds;
         }
 
-        public void SaveTo(IOddsDatabase database)
+        public void SaveTo(IStore<MatchOdds> database)
         {
             var validOdds = _odds.Where(o => o.IsValid()).ToList();
             int i = 0;

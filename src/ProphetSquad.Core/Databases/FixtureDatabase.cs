@@ -82,7 +82,7 @@ WHERE Date >= @from AND Date < @to";
                 }, new { from, to }, splitOn);
         }
 
-        public async Task<Fixture> GetBySourceId(int id)
+        public async Task<Fixture> RetrieveBySourceId(int id)
         {
             const string selectStatement = "SELECT * FROM Matches WHERE OpenFootyId = @id";
             return await _connection.QuerySingle<Fixture>(selectStatement, new { id });

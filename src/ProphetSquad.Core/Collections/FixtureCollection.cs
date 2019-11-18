@@ -25,7 +25,7 @@ namespace ProphetSquad.Core.Collections
             return new FixtureCollection(fixtures);
         }
 
-        public void UpdateOdds(IOddsProvider oddsProvider, ILogger logger = null)
+        public void UpdateOdds(IProvider<MatchOdds> oddsProvider, ILogger logger = null)
         {
             var odds = OddsCollection.RetrieveFrom(oddsProvider).Result;
             int matchedOddsCount = 0;
@@ -44,7 +44,7 @@ namespace ProphetSquad.Core.Collections
             logger?.LogInformation($"Odds matched: {matchedOddsCount}");
         }
 
-        public void SaveTo(IDatabase<Fixture> database)
+        public void SaveTo(IStore<Fixture> database)
         {
             foreach (var fixture in this)
             {

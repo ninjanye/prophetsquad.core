@@ -22,7 +22,7 @@ namespace ProphetSquad.Core.Collections
             return new TeamCollection(teams);
         }
 
-        public void SaveTo(IDatabase<Team> database)
+        public void SaveTo(IStore<Team> database)
         {
             foreach (var team in this)
             {

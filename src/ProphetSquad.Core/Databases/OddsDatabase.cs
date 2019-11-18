@@ -5,12 +5,8 @@ using System.Threading.Tasks;
 
 namespace ProphetSquad.Core.Databases
 {
-    public interface IOddsDatabase
-    {
-        void Save(MatchOdds odds);
-    }
 
-    public class OddsDatabase : IOddsDatabase, IOddsProvider
+    public class OddsDatabase : IStore<MatchOdds>, IProvider<MatchOdds>
     {
         IDatabaseConnection _connection;
 
@@ -49,9 +45,14 @@ COMMIT TRAN;";
 
         const string selectAll = @"SELECT * FROM MatchOdds WHERE Date > GETDATE()";
 
-        public async Task<IEnumerable<MatchOdds>> RetrieveAsync()
+        public async Task<IEnumerable<MatchOdds>> RetrieveAll()
         {
             return await _connection.Query<MatchOdds>(selectAll);
+        }
+
+        public Task<MatchOdds> RetrieveBySourceId(int id)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

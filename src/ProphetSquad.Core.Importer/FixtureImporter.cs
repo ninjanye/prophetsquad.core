@@ -5,6 +5,7 @@ using ProphetSquad.Core.Collections;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
 using ProphetSquad.Core.Mappers;
+using ProphetSquad.Core.Providers;
 using ProphetSquad.Core.Providers.FootballData;
 using System;
 using System.Data.SqlClient;
@@ -29,8 +30,8 @@ namespace ProphetSquad.Core.Importer
                 sqlConnection.Open();
                 var databaseConnection = new DatabaseConnection(sqlConnection);
 
-                IDatabase<Competition> competitionDb = new CompetitionDatabase(databaseConnection);
-                IDatabase<Team> teamDb = new TeamDatabase(databaseConnection);
+                IProvider<Competition> competitionDb = new CompetitionDatabase(databaseConnection);
+                IProvider<Team> teamDb = new TeamDatabase(databaseConnection);
                 IGameweekDatabase gameweekDb = new GameweekDatabase(databaseConnection);
 
                 var fixtureMapper = new FixtureMapper(competitionDb, teamDb, gameweekDb);

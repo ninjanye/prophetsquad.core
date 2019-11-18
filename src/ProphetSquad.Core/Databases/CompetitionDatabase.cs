@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ProphetSquad.Core.Databases
 {
-    public class CompetitionDatabase : IDatabase<Competition>, IProvider<Competition>
+    public class CompetitionDatabase : IStore<Competition>, IProvider<Competition>
     {
         private readonly IDatabaseConnection _connection;
 
@@ -14,7 +14,7 @@ namespace ProphetSquad.Core.Databases
             _connection = connection;
         }
 
-        public async Task<Competition> GetBySourceId(int id)
+        public async Task<Competition> RetrieveBySourceId(int id)
         {
             const string selectStatement = "SELECT * FROM Competitions WHERE OpenFootyId = @id";
             return await _connection.QuerySingle<Competition>(selectStatement, new { id });

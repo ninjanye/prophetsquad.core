@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProphetSquad.Core.Providers.Betfair
 {
-    public class BetfairOddsProvider : IOddsProvider
+    public class BetfairOddsProvider : IProvider<MatchOdds>
     {
         private IHttpClient _httpClient;
         private IAuthenticator _authenticator;
@@ -20,7 +20,7 @@ namespace ProphetSquad.Core.Providers.Betfair
             _throttler = throttler;
         }
 
-        public async Task<IEnumerable<MatchOdds>> RetrieveAsync()
+        public async Task<IEnumerable<MatchOdds>> RetrieveAll()
         {
             var tasks = new List<Task<IEnumerable<Market>>>();
             using (var countryRequest = BetfairRequest.GetCountries(_authenticator))
@@ -45,6 +45,11 @@ namespace ProphetSquad.Core.Providers.Betfair
 
             var odds = Task.WhenAll(tasks).Result.SelectMany(x => x).ToList();
             return odds.Select(MatchOdds.From);
+        }
+
+        public Task<MatchOdds> RetrieveBySourceId(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

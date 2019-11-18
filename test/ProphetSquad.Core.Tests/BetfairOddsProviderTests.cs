@@ -14,7 +14,7 @@ namespace ProphetSquad.Core.Tests
     public class BetfairOddsProviderTests : IHttpClient, IAuthenticator, IThrottler
     {
         private readonly AutoFixture.Fixture _autoFixture;
-        private readonly IOddsProvider oddsProvider;
+        private readonly IProvider<MatchOdds> oddsProvider;
         private readonly IEnumerable<MatchOdds> odds;
         private readonly List<Market> _betfairOdds = new List<Market>();
         private readonly List<string> _requestedEndpoints = new List<string>();
@@ -24,7 +24,7 @@ namespace ProphetSquad.Core.Tests
             _autoFixture = new AutoFixture.Fixture();
             oddsProvider = new BetfairOddsProvider(this, this, this);
 
-            odds = oddsProvider.RetrieveAsync().Result;
+            odds = oddsProvider.RetrieveAll().Result;
         }
 
         [Fact]

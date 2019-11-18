@@ -57,6 +57,11 @@ namespace ProphetSquad.Matcher.Tests
             return await Task.FromResult(Competitions);
         }
 
+        Task<Core.Data.Models.Competition> IProvider<Core.Data.Models.Competition>.RetrieveBySourceId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         private class MockHttpHandler : DelegatingHandler
         {
             private readonly TeamDataProviderFixture _testRunner;

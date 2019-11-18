@@ -22,13 +22,13 @@ namespace ProphetSquad.Core
             _standings = standings;
         }
 
-        public async Task SaveTo(IDatabase<Standing> database, IDatabase<Competition> competitionDb, IDatabase<Team> teamDb)
+        public async Task SaveTo(IStore<Standing> database, IProvider<Competition> competitionDb, IProvider<Team> teamDb)
         {
             foreach (var standing in _standings)
             {
-                var comp = await competitionDb.GetBySourceId(standing.SourceCompetitionId);
+                var comp = await competitionDb.RetrieveBySourceId(standing.SourceCompetitionId);
                 standing.CompetitionId = comp.Id;
-                var team = await teamDb.GetBySourceId(standing.SourceTeamId);
+                var team = await teamDb.RetrieveBySourceId(standing.SourceTeamId);
                 standing.TeamId = team.Id;
                 database.Save(standing);
             }

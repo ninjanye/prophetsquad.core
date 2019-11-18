@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace ProphetSquad.Core.Databases
 {
-    public interface IRegionDatabase : IDatabase<Region>
+    public interface IRegionDatabase : IStore<Region>
     {
         Task<Region> Retrieve(string name);
     }

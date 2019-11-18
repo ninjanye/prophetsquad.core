@@ -17,7 +17,7 @@ namespace ProphetSquad.Core.Tests.BetfairClientTests
         public WhenRetrievingOddsSuccessfully_Auth()
         {
             _client = new BetfairOddsProvider(this, this, this);
-            var result = _client.RetrieveAsync().Result;
+            var result = _client.RetrieveAll().Result;
         }
 
         [Fact]

@@ -22,7 +22,7 @@ namespace ProphetSquad.Core.Collections
             return new CompetitionCollection(competition);
         }
 
-        public void SaveTo(IDatabase<Competition> database)
+        public void SaveTo(IStore<Competition> database)
         {
             foreach (var competition in this)
             {

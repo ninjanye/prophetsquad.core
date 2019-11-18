@@ -24,7 +24,7 @@ COMMIT TRAN;";
             _connection = connection;
         }
 
-        public async Task<Region> GetBySourceId(int id)
+        public async Task<Region> RetrieveBySourceId(int id)
         {
             const string selectStatement = "SELECT * FROM Regions WHERE Code = @id";
             return await _connection.QuerySingle<Region>(selectStatement, new { id });

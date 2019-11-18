@@ -3,6 +3,7 @@ using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Data.Models.FootballDataApi;
 using ProphetSquad.Core.Databases;
 using ProphetSquad.Core.Mappers;
+using ProphetSquad.Core.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using Fixture = ProphetSquad.Core.Data.Models.Fixture;
 
 namespace ProphetSquad.Core.Tests
 {
-    public class FixtureMapperTests : IDatabase<Data.Models.Competition>, IDatabase<Data.Models.Team>, IGameweekDatabase
+    public class FixtureMapperTests : IProvider<Data.Models.Competition>, IProvider<Data.Models.Team>, IGameweekDatabase
     {
         private readonly Data.Models.Competition _competition;
         private readonly Gameweek _gameweek;
@@ -93,19 +94,8 @@ namespace ProphetSquad.Core.Tests
 
         public void Save(Data.Models.Competition fixture) => throw new NotImplementedException();
 
-        public Task<Data.Models.Competition> GetBySourceId(int id)
-        {
-            _competitionRetrieved = true;
-            return Task.FromResult(_competition);
-        }
-
-        void IDatabase<Data.Models.Team>.Save(Data.Models.Team fixture)
-        {
-            throw new NotImplementedException();
-        }
-
         int _teamCount;
-        Task<Data.Models.Team> IDatabase<Data.Models.Team>.GetBySourceId(int id)
+        Task<Data.Models.Team> IProvider<Data.Models.Team>.RetrieveBySourceId(int id)
         {
             return Task.FromResult(_teamCount++ == 0 ? _homeTeam : _awayTeam);
         }
@@ -114,6 +104,22 @@ namespace ProphetSquad.Core.Tests
         {
             _gameweekRetrieved = true;
             return await Task.FromResult(_gameweek);
+        }
+
+        Task<IEnumerable<Data.Models.Team>> IProvider<Data.Models.Team>.RetrieveAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<Data.Models.Competition>> IProvider<Data.Models.Competition>.RetrieveAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Data.Models.Competition> IProvider<Data.Models.Competition>.RetrieveBySourceId(int id)
+        {
+            _competitionRetrieved = true;
+            return Task.FromResult(_competition);
         }
     }
 }

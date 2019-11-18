@@ -1,13 +1,14 @@
 ﻿using ProphetSquad.Core.Data.Models;
+using ProphetSquad.Core.Providers;
 using System.Threading.Tasks;
 
 namespace ProphetSquad.Core.Databases
 {
-    public class StandingsDatabase : IDatabase<Standing>
+    public class StandingsDatabase : IStore<Standing>
     {
         private readonly IDatabaseConnection _connection;
-        private readonly IDatabase<Team> _teamDb;
-        private readonly IDatabase<Competition> _competitionDb;
+        private readonly IProvider<Team> _teamDb;
+        private readonly IProvider<Competition> _competitionDb;
         private const string mergeSql = @"
 BEGIN TRAN;
     WITH data as (SELECT @CompetitionId as CompetitionId, @TeamId as TeamId)
@@ -29,23 +30,23 @@ BEGIN TRAN;
              VALUES (@CompetitionId,@TeamId,@Played,@Wins,@Draws,@Losses,@GoalsFor,@GoalsAgainst,@Points,@Form);
 COMMIT TRAN;";
 
-        public StandingsDatabase(IDatabaseConnection connection, IDatabase<Team> teamDb, IDatabase<Competition> competitionDb)
+        public StandingsDatabase(IDatabaseConnection connection, IProvider<Team> teamDb, IProvider<Competition> competitionDb)
         {
             _connection = connection;
             _teamDb = teamDb;
             _competitionDb = competitionDb;
         }
 
-        public Task<Standing> GetBySourceId(int id)
+        public Task<Standing> RetrieveBySourceId(int id)
         {
             throw new System.NotImplementedException();
         }
 
         public void Save(Standing standing)
         {
-            var team = _teamDb.GetBySourceId(standing.SourceTeamId).Result;
+            var team = _teamDb.RetrieveBySourceId(standing.SourceTeamId).Result;
             standing.TeamId = team.Id;
-            var competition = _competitionDb.GetBySourceId(standing.SourceCompetitionId).Result;
+            var competition = _competitionDb.RetrieveBySourceId(standing.SourceCompetitionId).Result;
             standing.CompetitionId = competition.Id;
             _connection.Execute(mergeSql, standing);
         }

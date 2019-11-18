@@ -53,5 +53,10 @@ namespace ProphetSquad.Core.Providers.FootballData
 
             return result;
         }
+
+        public Task<Data.Models.Team> RetrieveBySourceId(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

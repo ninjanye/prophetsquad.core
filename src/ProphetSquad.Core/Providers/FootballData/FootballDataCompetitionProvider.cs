@@ -32,5 +32,10 @@ namespace ProphetSquad.Core.Providers.FootballData
 
             return await mapper.MapAsync(result);
         }
+
+        public Task<Data.Models.Competition> RetrieveBySourceId(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

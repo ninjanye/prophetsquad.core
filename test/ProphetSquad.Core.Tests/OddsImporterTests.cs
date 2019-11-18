@@ -9,7 +9,7 @@ using Xunit;
 
 namespace ProphetSquad.Core.Tests
 {
-    public class OddsImporterTests : IOddsDatabase, IOddsProvider
+    public class OddsImporterTests : IStore<MatchOdds>, IProvider<MatchOdds>
     {
         bool _saveToDatabaseCalled;
         bool _oddsRetrieved;
@@ -49,16 +49,22 @@ namespace ProphetSquad.Core.Tests
             }
         }
 
-        void IOddsDatabase.Save(MatchOdds odds)
+        void IStore<MatchOdds>.Save(MatchOdds odds)
         {
             _saveToDatabaseCalled = true;
             _oddsSaved.Add(odds);
         }
 
-        Task<IEnumerable<MatchOdds>> IOddsProvider.RetrieveAsync()
+        Task<IEnumerable<MatchOdds>> IProvider<MatchOdds>.RetrieveAll()
         {
             _oddsRetrieved = true;
             return Task.FromResult(_oddsReturned);
         }
+
+        Task<MatchOdds> IProvider<MatchOdds>.RetrieveBySourceId(int id)
+        {
+            throw new NotImplementedException();            
+        }
+
     }
 }

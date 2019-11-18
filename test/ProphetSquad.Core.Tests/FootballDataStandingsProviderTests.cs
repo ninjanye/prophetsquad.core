@@ -112,6 +112,11 @@ namespace ProphetSquad.Matcher.Tests
             return await Task.FromResult(_competitions);
         }
 
+        Task<Core.Data.Models.Competition> IProvider<Core.Data.Models.Competition>.RetrieveBySourceId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         void IThrottler.Wait()
         {
             Thread.Sleep(REQUEST_DELAY);

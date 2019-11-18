@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
+using ProphetSquad.Core.Providers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using Xunit;
 
 namespace ProphetSquad.Core.Tests
 {
-    public class StandingsDatabaseTests : IDatabaseConnection, IDatabase<Team>, IDatabase<Competition>
+    public class StandingsDatabaseTests : IDatabaseConnection, IProvider<Team>, IProvider<Competition>
     {
         private const string _expectedSql = @"
 BEGIN TRAN;
@@ -99,26 +100,27 @@ COMMIT TRAN;";
             throw new NotImplementedException();
         }
 
-        void IDatabase<Team>.Save(Team fixture)
-        {
-            throw new NotImplementedException();
-        }
 
-        async Task<Team> IDatabase<Team>.GetBySourceId(int id)
+        async Task<Team> IProvider<Team>.RetrieveBySourceId(int id)
         {
             _teamRetrieved = true;
             return await Task.FromResult(_team);
         }
 
-        void IDatabase<Competition>.Save(Competition fixture)
+        async Task<Competition> IProvider<Competition>.RetrieveBySourceId(int id)
+        {
+            _competitionRetrieved = true;
+            return await Task.FromResult(_competition);
+        }
+
+        public Task<IEnumerable<Team>> RetrieveAll()
         {
             throw new NotImplementedException();
         }
 
-        async Task<Competition> IDatabase<Competition>.GetBySourceId(int id)
+        Task<IEnumerable<Competition>> IProvider<Competition>.RetrieveAll()
         {
-            _competitionRetrieved = true;
-            return await Task.FromResult(_competition);
+            throw new NotImplementedException();
         }
     }
 }

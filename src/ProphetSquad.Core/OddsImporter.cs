@@ -1,4 +1,5 @@
-﻿using ProphetSquad.Core.Databases;
+﻿using ProphetSquad.Core.Data.Models;
+using ProphetSquad.Core.Databases;
 using ProphetSquad.Core.Providers;
 using System.Threading.Tasks;
 
@@ -6,10 +7,10 @@ namespace ProphetSquad.Core
 {
     public class OddsImporter
     {
-        private IOddsProvider _oddsSource;
-        private IOddsDatabase _database;
+        private IProvider<MatchOdds> _oddsSource;
+        private IStore<MatchOdds> _database;
 
-        public OddsImporter(IOddsDatabase database, IOddsProvider source)
+        public OddsImporter(IStore<MatchOdds> database, IProvider<MatchOdds> source)
         {
             _oddsSource = source;
             _database = database;
