@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using ProphetSquad.Core.Collections;
 using System.Threading.Tasks;
 
 namespace ProphetSquad.Core.Importer
@@ -39,6 +40,12 @@ namespace ProphetSquad.Core.Importer
             //     bets.SaveTo(database)
             // }
 
+            //OPTION 3
+            // var processor = new PointsProcessor();
+            // IStore<Bet database = new BetDatabase();
+            // database.PreProcessors.Add(processor);
+            // var bets = BetCollection.RetrieveFrom(database);
+            // bets.SaveTo(database);
 
             await Task.Delay(100);
         }        

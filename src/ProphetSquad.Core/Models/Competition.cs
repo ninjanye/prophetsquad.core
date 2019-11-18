@@ -8,5 +8,4 @@
         public int OpenFootyId { get; set; }
         public int RegionId { get; set; }
     }
-
 }
