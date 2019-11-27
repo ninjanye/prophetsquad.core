@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 namespace ProphetSquad.Core.Databases
 {
-
     public class OddsDatabase : IStore<MatchOdds>, IProvider<MatchOdds>
     {
         IDatabaseConnection _connection;

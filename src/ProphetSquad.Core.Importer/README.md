@@ -15,6 +15,7 @@ This project holds each of the azure functions for azure.  Each function runs on
 * ~OddsMatcher to not process odds for a game that has begun~
 * ~Move `ProphetSquad.Core.Updater` (OddsUpdater) to Azure function and upload (and remove old webjob)~
 * Build Process Points functionality
+* Upgrade from Dapper to EFCore
 
 ### Site (larger)
 
