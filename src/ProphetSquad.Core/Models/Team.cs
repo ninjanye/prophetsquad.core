@@ -1,4 +1,6 @@
-﻿namespace ProphetSquad.Core.Data.Models
+﻿using System.Text.RegularExpressions;
+
+namespace ProphetSquad.Core.Data.Models
 {
     public class Team
     {

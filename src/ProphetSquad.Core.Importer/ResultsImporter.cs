@@ -34,14 +34,12 @@ namespace ProphetSquad.Core.Importer
                 IDatabase<Team> teamDb = new TeamDatabase(databaseConnection);
                 IGameweekDatabase gameweekDb = new GameweekDatabase(databaseConnection);
 
-                // var fixtureMapper = new FixtureMapper(competitionDb, teamDb, gameweekDb);
-                // var footballDataProvider = new FootballDataFixtureProvider(httpClientFactory, settings.Api.AuthToken, fixtureMapper);
                 var fixtureMapper = new Mappers.ApiFootball.FixtureMapper(competitionDb, teamDb, gameweekDb);
                 var fixtureProvider = new ApiFootballFixtureProvider(httpClientFactory, settings.Api.AuthToken, fixtureMapper);
 
                 var fixtureDb = new FixtureDatabase(databaseConnection);
                 var today = DateTime.Today;
-                var fixtures = await FixtureCollection.RetrieveFrom(fixtureProvider, today.AddDays(-10), today);
+                var fixtures = await FixtureCollection.RetrieveFrom(fixtureProvider, today.AddDays(-2), today);
                 log.LogInformation($"Retrieved {fixtures.Count()} fixtures");
                 fixtures.SaveTo(fixtureDb);
             }

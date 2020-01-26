@@ -19,7 +19,7 @@ namespace ProphetSquad.Core.Importer
     public static class FixtureImporter
     {
         [FunctionName("FixtureImporter")]
-        public static async Task Run([TimerTrigger("0 2 * * * *")]TimerInfo myTimer, ILogger log) //0 0 */5 * * *
+        public static async Task Run([TimerTrigger("0 0 */5 * * *")]TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"[BEGIN] FixtureImporter: {DateTime.Now}");
             var serviceProvider = new ServiceCollection().AddHttpClient().BuildServiceProvider();
@@ -35,14 +35,12 @@ namespace ProphetSquad.Core.Importer
                 IDatabase<Team> teamDb = new TeamDatabase(databaseConnection);
                 IGameweekDatabase gameweekDb = new GameweekDatabase(databaseConnection);
 
-                // var fixtureMapper = new FixtureMapper(competitionDb, teamDb, gameweekDb);
-                // var footballDataProvider = new FootballDataFixtureProvider(httpClientFactory, settings.Api.AuthToken, fixtureMapper);
                 var fixtureMapper = new Mappers.ApiFootball.FixtureMapper(competitionDb, teamDb, gameweekDb);
                 var fixtureProvider = new ApiFootballFixtureProvider(httpClientFactory, settings.Api.AuthToken, fixtureMapper);
 
                 var fixtureDb = new FixtureDatabase(databaseConnection);
                 var today = DateTime.Today;
-                var fixtures = await FixtureCollection.RetrieveFrom(fixtureProvider, today, today.AddDays(10));
+                var fixtures = await FixtureCollection.RetrieveFrom(fixtureProvider, today.AddDays(1), today.AddDays(5));
                 log.LogInformation($"Retrieved {fixtures.Count()} fixtures");
                 fixtures.SaveTo(fixtureDb);
             }
