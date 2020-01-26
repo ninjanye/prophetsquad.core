@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ProphetSquad.Core.Databases
 {
-    public class TeamDatabase : IStore<Team>, IProvider<Team>
+    public class TeamDatabase : IDatabase<Team>
     {
         private readonly IDatabaseConnection _connection;
         private const string mergeSql = @"

@@ -12,11 +12,12 @@ BEGIN TRAN;
     MERGE Regions r
     USING data d on d.Name = r.Name
     WHEN MATCHED 
-        THEN UPDATE
-            SET r.Code = @Code
+        THEN UPDATE SET
+            r.Code = @Code,
+            r.SeoUrl = @SeoUrl
     WHEN NOT MATCHED BY TARGET
-        THEN INSERT (Code,Name,ModelState,Created)
-             VALUES (@Code,@Name,0,GETDATE());
+        THEN INSERT (Code,Name,SeoUrl,ModelState,Created)
+             VALUES (@Code,@Name,@SeoUrl,0,GETDATE());
 COMMIT TRAN;";
 
         public RegionDatabase(IDatabaseConnection connection)
