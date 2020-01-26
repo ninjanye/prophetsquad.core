@@ -28,7 +28,7 @@ BEGIN TRAN;
     WHEN MATCHED 
         THEN UPDATE SET 
             c.Name = @Name,
-            c.SeoUrl = @SeoUrl
+            c.SeoUrl = @SeoUrl,
             c.RegionId = @RegionId            
     WHEN NOT MATCHED BY TARGET
         THEN INSERT (OpenFootyId, Name, SeoUrl, RegionId, Created, BookieId, ModelState)
