@@ -18,7 +18,7 @@ namespace ProphetSquad.Core.Importer
     public static class CompetitionImporter
     {
         [FunctionName("CompetitionImporter")]
-        public static async Task Run([TimerTrigger("0 0 1 * * *")]TimerInfo myTimer, ILogger log) //0 * * * * *
+        public static async Task Run([TimerTrigger("0 0 1 * * *")]TimerInfo myTimer, ILogger log) //0 0 1 * * *
         {
             log.LogInformation($"[BEGIN] CompetitionImporter: {DateTime.Now}");
             var serviceProvider = new ServiceCollection().AddHttpClient().BuildServiceProvider();

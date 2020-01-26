@@ -19,7 +19,7 @@ namespace ProphetSquad.Core.Importer
     public static class FixtureImporter
     {
         [FunctionName("FixtureImporter")]
-        public static async Task Run([TimerTrigger("0 * * * * *")]TimerInfo myTimer, ILogger log) //0 0 */5 * * *
+        public static async Task Run([TimerTrigger("0 2 * * * *")]TimerInfo myTimer, ILogger log) //0 0 */5 * * *
         {
             log.LogInformation($"[BEGIN] FixtureImporter: {DateTime.Now}");
             var serviceProvider = new ServiceCollection().AddHttpClient().BuildServiceProvider();

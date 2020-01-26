@@ -41,7 +41,8 @@ namespace ProphetSquad.Core.Mappers.ApiFootball
             var competition = await _competitionDb.RetrieveBySourceId(match.LeagueId);
             var homeTeam = await GetTeamOrCreate(match.HomeTeam);
             var awayTeam = await GetTeamOrCreate(match.AwayTeam);
-            var gameweek = await _gameweekDb.Retrieve(DateTimeOffset.FromUnixTimeSeconds(match.EventDate).UtcDateTime);
+            var matchDate = DateTimeOffset.FromUnixTimeSeconds(match.EventDate).UtcDateTime;
+            var gameweek = await _gameweekDb.Retrieve(matchDate);
 
             Data.Models.Team winner = match.GoalsHomeTeam > match.GoalsAwayTeam ? homeTeam :
                                       match.GoalsAwayTeam > match.GoalsHomeTeam ? awayTeam : null;
@@ -54,7 +55,7 @@ namespace ProphetSquad.Core.Mappers.ApiFootball
             return new Fixture
             {
                 OpenFootyId = match.Id,
-                Date = new DateTime(match.EventDate, DateTimeKind.Utc),
+                Date = matchDate,
                 CompetitionId = competition.Id,
                 Competition = competition,
                 HomeTeam = homeTeam,

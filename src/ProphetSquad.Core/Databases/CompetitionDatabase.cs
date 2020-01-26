@@ -28,10 +28,11 @@ BEGIN TRAN;
     WHEN MATCHED 
         THEN UPDATE SET 
             c.Name = @Name,
+            c.SeoUrl = @SeoUrl
             c.RegionId = @RegionId            
     WHEN NOT MATCHED BY TARGET
-        THEN INSERT (OpenFootyId, Name, RegionId, Created, BookieId, ModelState)
-             VALUES (@OpenFootyId, @Name, @RegionId, GETDATE(), 0, 0);
+        THEN INSERT (OpenFootyId, Name, SeoUrl, RegionId, Created, BookieId, ModelState)
+             VALUES (@OpenFootyId, @Name, @SeoUrl, @RegionId, GETDATE(), 0, 0);
 COMMIT TRAN;";
 
         public void Save(Competition competition)
