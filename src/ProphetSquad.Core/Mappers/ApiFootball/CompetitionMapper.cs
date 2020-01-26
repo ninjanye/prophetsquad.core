@@ -1,16 +1,16 @@
-using ProphetSquad.Core.Data.Models;
+﻿using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Data.Models.ApiFootball;
 using ProphetSquad.Core.Databases;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ProphetSquad.Core.Mappers
+namespace ProphetSquad.Core.Mappers.ApiFootball
 {
-    public class ApiFootballCompetitionMapper : IMapper<LeaguesResponse, IEnumerable<Data.Models.Competition>>
+    public class CompetitionMapper : IMapper<LeaguesResponse, IEnumerable<Data.Models.Competition>>
     {
         private readonly IRegionDatabase regionDb;
 
-        public ApiFootballCompetitionMapper(IRegionDatabase regionDb)
+        public CompetitionMapper(IRegionDatabase regionDb)
         {
             this.regionDb = regionDb;
         }

@@ -14,6 +14,8 @@ This project holds each of the azure functions for azure.  Each function runs on
 * ~Build Import league tables functionality~
 * ~OddsMatcher to not process odds for a game that has begun~
 * ~Move `ProphetSquad.Core.Updater` (OddsUpdater) to Azure function and upload (and remove old webjob)~
+* TeamImporter to Api-Football
+* ResultsImporter to Api-Football
 * Build Process Points functionality
 * Upgrade from Dapper to EFCore
 

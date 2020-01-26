@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using ProphetSquad.Core.Collections;
 using ProphetSquad.Core.Databases;
 using ProphetSquad.Core.Mappers;
+using ProphetSquad.Core.Mappers.ApiFootball;
 using ProphetSquad.Core.Providers.ApiFootball;
 using ProphetSquad.Core.Providers.FootballData;
 using System;
@@ -17,7 +18,7 @@ namespace ProphetSquad.Core.Importer
     public static class CompetitionImporter
     {
         [FunctionName("CompetitionImporter")]
-        public static async Task Run([TimerTrigger("0 * * * * *")]TimerInfo myTimer, ILogger log) //0 0 1 * * *
+        public static async Task Run([TimerTrigger("0 0 1 * * *")]TimerInfo myTimer, ILogger log) //0 * * * * *
         {
             log.LogInformation($"[BEGIN] CompetitionImporter: {DateTime.Now}");
             var serviceProvider = new ServiceCollection().AddHttpClient().BuildServiceProvider();
@@ -30,7 +31,7 @@ namespace ProphetSquad.Core.Importer
                 sqlConnection.Open();
                 var databaseConnection = new DatabaseConnection(sqlConnection);
                 var regionDb = new RegionDatabase(databaseConnection);
-                var mapper = new ApiFootballCompetitionMapper(regionDb);
+                var mapper = new Mappers.ApiFootball.CompetitionMapper(regionDb);
                 //var provider = new FootballDataCompetitionProvider(httpClientFactory, settings.Api.AuthToken, mapper);
                 var provider = new ApiFootballCompetitionProvider(httpClientFactory, settings.Api.AuthToken, mapper);
 

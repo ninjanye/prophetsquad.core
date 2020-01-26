@@ -13,7 +13,7 @@ namespace ProphetSquad.Core.Data.Models.ApiFootball
         public League League { get; set; }
 
         [JsonProperty("event_timestamp")]        
-        public DateTime EventDate { get; set; }
+        public long EventDate { get; set; }
 
         [JsonProperty("statusShort")]
         public string Status { get; set; }

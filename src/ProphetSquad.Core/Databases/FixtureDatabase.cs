@@ -57,8 +57,8 @@ COMMIT TRAN;";
         {
             _connection.Execute(saveFixture, fixture);
             _connection.Execute(saveCompetition, new { fixture.CompetitionId, fixture.Competition.BookieId });
-            _connection.Execute(saveTeam, new { fixture.HomeTeam.Id, fixture.HomeTeam.BookieName });
-            _connection.Execute(saveTeam, new { fixture.AwayTeam.Id, fixture.AwayTeam.BookieName });
+            _connection.Execute(saveTeam, new { fixture.HomeTeam.Id, fixture.HomeTeam.Name, fixture.HomeTeam.BookieName });
+            _connection.Execute(saveTeam, new { fixture.AwayTeam.Id, fixture.AwayTeam.Name, fixture.AwayTeam.BookieName });
         }
 
         const string selectStatement = @"

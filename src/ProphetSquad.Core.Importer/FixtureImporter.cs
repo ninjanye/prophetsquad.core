@@ -5,6 +5,7 @@ using ProphetSquad.Core.Collections;
 using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Databases;
 using ProphetSquad.Core.Mappers;
+using ProphetSquad.Core.Mappers.ApiFootball;
 using ProphetSquad.Core.Providers;
 using ProphetSquad.Core.Providers.FootballData;
 using System;
@@ -18,7 +19,7 @@ namespace ProphetSquad.Core.Importer
     public static class FixtureImporter
     {
         [FunctionName("FixtureImporter")]
-        public static async Task Run([TimerTrigger("0 0 */5 * * *")]TimerInfo myTimer, ILogger log)
+        public static async Task Run([TimerTrigger("0 * * * * *")]TimerInfo myTimer, ILogger log) //0 0 */5 * * *
         {
             log.LogInformation($"[BEGIN] FixtureImporter: {DateTime.Now}");
             var serviceProvider = new ServiceCollection().AddHttpClient().BuildServiceProvider();
@@ -31,15 +32,17 @@ namespace ProphetSquad.Core.Importer
                 var databaseConnection = new DatabaseConnection(sqlConnection);
 
                 IProvider<Competition> competitionDb = new CompetitionDatabase(databaseConnection);
-                IProvider<Team> teamDb = new TeamDatabase(databaseConnection);
+                IDatabase<Team> teamDb = new TeamDatabase(databaseConnection);
                 IGameweekDatabase gameweekDb = new GameweekDatabase(databaseConnection);
 
-                var fixtureMapper = new FixtureMapper(competitionDb, teamDb, gameweekDb);
-                var footballDataProvider = new FootballDataFixtureProvider(httpClientFactory, settings.Api.AuthToken, fixtureMapper);
+                // var fixtureMapper = new FixtureMapper(competitionDb, teamDb, gameweekDb);
+                // var footballDataProvider = new FootballDataFixtureProvider(httpClientFactory, settings.Api.AuthToken, fixtureMapper);
+                var fixtureMapper = new Mappers.ApiFootball.FixtureMapper(competitionDb, teamDb, gameweekDb);
+                var fixtureProvider = new ApiFootballFixtureProvider(httpClientFactory, settings.Api.AuthToken, fixtureMapper);
 
                 var fixtureDb = new FixtureDatabase(databaseConnection);
                 var today = DateTime.Today;
-                var fixtures = await FixtureCollection.RetrieveFrom(footballDataProvider, today, today.AddDays(10));
+                var fixtures = await FixtureCollection.RetrieveFrom(fixtureProvider, today, today.AddDays(10));
                 log.LogInformation($"Retrieved {fixtures.Count()} fixtures");
                 fixtures.SaveTo(fixtureDb);
             }
