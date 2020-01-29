@@ -27,10 +27,14 @@ namespace ProphetSquad.Core
             foreach (var standing in _standings)
             {
                 var comp = await competitionDb.RetrieveBySourceId(standing.SourceCompetitionId);
-                standing.CompetitionId = comp.Id;
                 var team = await teamDb.RetrieveBySourceId(standing.SourceTeamId);
-                standing.TeamId = team.Id;
-                database.Save(standing);
+
+                if (comp != null && team!= null)
+                {
+                    standing.CompetitionId = comp.Id;
+                    standing.TeamId = team.Id;
+                    database.Save(standing);
+                }
             }
         }
 

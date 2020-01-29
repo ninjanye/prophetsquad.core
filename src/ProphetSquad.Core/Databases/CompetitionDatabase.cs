@@ -1,6 +1,8 @@
 ﻿using ProphetSquad.Core.Data.Models;
 using ProphetSquad.Core.Providers;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProphetSquad.Core.Databases
@@ -8,10 +10,16 @@ namespace ProphetSquad.Core.Databases
     public class CompetitionDatabase : IStore<Competition>, IProvider<Competition>
     {
         private readonly IDatabaseConnection _connection;
+        private readonly IEnumerable<int> _restrictedTo;
 
         public CompetitionDatabase(IDatabaseConnection connection)
         {
             _connection = connection;
+        }
+
+        public CompetitionDatabase(IDatabaseConnection connection, IEnumerable<int> restrictedTo) : this(connection)
+        {
+            _restrictedTo = restrictedTo;
         }
 
         public async Task<Competition> RetrieveBySourceId(int id)
@@ -40,9 +48,15 @@ COMMIT TRAN;";
             _connection.Execute(mergeSql, competition);
         }
 
+        private const string selectAllStatement = "SELECT * FROM Competitions c WHERE c.ModelState = 0";
         public async Task<IEnumerable<Competition>> RetrieveAll()
         {
-            const string selectStatement = "SELECT * FROM Competitions c WHERE c.ModelState = 0";
+            var selectStatement = selectAllStatement;
+            if (_restrictedTo != null)
+            {
+                var idStrings = string.Join(",", _restrictedTo);
+                selectStatement = selectStatement + $" AND c.OpenFootyId IN ({idStrings})"; 
+            }
             return await _connection.Query<Competition>(selectStatement);
         }
     }
